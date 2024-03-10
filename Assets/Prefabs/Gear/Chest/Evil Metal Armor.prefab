@@ -105,4 +105,5 @@ MonoBehaviour:
   _defense: 4
   _magic: 0
   _movement: -1
+  gearLevel: 3
   _arms: {fileID: 3170894211422716455, guid: a8ef301bd9784e343b12d907d0dc199f, type: 3}

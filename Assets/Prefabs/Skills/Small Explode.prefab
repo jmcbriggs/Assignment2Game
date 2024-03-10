@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6996026550117955587}
   - component: {fileID: -5938146918159284888}
+  - component: {fileID: 1142199409811876991}
   m_Layer: 0
   m_Name: Small Explode
   m_TagString: Untagged
@@ -51,9 +52,26 @@ MonoBehaviour:
   _cooldown: 2
   _cooldownCounter: 0
   _skillDescription: A magical explosion damages everyone in a small area
+  _level: 2
   _animationType: 1
   _skillType: 2
   _skillTarget: 0
   _skillHitType: 2
   _isMagic: 1
-  _extraEffect: 0
+  _extraEffect: 1
+--- !u!114 &1142199409811876991
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7536893309470946647}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 02d3616ccffac8b4f89da74c30a21c5d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _projectile: {fileID: 8978398038785177946, guid: feae4cc3439e401449058fafc200a357, type: 3}
+  _hitEffect: {fileID: 8978398038785177946, guid: feae4cc3439e401449058fafc200a357, type: 3}
+  _scale: 0.5
+  _explodeScale: 0.1

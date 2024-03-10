@@ -1,0 +1,78 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &7536893309470946647
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6996026550117955587}
+  - component: {fileID: -5938146918159284888}
+  - component: {fileID: 4125058132330901909}
+  m_Layer: 0
+  m_Name: 'Small Fireball '
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6996026550117955587
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7536893309470946647}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &-5938146918159284888
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7536893309470946647}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d60167cd0a5d01141a2dd89a5365d211, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _skillName: Small Fireball
+  _power: 4
+  _range: 4
+  _splash: 1
+  _cooldown: 2
+  _cooldownCounter: 0
+  _skillDescription: An exploding ball of fire that does small damage to an area
+  _level: 3
+  _animationType: 1
+  _skillType: 0
+  _skillTarget: 0
+  _skillHitType: 0
+  _isMagic: 1
+  _extraEffect: 1
+--- !u!114 &4125058132330901909
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7536893309470946647}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 18f37c2ec9b3c2e478fec33d41d747a6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _speed: 4
+  _projectile: {fileID: 7089410055084418378, guid: 9a3f277f6271d3645abbb9a955b94af4, type: 3}
+  _hitEffect: {fileID: 8978398038785177946, guid: feae4cc3439e401449058fafc200a357, type: 3}
+  _scale: 0.5
+  _explodeScale: 0.3

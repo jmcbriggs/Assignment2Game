@@ -119,7 +119,10 @@ public class PlayerCharacter : Character
     public override void TakeDamage(int damage)
     {
         base.TakeDamage(damage);
-        _uiManager.UpdateCharacterStats(this);
+        if (_combatManager.IsCharacterSelected(this))
+        {
+            _uiManager.UpdateCharacterStats(this);
+        }
     }
 
     public override void OnTurnStart()
@@ -306,7 +309,7 @@ public class PlayerCharacter : Character
                         ChangeMagic(-1 * stats[stat]);
                         break;
                     case StatType.Movement:
-                        ChangeMovement(stats[stat]);
+                        ChangeMovement(-1 * stats[stat]);
                         break;
                 }
             }

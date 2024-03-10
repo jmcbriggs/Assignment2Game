@@ -100,9 +100,10 @@ MonoBehaviour:
   _gearName: Reinforced Healers Hat
   _gearDescription: 
   _gearType: 0
-  _health: 2
+  _health: 3
   _attack: 0
-  _defense: 2
-  _magic: 1
+  _defense: 3
+  _magic: 2
   _movement: 0
+  gearLevel: 4
   _arms: {fileID: 0}

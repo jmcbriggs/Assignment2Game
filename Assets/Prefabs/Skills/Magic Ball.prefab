@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6996026550117955587}
   - component: {fileID: -5938146918159284888}
+  - component: {fileID: 5961266231047512786}
   m_Layer: 0
   m_Name: Magic Ball
   m_TagString: Untagged
@@ -30,7 +31,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &-5938146918159284888
 MonoBehaviour:
@@ -51,9 +52,27 @@ MonoBehaviour:
   _cooldown: 1
   _cooldownCounter: 0
   _skillDescription: A small magical ball that does damage to a single target
+  _level: 1
   _animationType: 1
   _skillType: 0
   _skillTarget: 0
   _skillHitType: 0
   _isMagic: 1
-  _extraEffect: 0
+  _extraEffect: 1
+--- !u!114 &5961266231047512786
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7536893309470946647}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 18f37c2ec9b3c2e478fec33d41d747a6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _speed: 5
+  _projectile: {fileID: 7089410055084418378, guid: 44d48a57829f8c54897ac84fddf5e138, type: 3}
+  _hitEffect: {fileID: 8978398038785177946, guid: a50016a7425f0b84f8560b17842c3188, type: 3}
+  _scale: 0.3
+  _explodeScale: 0.1

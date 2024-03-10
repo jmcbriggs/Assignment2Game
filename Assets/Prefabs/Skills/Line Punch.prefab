@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6996026550117955587}
   - component: {fileID: -5938146918159284888}
+  - component: {fileID: 7462475656900152126}
   m_Layer: 0
   m_Name: Line Punch
   m_TagString: Untagged
@@ -51,8 +52,26 @@ MonoBehaviour:
   _cooldown: 2
   _cooldownCounter: 0
   _skillDescription: A straight punch that hits everyone in its path
+  _level: 2
+  _animationType: 0
   _skillType: 0
   _skillTarget: 0
   _skillHitType: 1
   _isMagic: 0
-  _extraEffect: 0
+  _extraEffect: 1
+--- !u!114 &7462475656900152126
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7536893309470946647}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 02d3616ccffac8b4f89da74c30a21c5d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _projectile: {fileID: 8978398038785177946, guid: 8d60cece30ca9a84ca5e8c6e67ddb4bf, type: 3}
+  _hitEffect: {fileID: 8978398038785177946, guid: 82f5c4beae9e4ad41bfa761e224dac8d, type: 3}
+  _scale: 0.2
+  _explodeScale: 0.1

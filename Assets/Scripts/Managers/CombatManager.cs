@@ -1,9 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Unity.VisualScripting;
 using UnityEngine;
-using static UnityEngine.GraphicsBuffer;
+
 
 public class CombatManager : MonoBehaviour
 {
@@ -63,6 +61,14 @@ public class CombatManager : MonoBehaviour
     }
     private CombatState _state;
     private Actions _selectedAction = Actions.NONE;
+
+    public struct SkillTargetParameters
+    {
+        public List<GameObject> _targets;
+        public GameObject _tile;
+        public List<GameObject> _allTiles;
+    }
+
     void Start()
     {
         if (GameController.Instance != null)
@@ -424,7 +430,11 @@ public class CombatManager : MonoBehaviour
                     }
                 }
             }
-            _selectedCharacter.GetComponent<PlayerCharacter>().OnSkill(targets, damages, _selectedSkill);
+            SkillTargetParameters parameters = new SkillTargetParameters();
+            parameters._targets = targets;
+            parameters._tile = tile;
+            parameters._allTiles = _selectedTargetTiles;
+            _selectedCharacter.GetComponent<PlayerCharacter>().OnSkill(parameters, damages, _selectedSkill);
         }
     }
 
@@ -658,6 +668,11 @@ public class CombatManager : MonoBehaviour
         _selectedEnemy++;
     }
 
+    public bool IsCharacterSelected(PlayerCharacter playerCharacter)
+    {
+        return _selectedCharacter == playerCharacter.gameObject;
+    }
+
     public void LoadSkill(int num)
     {
         _selectedTargetTiles = null;
@@ -679,8 +694,7 @@ public class CombatManager : MonoBehaviour
         foreach (GameObject player in _slainPlayers)
         {
             player.SetActive(true);
-            SpriteRenderer s = player.GetComponent<SpriteRenderer>();
-            s.color = new Color(s.color.r, s.color.g, s.color.b, 1);
+            player.GetComponent<Character>().ChangeSpriteTransparency(player.transform, 1);
             player.GetComponent<PlayerCharacter>().OnCombatEnd();
         }
         foreach (GameObject player in _activePlayers)

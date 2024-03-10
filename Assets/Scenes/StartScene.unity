@@ -3124,6 +3124,7 @@ GameObject:
   - component: {fileID: 594394274}
   - component: {fileID: 594394273}
   - component: {fileID: 594394272}
+  - component: {fileID: 594394275}
   m_Layer: 5
   m_Name: Begin
   m_TagString: Untagged
@@ -3195,19 +3196,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 594394273}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 821049457}
-        m_TargetAssemblyTypeName: GameController, Assembly-CSharp
-        m_MethodName: BeginGame
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &594394273
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3246,6 +3235,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 594394270}
   m_CullTransparentMesh: 1
+--- !u!114 &594394275
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 594394270}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3c7a0bc0df607ed4abc9d07874c39cb5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &599482419
 GameObject:
   m_ObjectHideFlags: 0
@@ -3920,16 +3921,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   AvailableCharacters:
-  - {fileID: 4231711683031803762, guid: 58669556dd393a5459970a263d850d89, type: 3}
-  - {fileID: 4231711683031803762, guid: 34bdee04cfb9fea458cf74baacffc670, type: 3}
-  - {fileID: 4231711683031803762, guid: f609f30c110664f4596dfe7bcf6c5e07, type: 3}
-  - {fileID: 4231711683031803762, guid: d098628cd8a56444a9d85f68f455a454, type: 3}
+  - {fileID: 4231711683031803762, guid: 225f8e46c7942bb4981e4dedbb0e5bc9, type: 3}
+  - {fileID: 4231711683031803762, guid: abfddef3c1f70964f86026fa09b04b27, type: 3}
+  - {fileID: 4231711683031803762, guid: e388214e6c030204e8445a8f917dd0fb, type: 3}
+  - {fileID: 4231711683031803762, guid: d084c95cca93f604ba5dfcdc7c240581, type: 3}
   SelectedCharacters: []
   AvailableEnemies:
   - {fileID: 4231711683031803762, guid: 64e4b77712cde0040bfb4e28401a2f70, type: 3}
   - {fileID: 4231711683031803762, guid: 8a247466a0c51744f81cb6476278ca9d, type: 3}
   - {fileID: 4231711683031803762, guid: 6ac3e6707e5f0a244ad3312bf9e7f2e3, type: 3}
   Level: 1
+  MaxLevel: 1
   BodyColours:
   - {r: 1, g: 0, b: 0.9456892, a: 1}
   - {r: 1, g: 0.9048885, b: 0, a: 1}

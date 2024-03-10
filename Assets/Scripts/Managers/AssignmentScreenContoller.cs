@@ -28,20 +28,13 @@ public class AssignmentScreenContoller : MonoBehaviour
         {
             _skillPoolScript = GameObject.Find("SkillPool").GetComponent<SkillPool>();
         }
-        Random.InitState(System.DateTime.Now.Millisecond);
-        List<GameObject> randomSkills = new List<GameObject>();
-        for(int i = 0; i <4; i++)
-        {
-            randomSkills.Add(_skillPool[Random.Range(0, _skillPool.Count)]);
-        }
-        if(_skillPoolScript != null)
-        {
-            _skillPoolScript.SetSkillPool(randomSkills);
-        }
-        if(Assigners.Count == 0 || Assigners == null)
+
+        SetSkillPools();
+        if (Assigners.Count == 0 || Assigners == null)
         {
             Assigners = new List<AssignerControl>(FindObjectsByType<AssignerControl>(FindObjectsSortMode.InstanceID));
         }
+
         SetGearPools();
         if (GameController.Instance != null)
         {
@@ -49,6 +42,39 @@ public class AssignmentScreenContoller : MonoBehaviour
             {
                 character.transform.position = new Vector3(1000, 1000, 1000);
             }
+        }
+    }
+
+    void SetSkillPools()
+    {
+        Random.InitState(System.DateTime.Now.Millisecond);
+        List<GameObject> randomSkills = new List<GameObject>();
+        if (GameController.Instance != null)
+        {
+            int level = GameController.Instance.GetLevel();
+            List<GameObject> weightedSkills = WeightSkillChanceForLevel(level);
+            for (int i = 0; i < 4; i++)
+            {
+                if (weightedSkills.Count > 0)
+                {
+                    randomSkills.Add(weightedSkills[Random.Range(0, weightedSkills.Count)]);
+                }
+                else
+                {
+                    Debug.LogError("No gear found for level " + level);
+                }
+            }
+        }
+        else
+        {
+            for (int i = 0; i < 4; i++)
+            {
+                randomSkills.Add(_skillPool[Random.Range(0, _skillPool.Count)]);
+            }
+        }
+        if (_skillPoolScript != null)
+        {
+            _skillPoolScript.SetSkillPool(randomSkills);
         }
     }
 
@@ -60,10 +86,30 @@ public class AssignmentScreenContoller : MonoBehaviour
         }
         Random.InitState(System.DateTime.Now.Millisecond);
         List<GameObject> randomGear = new List<GameObject>();
-        for (int i = 0; i < 4; i++)
+        if(GameController.Instance != null)
         {
-            randomGear.Add(_gearPool[Random.Range(0, _gearPool.Count)]);
+            int level = GameController.Instance.GetLevel();
+            List<GameObject> weightedGear = WeightGearChanceForLevel(level);
+            for (int i = 0; i < 4; i++)
+            {
+                if (weightedGear.Count > 0)
+                {
+                    randomGear.Add(weightedGear[Random.Range(0, weightedGear.Count)]);
+                }
+                else
+                {
+                   Debug.LogError("No gear found for level " + level);
+                }
+            }
         }
+        else
+        {
+            for (int i = 0; i < 4; i++)
+            {
+                randomGear.Add(_gearPool[Random.Range(0, _gearPool.Count)]);
+            }
+        }
+
         foreach (AssignerControl assigner in Assigners)
         {
             GearAssigner gearAssigner = assigner.GetComponentInChildren<GearAssigner>();
@@ -95,6 +141,59 @@ public class AssignmentScreenContoller : MonoBehaviour
         }
     }
 
+    private List<GameObject> WeightGearChanceForLevel(int level)
+    {
+        List<GameObject> weightedGear = new List<GameObject>();
+        foreach(GameObject gear in _gearPool)
+        {
+            Gear gearScript = gear.GetComponent<Gear>();
+            int gearLevel = gearScript.GetGearLevel();
+            if(gearLevel == level)
+            {
+                for(int i = 0; i < 10; i++)
+                {
+                    weightedGear.Add(gear);
+                }
+            }
+            if(gearLevel < level && gearLevel > level-5 && gearLevel != 0)
+            {
+                int levelDifference = level - gearLevel;
+                int gearCount = Mathf.Clamp(10 - (2*levelDifference), 1, 10);
+                for (int i = 0; i < gearCount; i++)
+                {
+                    weightedGear.Add(gear);
+                }
+            }
+        }
+        return weightedGear;
+    }
+
+    private List<GameObject> WeightSkillChanceForLevel(int level)
+    {
+        List<GameObject> weightedSkills = new List<GameObject>();
+        foreach (GameObject skill in _skillPool)
+        {
+            Skill skillScript = skill.GetComponent<Skill>();
+            int gearLevel = skillScript.GetLevel();
+            if (gearLevel == level)
+            {
+                for (int i = 0; i < 10; i++)
+                {
+                    weightedSkills.Add(skill);
+                }
+            }
+            if (gearLevel < level && gearLevel > level - 5 && gearLevel != 0)
+            {
+                int levelDifference = level - gearLevel;
+                int gearCount = Mathf.Clamp(10 - (2 * levelDifference), 1, 10);
+                for (int i = 0; i < gearCount; i++)
+                {
+                    weightedSkills.Add(skill);
+                }
+            }
+        }
+        return weightedSkills;
+    }
     public void StartBattle()
     {
         if(GameController.Instance != null)

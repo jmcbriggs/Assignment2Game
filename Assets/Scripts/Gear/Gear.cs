@@ -20,6 +20,8 @@ public class Gear : MonoBehaviour
     int _magic;
     [SerializeField]
     int _movement;
+    [SerializeField]
+    int gearLevel;
 
     [Header("Visuals")]
     [SerializeField]
@@ -72,6 +74,10 @@ public class Gear : MonoBehaviour
         Movement
     }
 
+    public int GetGearLevel()
+    {
+        return gearLevel;
+    }   
 
     public Dictionary<StatType, int> GetStats()
     {

@@ -13,6 +13,8 @@ public class GameController : MonoBehaviour
     List<GameObject> AvailableEnemies = new List<GameObject>();
     [SerializeField]
     int Level = 1;
+    [SerializeField]
+    int MaxLevel = 10;
 
     [SerializeField]
     Color[] BodyColours;
@@ -123,12 +125,35 @@ public class GameController : MonoBehaviour
 
     public void ExitBattle()
     {
-        SceneManager.LoadScene("AfterBattle");
+        if (Level >= MaxLevel)
+        {
+            SceneManager.LoadScene("Win");
+        }
+        else
+        {
+            SceneManager.LoadScene("AfterBattle");
+        }
     }
 
     public void ReturnToMenu()
     {
+        Reset();
         SceneManager.LoadScene("StartScene");
+    }
+
+    private void Reset()
+    {
+        foreach(GameObject character in SelectedCharacters)
+        {
+            Destroy(character);
+        }
+        SelectedCharacters = new List<GameObject>();
+        SelectedCharacters.Add(AvailableCharacters[0]);
+        SelectedCharacters.Add(AvailableCharacters[1]);
+        SelectedCharacters.Add(AvailableCharacters[2]);
+        SelectedCharacters.Add(AvailableCharacters[3]);
+        Level = 1;
+        MaxLevel = 10;
     }
     // Update is called once per frame
     void Update()

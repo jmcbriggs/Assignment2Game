@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Security.Cryptography;
 using UnityEngine;
 
 public class Character : MonoBehaviour
@@ -37,8 +38,7 @@ public class Character : MonoBehaviour
     protected HealthBar _healthBar;
     
 
-    bool _goingUp = false;
-    bool _goingDown = false;
+    bool _attackFinished = false;
     Vector3 _setPosition;
     float _yOffset = 0.5f;
 
@@ -81,21 +81,20 @@ public class Character : MonoBehaviour
         _animator.SetBool("isMoving", false);
     }
 
-    public void OnSkill(List<GameObject> targets, List<int> damages, Skill skill)
+    public void OnSkill(CombatManager.SkillTargetParameters parameters, List<int> damages, Skill skill)
     {
         _usedAction = true;
-        _goingUp = true;
         skill.StartCooldown();
         switch (skill.GetAnimationType())
         {
             case Skill.AnimationType.Attack:
-                UseAttackAnimation(targets, damages);
+                UseAttackAnimation(parameters, damages, skill);
                 break;
             case Skill.AnimationType.OffensiveSpell:
-                UseOffensiveSpellAnimation(targets, damages, skill);
+                UseOffensiveSpellAnimation(parameters, damages, skill);
                 break;
             case Skill.AnimationType.DefensiveSpell:
-                UseDefensiveSpellAnimation(targets, damages, skill);
+                UseDefensiveSpellAnimation(parameters, damages, skill);
                 break;
 
         }
@@ -104,54 +103,87 @@ public class Character : MonoBehaviour
     public void OnAttack(Character targetCharacter, int damage)
     {
         _usedAction = true;
-        _goingUp = true;
         List<GameObject> targets = new List<GameObject>();
         targets.Add(targetCharacter.gameObject);
         List<int> damages = new List<int>();
         damages.Add(damage);
-        UseAttackAnimation(targets, damages);
+        CombatManager.SkillTargetParameters parameters = new CombatManager.SkillTargetParameters();
+        parameters._targets = targets;
+        UseAttackAnimation(parameters, damages, null);
         
     }
 
-    public void UseAttackAnimation(List<GameObject> targets, List<int> damages)
+    public void UseAttackAnimation(CombatManager.SkillTargetParameters parameters, List<int> damages, Skill skill)
     {
+        _attackFinished = false;
         _animator.SetTrigger("Attack");
-        StartCoroutine(AttackAnimation(targets, damages, null, Skill.AnimationType.Attack));
+        StartCoroutine(AttackAnimation(parameters, damages, skill, Skill.AnimationType.Attack));
     }
 
-    public void UseOffensiveSpellAnimation(List<GameObject> targets, List<int> damages, Skill skill)
+    public void UseOffensiveSpellAnimation(CombatManager.SkillTargetParameters parameters, List<int> damages, Skill skill)
     {
+        _attackFinished = false;
         _animator.SetTrigger("OffensiveSpell");
-        StartCoroutine(AttackAnimation(targets, damages, skill, Skill.AnimationType.OffensiveSpell));
+        StartCoroutine(AttackAnimation(parameters, damages, skill, Skill.AnimationType.OffensiveSpell));
     }
 
-    public void UseDefensiveSpellAnimation(List<GameObject> targets, List<int> damages, Skill skill)
+    public void UseDefensiveSpellAnimation(CombatManager.SkillTargetParameters parameters, List<int> damages, Skill skill)
     {
+        _attackFinished = false;
         _animator.SetTrigger("DefensiveSpell");
-        StartCoroutine(AttackAnimation(targets, damages, skill, Skill.AnimationType.DefensiveSpell));
+        StartCoroutine(AttackAnimation(parameters, damages, skill, Skill.AnimationType.DefensiveSpell));
     }
     
-    IEnumerator AttackAnimation(List<GameObject> targets, List<int> damages, Skill skill, Skill.AnimationType transition)
+    IEnumerator AttackAnimation(CombatManager.SkillTargetParameters parameters, List<int> damages, Skill skill, Skill.AnimationType transition)
     {
         
         while(!_animator.IsInTransition(0) && !_animator.GetAnimatorTransitionInfo(0).IsName(transition.ToString() + " -> Idle"))
         {
             yield return null;
         }
-        for (int i = 0; i < targets.Count; i++)
+        if (skill != null && skill.HasExtraEffect())
         {
-            targets[i].GetComponent<Character>().TakeDamage(damages[i]);
-            if (skill != null && skill.HasExtraEffect())
+            if(skill.GetSkillHitType() == Skill.SkillHitType.POINT && skill.GetSplash() > 0)
             {
-
+                skill.TriggerExtraEffect(transform, parameters._tile.transform);
+            }
+            else if (skill.GetSkillType() == Skill.SkillType.AREA && skill.GetSkillHitType() == Skill.SkillHitType.POINT)
+            {
+                skill.TriggerExtraEffect(transform, parameters._tile.transform);
+            }
+            else if (skill.GetSkillType() == Skill.SkillType.AREA)
+            {
+                skill.TriggerExtraEffect(transform, transform, parameters._targets);
+            }
+            else if(skill.GetSkillHitType() == Skill.SkillHitType.DIRECTIONAL)
+            {
+                skill.TriggerExtraEffect(transform, null, parameters._allTiles);
+            }
+            else
+            {
+                skill.TriggerExtraEffect(transform, parameters._targets[0].transform);
             }
         }
-        FinishAttack();
+        else
+        {
+            FinishAttack();
+        }
+        while(_attackFinished == false)
+        {
+            yield return null;
+        }
+        for (int i = 0; i < parameters._targets.Count; i++)
+        {
+            parameters._targets[i].GetComponent<Character>().TakeDamage(damages[i]);
+
+        }
+
     }
 
 
     public virtual void FinishAttack()
     {
+        _attackFinished = true;
     }
 
     public void SetPosition(Vector3 position)
@@ -214,23 +246,24 @@ public class Character : MonoBehaviour
         while (transform.position.y <= _setPosition.y + 1.5f)
         {
             transform.position = new Vector3(transform.position.x, transform.position.y +(1f * Time.deltaTime) , transform.position.z);
-            ChangeAllSpriteColours(transform);
+            float transparency = -(0.5f * Time.deltaTime);
+            ChangeSpriteTransparency(transform, transparency);
             yield return null;
         }
         gameObject.SetActive(false);
         _combatManager.WinLossCheck();
     }
 
-    public void ChangeAllSpriteColours(Transform parent)
+    public void ChangeSpriteTransparency(Transform parent, float change)
     {
         foreach (Transform child in parent)
         {
             if (child.GetComponent<SpriteRenderer>() != null)
             {
                 SpriteRenderer spriteRenderer = child.GetComponent<SpriteRenderer>();
-                child.GetComponent<SpriteRenderer>().color = new Color(spriteRenderer.color.r, spriteRenderer.color.g, spriteRenderer.color.b, spriteRenderer.color.a - (0.5f * Time.deltaTime)); ;
+                child.GetComponent<SpriteRenderer>().color = new Color(spriteRenderer.color.r, spriteRenderer.color.g, spriteRenderer.color.b, spriteRenderer.color.a + change); ;
             }
-            ChangeAllSpriteColours(child);
+            ChangeSpriteTransparency(child, change);
         }
     }
 

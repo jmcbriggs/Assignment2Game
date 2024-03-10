@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6996026550117955587}
   - component: {fileID: -5938146918159284888}
+  - component: {fileID: 4125058132330901909}
   m_Layer: 0
   m_Name: Fireball
   m_TagString: Untagged
@@ -45,15 +46,33 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _skillName: Fireball
-  _power: 5
-  _range: 3
+  _power: 6
+  _range: 4
   _splash: 1
   _cooldown: 4
   _cooldownCounter: 0
   _skillDescription: An exploding ball of fire that does large damage to an area
+  _level: 6
   _animationType: 1
   _skillType: 0
   _skillTarget: 0
   _skillHitType: 0
   _isMagic: 1
-  _extraEffect: 0
+  _extraEffect: 1
+--- !u!114 &4125058132330901909
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7536893309470946647}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 18f37c2ec9b3c2e478fec33d41d747a6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _speed: 4
+  _projectile: {fileID: 7089410055084418378, guid: 9a3f277f6271d3645abbb9a955b94af4, type: 3}
+  _hitEffect: {fileID: 8978398038785177946, guid: feae4cc3439e401449058fafc200a357, type: 3}
+  _scale: 1
+  _explodeScale: 0.3

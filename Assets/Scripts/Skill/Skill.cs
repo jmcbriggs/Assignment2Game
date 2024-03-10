@@ -20,6 +20,8 @@ public class Skill : MonoBehaviour
     [SerializeField]
     string _skillDescription;
     [SerializeField]
+    int _level;
+    [SerializeField]
     AnimationType _animationType;
     
     public enum SkillType
@@ -95,6 +97,7 @@ public class Skill : MonoBehaviour
         return _power;
     }
 
+
     public Skill.SkillTarget GetSkillTarget()
     {
         return _skillTarget;
@@ -104,6 +107,11 @@ public class Skill : MonoBehaviour
     {
         return _splash;
     }   
+
+    public int GetLevel()
+    {
+        return _level;
+    }
 
     public SkillHitType GetSkillHitType()
     {
@@ -151,5 +159,35 @@ public class Skill : MonoBehaviour
     public AnimationType GetAnimationType()
     {
         return _animationType;
+    }
+
+    public void TriggerExtraEffect(Transform user, Transform target)
+    {
+        if(_extraEffect)
+        {
+            SkillEffect effect = GetComponent<SkillEffect>();
+            effect.TriggerEffect(user, target, null);
+        }
+        else { 
+            Debug.LogError("This skill has no extra effect");
+        }
+    }
+
+    public  void TriggerExtraEffect(Transform user, Transform singleTarget, List<GameObject> targets)
+    {
+        if (_extraEffect)
+        {
+            SkillEffect effect = GetComponent<SkillEffect>();
+            List<Transform> targetsTransforms = new List<Transform>();
+            foreach (GameObject target in targets)
+            {
+                targetsTransforms.Add(target.transform);
+            }
+            effect.TriggerEffect(user, singleTarget, targetsTransforms);
+        }
+        else
+        {
+            Debug.LogError("This skill has no extra effect");
+        }
     }
 }
