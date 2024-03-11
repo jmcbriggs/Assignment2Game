@@ -11,6 +11,7 @@ public class Tile : MonoBehaviour
     [SerializeField]
     GameObject _occupant;
     SpriteRenderer spriteRenderer;
+    ParticleSystem _particleSystem;
 
     public int _x;
     public int _y;
@@ -21,12 +22,28 @@ public class Tile : MonoBehaviour
     void Start()
     {
         spriteRenderer = innerSquare.GetComponent<SpriteRenderer>();
+        _particleSystem = GetComponentInChildren<ParticleSystem>();
     }
 
     // Update is called once per frame
     void Update()
     {
-
+  
+            if(_combatManager.GetSelectedCharacter() != null &&_combatManager.GetSelectedCharacter() == _occupant)
+            {
+               if(_particleSystem != null && !_particleSystem.isPlaying)
+                {
+                    _particleSystem.Play();
+                }
+            }
+            else
+            {
+                if(_particleSystem != null && _particleSystem.isPlaying)
+                {
+                    _particleSystem.Stop();
+                }
+            }
+        
     }
     private void OnMouseEnter()
     {

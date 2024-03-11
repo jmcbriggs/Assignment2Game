@@ -40,6 +40,12 @@ public class UIManager : MonoBehaviour
     Image _deathScreen;
     [SerializeField]
     Button _returnToMenu;
+    [SerializeField]
+    Button _attackButton;
+    [SerializeField]
+    Button _moveButton;
+    [SerializeField]
+    Button _skillButton;
 
     List<Button> skillButtons = new List<Button>();
 
@@ -99,6 +105,26 @@ public class UIManager : MonoBehaviour
                 skillButtons[i].gameObject.SetActive(false);
             }
         }
+        if(!character.HasAction())
+        {
+            EnableSkillPage(false);
+            _skillButton.interactable = false;
+            _attackButton.interactable = false;
+        }
+        else
+        {
+            _skillButton.interactable = true;
+            _attackButton.interactable = true;
+        }
+        if(character._movementRemaining <= 0)
+        {
+            _moveButton.interactable = false;
+        }
+        else
+        {
+            _moveButton.interactable = true;
+        }
+
 
     }
 
@@ -115,9 +141,14 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    public void TurnOffSkillsPage()
+    public void EnableSkillPage(bool enable)
     {
-        _skillsPage.gameObject.SetActive(false);
+        _skillsPage.gameObject.SetActive(enable);
+    }
+
+    public bool SkillsPageActive()
+    {
+        return _skillsPage.gameObject.activeSelf;
     }
 
     public void OnCharacterDeselect()

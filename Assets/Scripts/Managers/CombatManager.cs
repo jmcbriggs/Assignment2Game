@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 
@@ -60,6 +61,7 @@ public class CombatManager : MonoBehaviour
         ENEMY
     }
     private CombatState _state;
+    [SerializeField]
     private Actions _selectedAction = Actions.NONE;
 
     public struct SkillTargetParameters
@@ -82,6 +84,7 @@ public class CombatManager : MonoBehaviour
         _grid.CreateTiles(_playerCharacters.Count, _selectedEnemies.Count);
         CreateCharacter();
         StartCombat(CombatState.PLAYER);
+        EnableColliders(true);
 
     }
 
@@ -346,6 +349,19 @@ public class CombatManager : MonoBehaviour
 
     }
 
+    void EnableColliders(bool enable)
+    {
+        foreach (GameObject player in _activePlayers)
+        {
+
+          player.GetComponent<Collider>().enabled = enable;
+        }
+        foreach (GameObject enemy in _activeEnemies)
+        {
+            enemy.GetComponent<Collider>().enabled = enable;
+        }
+    }
+
     public bool IsActionSelected()
     {
         return _selectedAction != Actions.NONE;
@@ -353,20 +369,32 @@ public class CombatManager : MonoBehaviour
 
     public void MoveButton()
     {
-        if (_selectedCharacter != null)
+        if (_selectedAction == Actions.MOVE)
+        {
+            _selectedAction = Actions.NONE;
+            EnableColliders(true);
+        }
+        else if (_selectedCharacter != null)
         {
             _selectedTiles = new List<GameObject>();
             _selectedTargetTiles = new List<GameObject>();
             _selectedAction = Actions.MOVE;
+            EnableColliders(false);
         }
     }
 
     public void AttackButton()
     {
-        if (_selectedCharacter != null && _selectedCharacter.GetComponent<PlayerCharacter>().HasAction() && !_selectedCharacter.GetComponent<CharacterMovement>().IsMoving())
+        if(_selectedAction == Actions.ATTACK)
+        {
+            _selectedAction = Actions.NONE;
+            EnableColliders(true);
+        }
+        else if (_selectedCharacter != null && _selectedCharacter.GetComponent<PlayerCharacter>().HasAction() && !_selectedCharacter.GetComponent<CharacterMovement>().IsMoving())
         {
             _selectedAction = Actions.ATTACK;
             _selectedTiles = _grid.GetRangeTiles(_selectedCharacter.GetComponent<CharacterMovement>().GetCurrentTile(), 1, Skill.SkillType.AREA);
+            EnableColliders(false);
         }
     }
 
@@ -378,6 +406,8 @@ public class CombatManager : MonoBehaviour
             _selectedCharacter.GetComponent<CharacterMovement>().OnSetTile(_selectedTiles);
             _selectedTiles = null;
             _grid.ClearColour();
+            EnableColliders(true);
+            _selectedAction = Actions.NONE;
         }
         else if (_selectedAction == Actions.ATTACK && _selectedTiles != null && _selectedCharacter != null)
         {
@@ -395,6 +425,7 @@ public class CombatManager : MonoBehaviour
                     _selectedTiles = null;
                     _grid.ClearColour();
                 }
+                EnableColliders(true);
             }
 
         }
@@ -425,31 +456,18 @@ public class CombatManager : MonoBehaviour
                         damages.Add(_selectedSkill.GetPower() * -1);
                         _selectedAction = Actions.NONE;
                         _selectedTiles = null;
-                        _grid.ClearColour();
-
                     }
                 }
+              
             }
-            SkillTargetParameters parameters = new SkillTargetParameters();
-            parameters._targets = targets;
-            parameters._tile = tile;
-            parameters._allTiles = _selectedTargetTiles;
-            _selectedCharacter.GetComponent<PlayerCharacter>().OnSkill(parameters, damages, _selectedSkill);
-        }
-    }
-
-    public void EnemyClick(GameObject enemy)
-    {
-        if (_selectedAction == Actions.ATTACK && _selectedTiles != null && _selectedCharacter != null)
-        {
-            if (_selectedTiles.Contains(enemy.GetComponent<CharacterMovement>().GetCurrentTile().gameObject))
+            if (targets.Count > 0)
             {
-                int damage = CalculateDamageAttack(_selectedCharacter, enemy);
-                Character targetCharacter = enemy.GetComponent<Character>();
-                _selectedCharacter.GetComponent<PlayerCharacter>().OnAttack(targetCharacter, damage);
-                _selectedAction = Actions.NONE;
-                _selectedTiles = null;
-                _grid.ClearColour();
+                SkillTargetParameters parameters = new SkillTargetParameters();
+                parameters._targets = targets;
+                parameters._tile = tile;
+                parameters._allTiles = _selectedTargetTiles;
+                _selectedCharacter.GetComponent<PlayerCharacter>().OnSkill(parameters, damages, _selectedSkill);
+                EnableColliders(true);
             }
         }
     }
@@ -677,7 +695,15 @@ public class CombatManager : MonoBehaviour
     {
         _selectedTargetTiles = null;
         _selectedTiles = null;
-        if (_selectedCharacter != null && _selectedCharacter.GetComponent<PlayerCharacter>().HasAction() && !_selectedCharacter.GetComponent<CharacterMovement>().IsMoving())
+        if(_selectedAction == Actions.SKILL)
+        {
+            _selectedAction = Actions.NONE;
+            EnableColliders(true);
+            _selectedTiles = null;
+            _selectedTargetTiles = null;
+            _grid.ClearColour();
+        }
+        else if (_selectedCharacter != null && _selectedCharacter.GetComponent<PlayerCharacter>().HasAction() && !_selectedCharacter.GetComponent<CharacterMovement>().IsMoving())
         {
             _selectedSkill = _selectedCharacter.GetComponent<PlayerCharacter>().GetSkills()[num].GetComponent<Skill>();
             if (_selectedSkill != null && !_selectedSkill.OnCooldown())
@@ -685,7 +711,30 @@ public class CombatManager : MonoBehaviour
                 _selectedAction = Actions.SKILL;
                 _selectedTiles = _grid.GetRangeTiles(_selectedCharacter.GetComponent<CharacterMovement>().GetCurrentTile(), _selectedSkill.GetRange(), _selectedSkill.GetSkillType());
             }
+            EnableColliders(false);
         }
+    }
+
+    public void SkillButton()
+    {
+        if(_uiManager.SkillsPageActive())
+        {
+            _uiManager.EnableSkillPage(false);
+            _selectedAction = Actions.NONE;
+            EnableColliders(true);
+            _selectedTiles = null;
+            _selectedTargetTiles = null;
+            _grid.ClearColour();
+        }
+        else
+        {
+            _uiManager.EnableSkillPage(true);
+        }
+    }
+
+    public GameObject GetSelectedCharacter()
+    {
+        return _selectedCharacter;
     }
 
     public void ExitBattle()

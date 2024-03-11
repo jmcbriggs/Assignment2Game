@@ -67,6 +67,7 @@ public class Character : MonoBehaviour
             Debug.LogError("Animator is null");
         }
         _movementRemaining = _movement;
+        _animator.SetBool("HasAction", true);
 
         _yOffset = _characterMovement.GetYOffset();
     }
@@ -177,12 +178,14 @@ public class Character : MonoBehaviour
             parameters._targets[i].GetComponent<Character>().TakeDamage(damages[i]);
 
         }
+        
 
     }
 
 
     public virtual void FinishAttack()
     {
+        _animator.SetBool("HasAction", false);
         _attackFinished = true;
     }
 
@@ -277,6 +280,7 @@ public class Character : MonoBehaviour
     public virtual void OnTurnStart()
     {
         _usedAction = false;
+        _animator.SetBool("HasAction", true);
         _movementRemaining = _movement;
     }
 

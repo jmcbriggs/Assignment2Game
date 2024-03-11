@@ -376,7 +376,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -102, y: 95}
+  m_AnchoredPosition: {x: -102, y: 96}
   m_SizeDelta: {x: 80, y: 80}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &191140589
@@ -616,7 +616,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 11.758789, y: -1.0946045}
+  m_AnchoredPosition: {x: 11.758789, y: 0}
   m_SizeDelta: {x: 23.5177, y: 2.189148}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &270277760
@@ -694,7 +694,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -91, y: -97}
+  m_AnchoredPosition: {x: -91, y: -96}
   m_SizeDelta: {x: 80, y: 80}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &331147130
@@ -2039,7 +2039,7 @@ MonoBehaviour:
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
     m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_DisabledColor: {r: 0.5882353, g: 0.5882353, b: 0.5882353, a: 0.5019608}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
   m_SpriteState:
@@ -2058,10 +2058,10 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 172894296}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
+      - m_Target: {fileID: 1517076117}
+        m_TargetAssemblyTypeName: CombatManager, Assembly-CSharp
+        m_MethodName: SkillButton
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -2664,7 +2664,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1187951839
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2693,7 +2693,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: 0, y: 151}
+  m_AnchoredPosition: {x: 0, y: 160}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1187951840
@@ -3473,7 +3473,7 @@ MonoBehaviour:
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
     m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_DisabledColor: {r: 0.5882353, g: 0.5882353, b: 0.5882353, a: 0.5019608}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
   m_SpriteState:
@@ -3757,12 +3757,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _grid: {fileID: 0}
   _playerCharacters:
-  - {fileID: 4231711683031803762, guid: 1256b087dcdbf9242987a65d3a6bc9d5, type: 3}
-  - {fileID: 4231711683031803762, guid: 1256b087dcdbf9242987a65d3a6bc9d5, type: 3}
+  - {fileID: 4231711683031803762, guid: d098628cd8a56444a9d85f68f455a454, type: 3}
+  - {fileID: 4231711683031803762, guid: 34bdee04cfb9fea458cf74baacffc670, type: 3}
+  - {fileID: 4231711683031803762, guid: 58669556dd393a5459970a263d850d89, type: 3}
+  - {fileID: 4231711683031803762, guid: f609f30c110664f4596dfe7bcf6c5e07, type: 3}
   _enemyCharacters:
-  - {fileID: 1175077118683738150, guid: 779e6ed48026bdc4f9b3ee82315a5a5c, type: 3}
-  - {fileID: 1175077118683738150, guid: 5fe155f051d0bbf48a66b40c12110441, type: 3}
-  - {fileID: 1175077118683738150, guid: 3623ce4dd8d818447978965a1b564187, type: 3}
+  - {fileID: 4231711683031803762, guid: 64e4b77712cde0040bfb4e28401a2f70, type: 3}
+  - {fileID: 4231711683031803762, guid: 64e4b77712cde0040bfb4e28401a2f70, type: 3}
+  - {fileID: 4231711683031803762, guid: 64e4b77712cde0040bfb4e28401a2f70, type: 3}
   _selectedEnemies: []
   _selectedCharacter: {fileID: 0}
   _selectedTiles: []
@@ -3775,6 +3777,7 @@ MonoBehaviour:
   _enemyAttack: 0
   _levelDifficulty: 4
   _selectedSkill: {fileID: 0}
+  _selectedAction: 3
 --- !u!114 &1517076118
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3804,6 +3807,9 @@ MonoBehaviour:
   _skill4: {fileID: 1860361775}
   _deathScreen: {fileID: 270277760}
   _returnToMenu: {fileID: 548831620}
+  _attackButton: {fileID: 1358446502}
+  _moveButton: {fileID: 1621610943}
+  _skillButton: {fileID: 1026873184}
 --- !u!1 &1557931161
 GameObject:
   m_ObjectHideFlags: 0
@@ -4111,7 +4117,7 @@ MonoBehaviour:
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
     m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_DisabledColor: {r: 0.5882353, g: 0.5882353, b: 0.5882353, a: 0.5019608}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
   m_SpriteState:
@@ -4768,7 +4774,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -102, y: 95}
+  m_AnchoredPosition: {x: -102, y: 96}
   m_SizeDelta: {x: 80, y: 80}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2062838453

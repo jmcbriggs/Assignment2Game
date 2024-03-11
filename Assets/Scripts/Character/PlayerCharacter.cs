@@ -372,6 +372,24 @@ public class PlayerCharacter : Character
         }
     }
 
+    public override void FinishAttack()
+    {
+        base.FinishAttack();
+        if (_uiManager != null)
+        {
+            _uiManager.UpdateCharacterStats(this);
+        }
+    }
+
+    public override void FinishMove()
+    {
+        base.FinishMove();
+        if (_uiManager != null)
+        {
+            _uiManager.UpdateCharacterStats(this);
+        }
+    }
+
     public List<GameObject> GetGear()
     {
         List<GameObject> gear = new List<GameObject>();

@@ -8,25 +8,6 @@ public class EnemyCharacter : Character
     Tile _targetTile;
     [SerializeField]
     int _difficulty = 1;
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
-    private void OnMouseDown()
-    {
-        if (_combatManager.IsPlayerTurn())
-        {
-            _combatManager.EnemyClick(gameObject);
-        }
-    }
 
     public override void OnTurnStart()
     {
