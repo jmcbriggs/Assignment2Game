@@ -59,6 +59,18 @@ jobs:
       group: unity-build
       cancel-in-progress: true
     steps:
+       # Checkout
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        with:
+          lfs: true  
+
+       # Cache
+      - uses: actions/cache@v3
+        with:
+          path: Library
+          key: Library
+          
       # Build WebGL
       - name: Build WebGL
         uses: game-ci/unity-builder@v4
