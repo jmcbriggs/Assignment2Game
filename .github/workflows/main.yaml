@@ -27,13 +27,12 @@ jobs:
           UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
         with:
           targetPlatform: StandaloneWindows64
-          buildsPath: build/windows
-       # Output
+          buildsPath: build/windows  
+      # Output
       - uses: actions/upload-artifact@v3
         with:
           name: Build
           path: build/windows
-
 
       # Set variables for version tagging
       - name: Set release date
@@ -41,7 +40,7 @@ jobs:
       - name: Set short hash
         run: echo "SHORT_HASH=$(git rev-parse --short HEAD)" >> ${GITHUB_ENV}
 
-      # Deploy
+      # Deploy for Windows
       - uses: manleydev/butler-publish-itchio-action@master
         env:
           BUTLER_CREDENTIALS: ${{ secrets.BUTLER_CREDENTIALS }}
@@ -51,4 +50,28 @@ jobs:
           PACKAGE: build/windows
           VERSION: ${{ env.RELEASE_DATE }}-${{ env.SHORT_HASH }} 
 
-     
+      # Build WebGL
+      - uses: game-ci/unity-builder@v4
+        env:
+          UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
+          UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
+          UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
+        with:
+          targetPlatform: WebGL
+          buildsPath: build/webgl 
+
+      # Output WebGL
+      - uses: actions/upload-artifact@v3
+        with:
+          name: Build
+          path: build/webgl
+
+      # Deploy for WebGL
+      - uses: manleydev/butler-publish-itchio-action@master
+        env:
+          BUTLER_CREDENTIALS: ${{ secrets.BUTLER_CREDENTIALS }}
+          CHANNEL: webgl  
+          ITCH_GAME: paper-people
+          ITCH_USER: briggadier
+          PACKAGE: build/webgl  
+          VERSION: ${{ env.RELEASE_DATE }}-${{ env.SHORT_HASH }} 
