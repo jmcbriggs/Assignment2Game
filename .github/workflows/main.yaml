@@ -5,9 +5,6 @@ jobs:
     name: Build and publish for Windows
     runs-on: ubuntu-latest
     # This stops builds that are in-progress once a new commit comes in
-    concurrency: 
-      group: unity-build
-      cancel-in-progress: true
     steps:
       # Checkout
       - name: Checkout repository
@@ -53,11 +50,9 @@ jobs:
 
   buildWebGL:
     name: Build and publish for WebGL
+    needs: buildWindows
     runs-on: ubuntu-latest
     # This stops builds that are in-progress once a new commit comes in
-    concurrency: 
-      group: unity-build
-      cancel-in-progress: true
     steps:
        # Checkout
       - name: Checkout repository
@@ -70,7 +65,7 @@ jobs:
         with:
           path: Library
           key: Library
-          
+
       # Build WebGL
       - name: Build WebGL
         uses: game-ci/unity-builder@v4
