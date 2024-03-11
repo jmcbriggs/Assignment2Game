@@ -3931,7 +3931,7 @@ MonoBehaviour:
   - {fileID: 4231711683031803762, guid: 8a247466a0c51744f81cb6476278ca9d, type: 3}
   - {fileID: 4231711683031803762, guid: 6ac3e6707e5f0a244ad3312bf9e7f2e3, type: 3}
   Level: 1
-  MaxLevel: 1
+  MaxLevel: 10
   BodyColours:
   - {r: 1, g: 0, b: 0.9456892, a: 1}
   - {r: 1, g: 0.9048885, b: 0, a: 1}

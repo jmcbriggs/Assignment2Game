@@ -28,11 +28,6 @@ jobs:
         with:
           targetPlatform: StandaloneWindows64
           buildsPath: build/windows  
-      # Output
-      - uses: actions/upload-artifact@v3
-        with:
-          name: Build
-          path: build/windows
 
       # Set variables for version tagging
       - name: Set release date
@@ -59,6 +54,7 @@ jobs:
         with:
           targetPlatform: WebGL
           buildsPath: build/webgl 
+          allowDirtyBuild: true
 
       # Output WebGL
       - uses: actions/upload-artifact@v3
@@ -75,3 +71,9 @@ jobs:
           ITCH_USER: briggadier
           PACKAGE: build/webgl  
           VERSION: ${{ env.RELEASE_DATE }}-${{ env.SHORT_HASH }} 
+      
+      # Output
+      - uses: actions/upload-artifact@v3
+        with:
+          name: Build
+          path: build/windows
