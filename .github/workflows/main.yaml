@@ -93,6 +93,5 @@ jobs:
           CHANNEL: webgl  
           ITCH_GAME: paper-people
           ITCH_USER: briggadier
-          PACKAGE: build/webgl  
-          VERSION: ${{ env.RELEASE_DATE }}-${{ env.SHORT_HASH }} 
+          PACKAGE: build/webgl   
 
