@@ -79,4 +79,4 @@ jobs:
           project: ${{ secrets.ITCH_PROJECT }}
           channel: webgl
           api-key: ${{ secrets.BUTLER_CREDENTIALS }}
-          version: ${{ env.RELEASE_DATE }}-${{ env.SHORT_HASH }}
+          version: ${{ env.RELEASE_DATE }}-${{ env.SHORT_HASH }} 
