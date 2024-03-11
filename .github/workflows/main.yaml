@@ -47,36 +47,13 @@ jobs:
         run: echo "SHORT_HASH=$(git rev-parse --short HEAD)" >> ${GITHUB_ENV}
 
       # Deploy
-      - name: Upload build to itch.io
-        uses: robpc/itchio-upload-action@v1
-        with:
-          path: build/windows
-          project: ${{ secrets.ITCH_PROJECT }}
-          channel: windows
-          api-key: ${{ secrets.BUTLER_CREDENTIALS }}
-          version: ${{ env.RELEASE_DATE }}-${{ env.SHORT_HASH }}
-
-      # Build WebGL
-      - uses: game-ci/unity-builder@v4
+      - uses: manleydev/butler-publish-itchio-action@master
         env:
-          UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
-          UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
-          UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
-        with:
-          targetPlatform: WebGL
+          BUTLER_CREDENTIALS: ${{ secrets.BUTLER_CREDENTIALS }}
+          CHANNEL: windows
+          ITCH_GAME: paper-people
+          ITCH_USER: briggadier
+          PACKAGE: build/windows
+          VERSION: ${{ env.RELEASE_DATE }}-${{ env.SHORT_HASH }} 
 
-       # Output WebGL
-      - uses: actions/upload-artifact@v3
-        with:
-          name: Build
-          path: build/webgl
-
-      # Deploy WebGL
-      - name: Upload build to itch.io
-        uses: robpc/itchio-upload-action@v1
-        with:
-          path: build/webgl
-          project: ${{ secrets.ITCH_PROJECT }}
-          channel: webgl
-          api-key: ${{ secrets.BUTLER_CREDENTIALS }}
-          version: ${{ env.RELEASE_DATE }}-${{ env.SHORT_HASH }} 
+     
