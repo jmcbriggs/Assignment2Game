@@ -377,6 +377,7 @@ public class CombatManager : MonoBehaviour
         else if (_selectedCharacter != null)
         {
             _selectedTiles = new List<GameObject>();
+            _selectedTiles.Add(_selectedCharacter.GetComponent<CharacterMovement>().GetCurrentTile().gameObject);
             _selectedTargetTiles = new List<GameObject>();
             _selectedAction = Actions.MOVE;
             EnableColliders(false);
@@ -469,6 +470,7 @@ public class CombatManager : MonoBehaviour
                 _selectedCharacter.GetComponent<PlayerCharacter>().OnSkill(parameters, damages, _selectedSkill);
                 EnableColliders(true);
             }
+            _selectedTargetTiles = new List<GameObject>();
         }
     }
 
@@ -535,7 +537,7 @@ public class CombatManager : MonoBehaviour
             _enemyMove = true;
             _enemyAttack = false;
             _selectedEnemy = 0;
-            StartCoroutine(EnemyTurn());
+            Invoke("TriggerEnemyTurn", 1);
         }
         else
         {
@@ -544,8 +546,14 @@ public class CombatManager : MonoBehaviour
             {
                 player.GetComponent<Character>().OnTurnStart();
             }
+            EnableColliders(true);
         }
         _uiManager.SetState(_state.ToString());
+    }
+
+    void TriggerEnemyTurn()
+    {
+        StartCoroutine(EnemyTurn());
     }
 
     public Tile GetClosestPlayer(Tile enemyTile)

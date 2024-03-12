@@ -377,7 +377,10 @@ public class PlayerCharacter : Character
         base.FinishAttack();
         if (_uiManager != null)
         {
-            _uiManager.UpdateCharacterStats(this);
+            if (_combatManager.IsCharacterSelected(this))
+            {
+                _uiManager.UpdateCharacterStats(this);
+            }
         }
     }
 
@@ -386,7 +389,10 @@ public class PlayerCharacter : Character
         base.FinishMove();
         if (_uiManager != null)
         {
-            _uiManager.UpdateCharacterStats(this);
+            if (_combatManager.IsCharacterSelected(this))
+            {
+                _uiManager.UpdateCharacterStats(this);
+            }
         }
     }
 

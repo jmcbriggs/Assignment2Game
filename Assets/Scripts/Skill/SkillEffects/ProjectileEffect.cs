@@ -19,19 +19,24 @@ public class ProjectileEffect : SkillEffect
     {
         //Creates projectile and sets its direction and speed, when it reaches the target, it triggers the hit effect
         GameObject proj = Instantiate(_projectile, user.position, Quaternion.identity);
+        Vector3 target = singleTarget.position;
+        if(singleTarget.GetComponent<Tile>() != null)
+        {
+            target = target + new Vector3(0, 0.5f, 0);
+        }
         proj.transform.localScale = new Vector3(_scale, _scale, _scale);
-        proj.GetComponent<Rigidbody>().velocity = (singleTarget.position - user.position).normalized * _speed;
-        StartCoroutine(TriggerHitEffect(proj, singleTarget, user));
+        proj.GetComponent<Rigidbody>().velocity = (target - user.position).normalized * _speed;
+        StartCoroutine(TriggerHitEffect(proj, target, user));
     }
 
-    private IEnumerator TriggerHitEffect(GameObject proj, Transform target, Transform user)
+    private IEnumerator TriggerHitEffect(GameObject proj, Vector3 target, Transform user)
     {
         //Waits until the projectile reaches the target and triggers the hit effect
-        while (Vector3.Distance(proj.transform.position, target.position) > 0.1f)
+        while (Vector3.Distance(proj.transform.position, target) > 0.1f)
         {
             yield return null;
         }
-        GameObject hitParticle =  Instantiate(_hitEffect, target.position, Quaternion.identity);
+        GameObject hitParticle =  Instantiate(_hitEffect, target, Quaternion.identity);
         hitParticle.transform.localScale = new Vector3(_explodeScale, _explodeScale, _explodeScale);
         List<Transform> hitParticleChildren = hitParticle.GetComponentsInChildren<Transform>().ToList();
         if(hitParticleChildren.Count > 0)

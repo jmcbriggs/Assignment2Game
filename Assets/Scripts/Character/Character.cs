@@ -178,7 +178,6 @@ public class Character : MonoBehaviour
             parameters._targets[i].GetComponent<Character>().TakeDamage(damages[i]);
 
         }
-        
 
     }
 

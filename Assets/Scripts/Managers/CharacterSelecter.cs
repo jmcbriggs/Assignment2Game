@@ -76,6 +76,7 @@ public class CharacterSelecter : MonoBehaviour
         _currentPrefab.transform.localScale = new Vector3(CharacterScale, CharacterScale, CharacterScale);
         _currentPrefab.layer = 5;
         _currentPrefab.GetComponent<PlayerCharacter>().SetCharacterSelecter(this);
+        _currentPrefab.GetComponent<Animator>().SetBool("HasAction", true);
         BodyColour bodyColour = _currentPrefab.GetComponentInChildren<BodyColour>();
         if(bodyColour != null)
         {
