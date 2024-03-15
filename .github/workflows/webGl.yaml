@@ -20,6 +20,9 @@ jobs:
           path: Library
           key: Library
 
+      - name: Cleanup Docker
+        run: docker system prune --all --force --volumes
+
       # Cleanup unnecessary files
       - name: Cleanup
         run: |
