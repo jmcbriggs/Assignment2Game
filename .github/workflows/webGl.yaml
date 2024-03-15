@@ -3,15 +3,19 @@ on:
   workflow_dispatch: {}
 
 jobs:
+  cleanDocker:
+    name: Clean Docker
+    runs-on: ubuntu-latest
+    steps:
+      #Cleanup docker image
+      - name: Cleanup Docker
+        run: docker system prune --all --force --volumes
+    
   buildWebGL:
     name: Build and publish for WebGL
     runs-on: ubuntu-latest
     # This stops builds that are in-progress once a new commit comes in
     steps:
-      #Cleanup docker image
-      - name: Cleanup Docker
-        run: docker system prune --all --force --volumes
-        
       # Checkout
       - name: Checkout repository
         uses: actions/checkout@v3
