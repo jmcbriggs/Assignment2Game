@@ -1,5 +1,6 @@
-name: Build All Platforms and Publish To Itch.io
-on: [push]
+name: Build Windows and Publish To Itch.io
+on:
+    workflow_dispatch: {}
 jobs:
   buildWindows:
     name: Build and publish for Windows
@@ -54,57 +55,3 @@ jobs:
           ITCH_USER: briggadier
           PACKAGE: build/windows
           VERSION: ${{ env.RELEASE_DATE }}-${{ env.SHORT_HASH }} 
-
-  buildWebGL:
-    name: Build and publish for WebGL
-    needs: buildWindows
-    runs-on: ubuntu-latest
-    # This stops builds that are in-progress once a new commit comes in
-    steps:
-       # Checkout
-      - name: Checkout repository
-        uses: actions/checkout@v3
-        with:
-          lfs: true  
-
-       # Cache
-      - uses: actions/cache@v3
-        with:
-          path: Library
-          key: Library
-
-       # Cleanup unnecessary files
-      - name: Cleanup
-        run: |
-          # Remove any temporary files or old build artifacts
-          rm -rf build/webgl/*
-
-      # Build WebGL
-      - name: Build WebGL
-        uses: game-ci/unity-builder@v4
-        env:
-          UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
-          UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
-          UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
-        with:
-          targetPlatform: WebGL
-          buildsPath: build/webgl 
-          allowDirtyBuild: true
-
-      # Output WebGL
-      - name: Upload WebGL build artifact
-        uses: actions/upload-artifact@v3
-        with:
-          name: WebGLBuild
-          path: build/webgl
-
-      # Deploy for WebGL
-      - name: Deploy WebGL
-        uses: manleydev/butler-publish-itchio-action@master
-        env:
-          BUTLER_CREDENTIALS: ${{ secrets.BUTLER_CREDENTIALS }}
-          CHANNEL: webgl  
-          ITCH_GAME: paper-people
-          ITCH_USER: briggadier
-          PACKAGE: build/webgl   
-
