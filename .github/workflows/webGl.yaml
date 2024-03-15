@@ -8,26 +8,27 @@ jobs:
     runs-on: ubuntu-latest
     # This stops builds that are in-progress once a new commit comes in
     steps:
+      #Cleanup docker image
+      - name: Cleanup Docker
+        run: docker system prune --all --force --volumes
+        
       # Checkout
       - name: Checkout repository
         uses: actions/checkout@v3
         with:
           lfs: true  
+          
+      # Cleanup unnecessary files
+      - name: Cleanup
+        run: |
+          # Remove any temporary files or old build artifacts
+          rm -rf build/webgl/*
 
       # Cache
       - uses: actions/cache@v3
         with:
           path: Library
           key: Library
-
-      - name: Cleanup Docker
-        run: docker system prune --all --force --volumes
-
-      # Cleanup unnecessary files
-      - name: Cleanup
-        run: |
-          # Remove any temporary files or old build artifacts
-          rm -rf build/webgl/*
 
       # Build WebGL
       - name: Build WebGL
