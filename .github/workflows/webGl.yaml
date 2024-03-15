@@ -3,26 +3,20 @@ on:
   workflow_dispatch: {}
 
 jobs:
-  cleanDocker:
-    name: Clean Docker
+  buildWebGL:
+    name: Build WebGL
     runs-on: ubuntu-latest
     steps:
-      #Cleanup docker image
+      # Cleanup Docker
       - name: Cleanup Docker
         run: docker system prune --all --force --volumes
-    
-  buildWebGL:
-    name: Build and publish for WebGL
-    needs: cleanDocker
-    runs-on: ubuntu-latest
-    # This stops builds that are in-progress once a new commit comes in
-    steps:
+
       # Checkout
       - name: Checkout repository
         uses: actions/checkout@v3
         with:
           lfs: true  
-          
+
       # Cleanup unnecessary files
       - name: Cleanup
         run: |
@@ -53,6 +47,15 @@ jobs:
         with:
           name: WebGLBuild
           path: build/webgl
+
+  deployWebGL:
+    name: Deploy WebGL to Itch.io
+    needs: buildWebGL
+    runs-on: ubuntu-latest
+    steps:
+      # Checkout
+      - name: Checkout repository
+        uses: actions/checkout@v3
 
       # Deploy for WebGL
       - name: Deploy WebGL
