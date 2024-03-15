@@ -4,8 +4,9 @@ on:
 
 jobs:
   buildWebGL:
-    name: Build WebGL
+    name: Build for WebGL
     runs-on: ubuntu-latest
+    # This stops builds that are in-progress once a new commit comes in
     steps:
       # Cleanup Docker
       - name: Cleanup Docker
@@ -49,15 +50,17 @@ jobs:
           path: build/webgl
 
   deployWebGL:
-    name: Deploy WebGL to Itch.io
+    name: Deploy for WebGL
     needs: buildWebGL
     runs-on: ubuntu-latest
     steps:
-      # Checkout
       - name: Checkout repository
         uses: actions/checkout@v3
-
-      # Deploy for WebGL
+      - name: Download WebGL build artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: WebGLBuild
+          path: build/webgl
       - name: Deploy WebGL
         uses: manleydev/butler-publish-itchio-action@master
         env:
@@ -65,4 +68,4 @@ jobs:
           CHANNEL: webgl  
           ITCH_GAME: paper-people
           ITCH_USER: briggadier
-          PACKAGE: build/webgl   
+          PACKAGE: build/webgl
