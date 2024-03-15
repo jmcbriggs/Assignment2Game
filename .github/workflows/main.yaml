@@ -1,110 +1,12 @@
-name: Build All Platforms and Publish To Itch.io
-on: [push]
+name: Build All Platforms
+on: 
+  push:
+    branches:
+      - main
+
 jobs:
-  buildWindows:
-    name: Build and publish for Windows
+  start:
     runs-on: ubuntu-latest
-    # This stops builds that are in-progress once a new commit comes in
     steps:
-      # Checkout
-      - name: Checkout repository
-        uses: actions/checkout@v3
-        with:
-          lfs: true  
-      # Cache
-      - uses: actions/cache@v3
-        with:
-          path: Library
-          key: Library
-
-           # Cleanup unnecessary files
-      - name: Cleanup
-        run: |
-          # Remove any temporary files or old build artifacts
-          rm -rf build/windows/*
-
-      # Build
-      - uses: game-ci/unity-builder@v4
-        env:
-          UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
-          UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
-          UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
-        with:
-          targetPlatform: StandaloneWindows64
-          buildsPath: build/windows
-          
-      # Output Windows
-      - uses: actions/upload-artifact@v3
-        with:
-          name: WindowsBuild
-          path: build/windows
-
-      # Set variables for version tagging
-      - name: Set release date
-        run: echo "RELEASE_DATE=$(date --rfc-3339=date)" >> ${GITHUB_ENV}
-      - name: Set short hash
-        run: echo "SHORT_HASH=$(git rev-parse --short HEAD)" >> ${GITHUB_ENV}
-
-      # Deploy for Windows
-      - uses: manleydev/butler-publish-itchio-action@master
-        env:
-          BUTLER_CREDENTIALS: ${{ secrets.BUTLER_CREDENTIALS }}
-          CHANNEL: windows
-          ITCH_GAME: paper-people
-          ITCH_USER: briggadier
-          PACKAGE: build/windows
-          VERSION: ${{ env.RELEASE_DATE }}-${{ env.SHORT_HASH }} 
-
-  buildWebGL:
-    name: Build and publish for WebGL
-    needs: buildWindows
-    runs-on: ubuntu-latest
-    # This stops builds that are in-progress once a new commit comes in
-    steps:
-       # Checkout
-      - name: Checkout repository
-        uses: actions/checkout@v3
-        with:
-          lfs: true  
-
-       # Cache
-      - uses: actions/cache@v3
-        with:
-          path: Library
-          key: Library
-
-       # Cleanup unnecessary files
-      - name: Cleanup
-        run: |
-          # Remove any temporary files or old build artifacts
-          rm -rf build/webgl/*
-
-      # Build WebGL
-      - name: Build WebGL
-        uses: game-ci/unity-builder@v4
-        env:
-          UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
-          UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
-          UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
-        with:
-          targetPlatform: WebGL
-          buildsPath: build/webgl 
-          allowDirtyBuild: true
-
-      # Output WebGL
-      - name: Upload WebGL build artifact
-        uses: actions/upload-artifact@v3
-        with:
-          name: WebGLBuild
-          path: build/webgl
-
-      # Deploy for WebGL
-      - name: Deploy WebGL
-        uses: manleydev/butler-publish-itchio-action@master
-        env:
-          BUTLER_CREDENTIALS: ${{ secrets.BUTLER_CREDENTIALS }}
-          CHANNEL: webgl  
-          ITCH_GAME: paper-people
-          ITCH_USER: briggadier
-          PACKAGE: build/webgl   
-
+      - name: Starting build
+        run: echo "Starting build"

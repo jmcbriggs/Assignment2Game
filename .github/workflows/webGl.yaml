@@ -1,6 +1,10 @@
-name: Build WebGl and Publish To Itch.io
+name: Build WebGl
 on:
   workflow_dispatch: {}
+  workflow_run:
+    workflows: ["Build All Platforms"]
+    types:
+      - completed
 
 jobs:
   buildWebGL:

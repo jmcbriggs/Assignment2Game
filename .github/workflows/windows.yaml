@@ -1,12 +1,20 @@
-name: Build Windows and Publish To Itch.io
+name: Build Windows
 on:
     workflow_dispatch: {}
+    workflow_run:
+        workflows: ["Build All Platforms"]
+        types:
+          - completed
 jobs:
   buildWindows:
     name: Build and publish for Windows
     runs-on: ubuntu-latest
     # This stops builds that are in-progress once a new commit comes in
     steps:
+
+    # Cleanup Docker
+      - name: Cleanup Docker
+        run: docker system prune --all --force --volumes
       # Checkout
       - name: Checkout repository
         uses: actions/checkout@v3
@@ -40,6 +48,22 @@ jobs:
           name: WindowsBuild
           path: build/windows
 
+  deployWebGL:
+    name: Deploy for WebGL
+    needs: buildWindows
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        with:
+          lfs: true
+
+      - name: Download WebGL build artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: WindowsBuild
+          path: build/windows
+
       # Set variables for version tagging
       - name: Set release date
         run: echo "RELEASE_DATE=$(date --rfc-3339=date)" >> ${GITHUB_ENV}
@@ -55,3 +79,6 @@ jobs:
           ITCH_USER: briggadier
           PACKAGE: build/windows
           VERSION: ${{ env.RELEASE_DATE }}-${{ env.SHORT_HASH }} 
+
+
+
