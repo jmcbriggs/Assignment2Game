@@ -98,7 +98,7 @@ public class Skill : MonoBehaviour
     }
 
 
-    public Skill.SkillTarget GetSkillTarget()
+    public SkillTarget GetSkillTarget()
     {
         return _skillTarget;
     }

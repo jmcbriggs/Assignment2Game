@@ -45,14 +45,21 @@ public class GearBox : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, IE
     {
         if(eventData.pointerDrag != null)
         {
-            GameObject gear = eventData.pointerDrag.GetComponent<GearBox>().GetGear();
-            if(gear.GetComponent<Gear>().GetGearType() == _gearType)
+            if(eventData.pointerDrag.GetComponent<GearBox>() != null)
             {
-                eventData.pointerDrag.GetComponent<GearBox>().SetGear(_gear);
-                SetGear(gear);
-                if(_gearAssigner != null)
+                GameObject gear = eventData.pointerDrag.GetComponent<GearBox>().GetGear();
+                if(gear.GetComponent<Gear>().GetGearType() == _gearType)
                 {
-                    _gearAssigner.SetCharacterGear();
+                    eventData.pointerDrag.GetComponent<GearBox>().SetGear(_gear);
+                    SetGear(gear);
+                    if(_gearAssigner != null)
+                    {
+                        _gearAssigner.SetCharacterGear();
+                    }
+                    if (eventData.pointerDrag.GetComponent<GearBox>().HasGearAssigner())
+                    {
+                        eventData.pointerDrag.GetComponent<GearBox>().GetGearAssigner().SetCharacterGear();
+                    }
                 }
             }
         }
@@ -83,6 +90,11 @@ public class GearBox : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, IE
     {
         if (_gearDescription != null && _gear != null)
         {
+            Switcher switcher = FindObjectOfType<Switcher>();
+            if (switcher != null)
+            {
+                switcher.Switch(2);
+            }
             _gearDescription.Set(_gear.GetComponent<Gear>());
         }
     }
@@ -103,6 +115,16 @@ public class GearBox : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, IE
     public GameObject GetGear()
     {
         return _gear;
+    }
+
+    public bool HasGearAssigner()
+    {
+        return _gearAssigner != null;
+    }
+
+    public GearAssigner GetGearAssigner()
+    {
+        return _gearAssigner;
     }
 
     public void SetGear(GameObject gear)

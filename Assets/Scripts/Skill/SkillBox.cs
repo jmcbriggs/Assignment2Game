@@ -38,17 +38,24 @@ public class SkillBox : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, I
         {
             _skillDescription = FindObjectOfType<SkillDescriptionBox>();
         }
+        if(_skill == null)
+        {
+            SetColour(new Color(0.8f,0.8f,0.8f));
+        }
     }
     public void OnDrop(PointerEventData eventData)
     {
         if(eventData.pointerDrag != null)
         {
-            GameObject skill = eventData.pointerDrag.GetComponent<SkillBox>().GetSkill();
-            eventData.pointerDrag.GetComponent<SkillBox>().SetSkill(_skill);
-            SetSkill(skill);
-            if (_skillAssigner != null)
+            if(eventData.pointerDrag.GetComponent<SkillBox>() != null)
             {
-                _skillAssigner.SetCharacterSkills();
+                GameObject skill = eventData.pointerDrag.GetComponent<SkillBox>().GetSkill();
+                eventData.pointerDrag.GetComponent<SkillBox>().SetSkill(_skill);
+                SetSkill(skill);
+                if(_skillAssigner != null)
+                {
+                    _skillAssigner.SetCharacterSkills();
+                }
             }
         }
     }
@@ -78,6 +85,11 @@ public class SkillBox : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, I
     {
         if (_skillDescription != null && _skill != null)
         {
+            Switcher switcher = FindObjectOfType<Switcher>();
+            if(switcher != null)
+            {
+                switcher.Switch(1);
+            }
             _skillDescription.Set(_skill.GetComponent<Skill>());
         }
     }
@@ -103,14 +115,41 @@ public class SkillBox : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, I
     public void SetSkill(GameObject skill)
     {
         _skill = skill;
-        if(skill != null)
+        if(_skill != null)
         {
-            _skillName.text = _skill.GetComponent<Skill>().GetSkillName();
+            Skill _skillScript = _skill.GetComponent<Skill>();
+            _skillName.text = _skillScript.GetSkillName();
+            Skill.SkillTarget target = _skillScript.GetSkillTarget();
+            if(target == Skill.SkillTarget.FRIENDLY)
+            {
+                SetColour(new Color(0.5f, 0.9f, 0.45f));
+            }
+            else
+            {
+                if(_skillScript.IsMagic())
+                {
+                    SetColour(new Color(0.45f, 0.6f,0.9f));
+                }
+                else
+                {
+                    SetColour(new Color(0.9f, 0.45f, 0.5f));
+                }
+            }
         }
         else
         {
             _skillName.text = "Empty Skill";
+            SetColour(new Color(0.8f, 0.8f, 0.8f));
         }
 
-    }   
+    }  
+    
+    void SetColour(Color colour)
+    {
+        Image image = GetComponent<Image>();
+        if(image != null)
+        {
+            image.color = colour;
+        }
+    }
 }

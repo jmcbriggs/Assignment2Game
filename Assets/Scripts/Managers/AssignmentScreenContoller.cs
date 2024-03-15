@@ -123,10 +123,6 @@ public class AssignmentScreenContoller : MonoBehaviour
 
     public void SwitchUI(TextMeshProUGUI buttonText)
     {
-        foreach(AssignerControl assigner in Assigners)
-        {
-            assigner.SwitchUI();
-        }
         if(_skillPoolScript.gameObject.activeSelf)
         {
             _skillPoolScript.gameObject.SetActive(false);

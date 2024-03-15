@@ -75,18 +75,4 @@ public class AssignerControl : MonoBehaviour
             }
         }
     }
-
-    public void SwitchUI()
-    {
-        if(SkillUI.activeSelf)
-        {
-            SkillUI.SetActive(false);
-            GearUI.SetActive(true);
-        }
-        else
-        {
-            SkillUI.SetActive(true);
-            GearUI.SetActive(false);
-        }
-    }
 }
