@@ -13,6 +13,7 @@ jobs:
     
   buildWebGL:
     name: Build and publish for WebGL
+    needs: cleanDocker
     runs-on: ubuntu-latest
     # This stops builds that are in-progress once a new commit comes in
     steps:
