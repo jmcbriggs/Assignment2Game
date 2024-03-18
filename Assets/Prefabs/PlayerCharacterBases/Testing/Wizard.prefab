@@ -791,7 +791,7 @@ MonoBehaviour:
   _currentTile: {fileID: 0}
   _combatManager: {fileID: 0}
   _movementRemaining: 5
-  _yOffset: 0.8
+  _yOffset: 0.9
 --- !u!65 &3633775396007798736
 BoxCollider:
   m_ObjectHideFlags: 0

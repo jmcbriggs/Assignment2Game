@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public class UIManager : MonoBehaviour
 {
     [SerializeField]
-    Image _charcterInfo;
+    GameObject _characterInfo;
     [SerializeField]
     TextMeshProUGUI _characterName;
     [SerializeField]
@@ -21,13 +21,9 @@ public class UIManager : MonoBehaviour
     [SerializeField]
     TextMeshProUGUI _characterMagic;
     [SerializeField]
-    TextMeshProUGUI _stateText;
+    GameObject _endTurnButton;
     [SerializeField]
-    Button _endTurnButton;
-    [SerializeField]
-    Button _exitBattleButton;
-    [SerializeField]
-    Image _skillsPage;
+    GameObject _skillsPage;
     [SerializeField]
     Button _skill1;
     [SerializeField]
@@ -39,13 +35,20 @@ public class UIManager : MonoBehaviour
     [SerializeField]
     Image _deathScreen;
     [SerializeField]
-    Button _returnToMenu;
-    [SerializeField]
     Button _attackButton;
     [SerializeField]
     Button _moveButton;
     [SerializeField]
     Button _skillButton;
+    [SerializeField]
+    TextMeshProUGUI _turnAnnouncementText;
+    [SerializeField]
+    Animator _turnAnnouncementAnimator;
+    [SerializeField]
+    Animator _winAnimator;
+    [SerializeField]
+    Animator _loseAnimator;
+    bool _animating = false;
 
     List<Button> skillButtons = new List<Button>();
 
@@ -66,14 +69,14 @@ public class UIManager : MonoBehaviour
 
     public void OnCharacterSelect(PlayerCharacter character)
     {
-        _charcterInfo.gameObject.SetActive(true);
+        _characterInfo.SetActive(true);
         UpdateCharacterStats(character);
     }
 
     public void UpdateCharacterStats(PlayerCharacter character)
     {
        
-        _characterName.text = "Name: " + character._characterName;
+        _characterName.text = character._characterName;
         _characterHealth.text = "Health: " + character.GetHealth() + "/" + character.GetMaxHealth();
         _characterMovement.text = "Movement: " + character._movementRemaining + "/" + character._movement;
         _characterAttack.text = "Attack: " + character.GetAttack();
@@ -130,54 +133,61 @@ public class UIManager : MonoBehaviour
 
     public void SetState(string state)
     {
-        _stateText.text = state;
         if(state == "PLAYER")
         {
-            _endTurnButton.gameObject.SetActive(true);
+            _turnAnnouncementText.text = "Player Turn!";
         }
         else
         {
-            _endTurnButton.gameObject.SetActive(false);
+            _turnAnnouncementText.text = "Enemy Turn!";
         }
+        _animating = true;
+        _turnAnnouncementAnimator.SetTrigger("NewTurn");
+        StartCoroutine(TurnAnimation(state));
+    }
+
+    public bool GetAnimating()
+    {
+        return _animating;
+    }
+
+    IEnumerator TurnAnimation(string state)
+    {
+        yield return new WaitForSeconds(4f);
+        if (state == "PLAYER")
+        {
+            _endTurnButton.SetActive(true);
+        }
+        else
+        {
+            _endTurnButton.SetActive(false);
+        }
+        _animating = false;
     }
 
     public void EnableSkillPage(bool enable)
     {
-        _skillsPage.gameObject.SetActive(enable);
+        _skillsPage.SetActive(enable);
     }
 
     public bool SkillsPageActive()
     {
-        return _skillsPage.gameObject.activeSelf;
+        return _skillsPage.activeSelf;
     }
 
     public void OnCharacterDeselect()
     {
-        _charcterInfo.gameObject.SetActive(false);
+        _characterInfo.SetActive(false);
     }
 
     public void EndBattle()
     {
-        _endTurnButton.gameObject.SetActive(false);
-        _exitBattleButton.gameObject.SetActive(true);
+        _endTurnButton.SetActive(false);
+        _winAnimator.SetTrigger("NewTurn");
     }
 
     public void ShowDeathScreen()
     {
-        _deathScreen.color = new Color(0, 0, 0, 0);
-        _deathScreen.gameObject.SetActive(true);
-        _endTurnButton.gameObject.SetActive(false);
-        StartCoroutine(DeathScreen());
+        _loseAnimator.SetTrigger("NewTurn");
     }
-
-    IEnumerator DeathScreen()
-    {
-        while(_deathScreen.color.a < 1)
-        {
-            _deathScreen.color = new Color(0, 0, 0, _deathScreen.color.a + (0.2f * Time.deltaTime));
-            yield return null;
-        }
-        _returnToMenu.gameObject.SetActive(true);
-    }
-
 }

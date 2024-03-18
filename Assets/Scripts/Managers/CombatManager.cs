@@ -537,7 +537,6 @@ public class CombatManager : MonoBehaviour
             _enemyMove = true;
             _enemyAttack = false;
             _selectedEnemy = 0;
-            Invoke("TriggerEnemyTurn", 1);
         }
         else
         {
@@ -546,9 +545,30 @@ public class CombatManager : MonoBehaviour
             {
                 player.GetComponent<Character>().OnTurnStart();
             }
-            EnableColliders(true);
         }
         _uiManager.SetState(_state.ToString());
+        StartCoroutine(EndTurnDelay());
+    }
+
+    IEnumerator EndTurnDelay()
+    {
+        while(_uiManager.GetAnimating())
+        {
+            yield return null;
+        }
+        BeginTurn();
+    }
+
+    public void BeginTurn()
+    {
+        if (_state == CombatState.ENEMY)
+        {
+            TriggerEnemyTurn();
+        }
+        else
+        {
+            EnableColliders(true);
+        }
     }
 
     void TriggerEnemyTurn()
@@ -601,6 +621,7 @@ public class CombatManager : MonoBehaviour
         else if (_activeEnemies.Count == 0)
         {
             Debug.Log("PLAYER WINS");
+            OnCharacterDeselect();
             _uiManager.EndBattle();
         }
     }
@@ -612,9 +633,10 @@ public class CombatManager : MonoBehaviour
             if (_enemyMove)
             {
                 Tile enemyTarget = _activeEnemies[_selectedEnemy].GetComponent<EnemyCharacter>().GetTargetTile();
-                if (enemyTarget != null && enemyTarget.GetOccupant() != null)
+                if (enemyTarget == null || enemyTarget.GetOccupant() == null)
                 {
                     enemyTarget = GetClosestPlayer(_activeEnemies[_selectedEnemy].GetComponent<CharacterMovement>().GetCurrentTile());
+                    _activeEnemies[_selectedEnemy].GetComponent<EnemyCharacter>().SetTargetTile(enemyTarget);
                 }
                 Tile enemyTile = _activeEnemies[_selectedEnemy].GetComponent<CharacterMovement>().GetCurrentTile();
                 if (_grid.IsTileInNeighbours(enemyTarget, enemyTile))
@@ -679,6 +701,7 @@ public class CombatManager : MonoBehaviour
             }
             yield return null;
         }
+        yield return new WaitForSeconds(0.5f);
         EndTurn();
     }
 

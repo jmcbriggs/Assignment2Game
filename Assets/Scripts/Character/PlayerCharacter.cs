@@ -289,15 +289,17 @@ public class PlayerCharacter : Character
                 break;
 
         }
-        Gear gear = gearToRemove.GetComponent<Gear>();
-        Dictionary<StatType, int> stats = gear.GetStats();
-        List<StatType> statsToAlter = stats.Keys.ToList();
-        foreach (StatType stat in statsToAlter)
+        if (gearToRemove != null)
+        {
+            Gear gear = gearToRemove.GetComponent<Gear>();
+            Dictionary<StatType, int> stats = gear.GetStats();
+            List<StatType> statsToAlter = stats.Keys.ToList();
+            foreach (StatType stat in statsToAlter)
             {
                 switch (stat)
                 {
                     case StatType.Health:
-                        ChangeMaxHealth(-1* stats[stat]);
+                        ChangeMaxHealth(-1 * stats[stat]);
                         break;
                     case StatType.Attack:
                         ChangeAttack(-1 * stats[stat]);
@@ -313,17 +315,17 @@ public class PlayerCharacter : Character
                         break;
                 }
             }
-        if (type == GearType.Body && gear.HasArms())
-        {
-            DestroyImmediate(_leftArm);
-            DestroyImmediate(_rightArm);
-        }
-        if(type == GearType.Feet && _leftLeg !=null)
-        {
-            DestroyImmediate(_leftLeg);
-        }
-        DestroyImmediate(gearToRemove);
-           
+            if (type == GearType.Body && gear.HasArms())
+            {
+                DestroyImmediate(_leftArm);
+                DestroyImmediate(_rightArm);
+            }
+            if (type == GearType.Feet && _leftLeg != null)
+            {
+                DestroyImmediate(_leftLeg);
+            }
+            DestroyImmediate(gearToRemove);
+        } 
     }
 
 

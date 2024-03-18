@@ -106,6 +106,10 @@ public class GearAssigner : MonoBehaviour
                     {
                         playerCharacter.OnEquip(gearPiece, false);
                     }
+                    else
+                    {
+                        playerCharacter.OnUnequip(_gearBox[i].GetGearType());
+                    }
 
                 }
             }
