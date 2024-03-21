@@ -104,7 +104,7 @@ public class GameController : MonoBehaviour
         {
             if(SelectedCharacters[i])
             {
-                SelectedCharacters[i] = Instantiate(SelectedCharacters[i]);
+                SelectedCharacters[i] = Instantiate(SelectedCharacters[i], new Vector3(1000,1000,0), Quaternion.identity);
                 BodyColour bodyColour = SelectedCharacters[i].GetComponentInChildren<BodyColour>();
                 if (bodyColour != null)
                 {

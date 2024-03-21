@@ -9,8 +9,8 @@ EditorBuildSettings:
     path: Assets/Scenes/StartScene.unity
     guid: e7e3c8809ebc4424fa6d3a6428a5b8d4
   - enabled: 1
-    path: Assets/Scenes/SampleScene.unity
-    guid: 2cda990e2423bbf4892e6590ba056729
+    path: Assets/Scenes/OutsideVillage.unity
+    guid: 021073f7d7eda15488d2e817ce104793
   - enabled: 1
     path: Assets/Scenes/AfterBattle.unity
     guid: 0740ec722b9d1e5488c43262ff574453
