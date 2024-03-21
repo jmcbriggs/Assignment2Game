@@ -120,7 +120,7 @@ public class GameController : MonoBehaviour
     public void EnterBattle()
     {
         Level++;
-        SceneManager.LoadScene("SampleScene");
+        SceneManager.LoadScene("OutsideVillage");
     }
 
     public void ExitBattle()
