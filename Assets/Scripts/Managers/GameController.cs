@@ -15,10 +15,13 @@ public class GameController : MonoBehaviour
     int Level = 1;
     [SerializeField]
     int MaxLevel = 10;
-
+    [SerializeField]
+    int UtilitySceneCount = 1;
+    [SerializeField]
+    int ActiveLevels = 1;
+  
     [SerializeField]
     Color[] BodyColours;
-
 
     private static int m_referenceCount = 0;
 
@@ -61,6 +64,7 @@ public class GameController : MonoBehaviour
         SelectedCharacters.Add(AvailableCharacters[1]);
         SelectedCharacters.Add(AvailableCharacters[2]);
         SelectedCharacters.Add(AvailableCharacters[3]);
+        ActiveLevels = SceneManager.sceneCountInBuildSettings;
     }
 
     public GameObject GetAvailableCharacter(int index)
@@ -113,14 +117,21 @@ public class GameController : MonoBehaviour
                 DontDestroyOnLoad(SelectedCharacters[i]);
             }
         }
-        int nextSceneIndex = SceneManager.GetActiveScene().buildIndex + 1;
-       SceneManager.LoadScene(nextSceneIndex);
+        EnterBattle();
     }
 
     public void EnterBattle()
     {
         Level++;
-        SceneManager.LoadScene("OutsideVillage");
+        if(Level >= ActiveLevels)
+        {
+            SceneManager.LoadScene("Win");
+        }
+        else
+        {
+            SceneManager.LoadScene(Level + UtilitySceneCount - 1);
+        }
+
     }
 
     public void ExitBattle()
