@@ -3269,17 +3269,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   AvailableCharacters:
+  - {fileID: 4231711683031803762, guid: 80c28a50bc9e49847ac6ad9713566ce4, type: 3}
+  SelectedCharacters: []
+  LockedCharacters:
   - {fileID: 4231711683031803762, guid: 225f8e46c7942bb4981e4dedbb0e5bc9, type: 3}
   - {fileID: 4231711683031803762, guid: abfddef3c1f70964f86026fa09b04b27, type: 3}
   - {fileID: 4231711683031803762, guid: e388214e6c030204e8445a8f917dd0fb, type: 3}
   - {fileID: 4231711683031803762, guid: d084c95cca93f604ba5dfcdc7c240581, type: 3}
-  SelectedCharacters: []
   AvailableEnemies:
   - {fileID: 4231711683031803762, guid: 64e4b77712cde0040bfb4e28401a2f70, type: 3}
   - {fileID: 4231711683031803762, guid: 8a247466a0c51744f81cb6476278ca9d, type: 3}
-  - {fileID: 4231711683031803762, guid: 6ac3e6707e5f0a244ad3312bf9e7f2e3, type: 3}
+  - {fileID: 4231711683031803762, guid: 31522ec88e28c084eb7cb15ff80eb2ce, type: 3}
+  - {fileID: 4231711683031803762, guid: 5f8248132e9d74649be3f341f31558e0, type: 3}
+  Boss: {fileID: 4231711683031803762, guid: 6ac3e6707e5f0a244ad3312bf9e7f2e3, type: 3}
   Level: 0
-  MaxLevel: 10
   UtilitySceneCount: 3
   ActiveLevels: 1
   BodyColours:

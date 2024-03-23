@@ -46,13 +46,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _skillName: X Punch
-  _power: 4
+  _power: 1
   _range: 2
   _splash: 0
   _cooldown: 4
   _cooldownCounter: 0
   _skillDescription: A series of diagonal punches that hits everyone in an X shape
-  _level: 5
+  _level: 6
   _animationType: 0
   _skillType: 1
   _skillTarget: 0

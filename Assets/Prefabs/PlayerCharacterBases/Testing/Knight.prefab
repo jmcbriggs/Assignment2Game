@@ -828,23 +828,24 @@ MonoBehaviour:
   _characterName: Knight
   _maxHealth: 10
   _currentHealth: 10
-  _attack: 8
-  _defence: 8
+  _attack: 10
+  _defence: 10
   _movement: 5
   _movementRemaining: 5
-  _magic: 8
+  _magic: 10
   _usedAction: 0
   _uiManager: {fileID: 0}
   _combatManager: {fileID: 0}
   _characterMovement: {fileID: 0}
   _healthBar: {fileID: 8847339782455140946}
+  _damageNumber: {fileID: 5154126224071687899, guid: 98ac40523c076604f8ffec8ec9fb016d, type: 3}
   _selectedSkills:
   - {fileID: 7536893309470946647, guid: 283bf7e204420ba4899e4959342f0041, type: 3}
   _skills: []
   _helmet: {fileID: 4058456132065245256, guid: 906c54d65370bac4bb2edd5c00216a4d, type: 3}
   _chest: {fileID: 5013010966146391377, guid: f053108d4b8d7f24d92b8a76cc0b23a0, type: 3}
   _legs: {fileID: 2033211744312382765, guid: 1dae9783b8ac5424986ae79fe6c6df8a, type: 3}
-  _weapon: {fileID: 6024902568252626974, guid: d56984a834a4d334ab4e3e3d8616e397, type: 3}
+  _weapon: {fileID: 6024902568252626974, guid: 260a545cc814828498267eed59c156d7, type: 3}
   _headLocation: {fileID: 9191575203659847392}
   _chestLocation: {fileID: 4229495634971387051}
   _weaponLocation: {fileID: 6810450598564839311}

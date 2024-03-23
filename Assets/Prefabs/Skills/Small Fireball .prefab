@@ -46,7 +46,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _skillName: Small Fireball
-  _power: 4
+  _power: 1
   _range: 4
   _splash: 1
   _cooldown: 2

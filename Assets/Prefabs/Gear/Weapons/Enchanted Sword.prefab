@@ -105,5 +105,5 @@ MonoBehaviour:
   _defense: 0
   _magic: 0
   _movement: 0
-  gearLevel: 2
+  gearLevel: 3
   _arms: {fileID: 0}

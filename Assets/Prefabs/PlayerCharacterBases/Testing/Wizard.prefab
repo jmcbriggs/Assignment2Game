@@ -828,16 +828,17 @@ MonoBehaviour:
   _characterName: Wizard
   _maxHealth: 10
   _currentHealth: 10
-  _attack: 8
-  _defence: 8
+  _attack: 10
+  _defence: 10
   _movement: 5
   _movementRemaining: 5
-  _magic: 8
+  _magic: 10
   _usedAction: 0
   _uiManager: {fileID: 0}
   _combatManager: {fileID: 0}
   _characterMovement: {fileID: 0}
   _healthBar: {fileID: 8847339782455140946}
+  _damageNumber: {fileID: 5154126224071687899, guid: 98ac40523c076604f8ffec8ec9fb016d, type: 3}
   _selectedSkills:
   - {fileID: 7536893309470946647, guid: e9f8b83afee19734499bdc6c6a75b441, type: 3}
   _skills: []

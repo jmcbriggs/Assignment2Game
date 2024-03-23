@@ -46,7 +46,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _skillName: Magic Ball
-  _power: 3
+  _power: 1
   _range: 4
   _splash: 0
   _cooldown: 1

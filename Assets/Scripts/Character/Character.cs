@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Security.Cryptography;
+using TMPro;
 using UnityEngine;
 
 public class Character : MonoBehaviour
@@ -25,6 +26,7 @@ public class Character : MonoBehaviour
     [SerializeField]
     public bool _usedAction = false;
 
+
     [Header("Related Scripts")]
     [SerializeField]
     protected UIManager _uiManager;
@@ -36,6 +38,9 @@ public class Character : MonoBehaviour
     protected CharacterMovement _characterMovement;
     [SerializeField]
     protected HealthBar _healthBar;
+
+    [SerializeField]
+    GameObject _damageNumber;
     
 
     bool _attackFinished = false;
@@ -229,6 +234,20 @@ public class Character : MonoBehaviour
 
     public virtual void TakeDamage(int damage)
     {
+        GameObject damageText = Instantiate(_damageNumber, transform.position + new Vector3(0, _yOffset, 0), Quaternion.identity);
+        string damageString = damage.ToString();
+        if(damage > 0)
+        {
+            damageText.GetComponent<DamageNumber>().SetColour(Color.red);
+            damageString = "-" + damageString;
+        }
+        else
+        {
+            damageText.GetComponent<DamageNumber>().SetColour(Color.green);
+            damageString = damageString.Replace("-", "");
+            damageString = "+" + damageString;
+        }
+        damageText.GetComponent<TextMeshPro>().text = damageString;
         _currentHealth = Mathf.Clamp(_currentHealth - damage, 0, _maxHealth);
         if (_healthBar != null)
         {

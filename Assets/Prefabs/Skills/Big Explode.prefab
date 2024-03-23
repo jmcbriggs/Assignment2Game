@@ -46,7 +46,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _skillName: Big Explode
-  _power: 5
+  _power: 2
   _range: 2
   _splash: 0
   _cooldown: 4

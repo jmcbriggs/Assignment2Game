@@ -46,13 +46,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _skillName: Large Magic Ball
-  _power: 5
+  _power: 2
   _range: 4
   _splash: 0
   _cooldown: 3
   _cooldownCounter: 0
   _skillDescription: A Large magical ball that does damage to a single target
-  _level: 5
+  _level: 6
   _animationType: 1
   _skillType: 0
   _skillTarget: 0

@@ -46,7 +46,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _skillName: Fireball
-  _power: 6
+  _power: 1.5
   _range: 4
   _splash: 1
   _cooldown: 4

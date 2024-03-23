@@ -46,7 +46,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _skillName: Big Hit
-  _power: 5
+  _power: 1.5
   _range: 1
   _splash: 0
   _cooldown: 2

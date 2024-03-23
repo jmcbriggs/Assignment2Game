@@ -10,11 +10,13 @@ public class GameController : MonoBehaviour
     [SerializeField]
     List<GameObject> SelectedCharacters = new List<GameObject>();
     [SerializeField]
+    List<GameObject> LockedCharacters = new List<GameObject>();
+    [SerializeField]
     List<GameObject> AvailableEnemies = new List<GameObject>();
     [SerializeField]
-    int Level = 1;
+    GameObject Boss;
     [SerializeField]
-    int MaxLevel = 10;
+    int Level = 1;
     [SerializeField]
     int UtilitySceneCount = 1;
     [SerializeField]
@@ -60,16 +62,25 @@ public class GameController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        SelectedCharacters.Add(AvailableCharacters[0]);
-        SelectedCharacters.Add(AvailableCharacters[1]);
-        SelectedCharacters.Add(AvailableCharacters[2]);
-        SelectedCharacters.Add(AvailableCharacters[3]);
+        SelectedCharacters.AddRange(AvailableCharacters);
+        while (SelectedCharacters.Count < 4)
+        {
+            SelectedCharacters.Add(AvailableCharacters[0]);
+        }
         ActiveLevels = SceneManager.sceneCountInBuildSettings;
     }
 
     public GameObject GetAvailableCharacter(int index)
     {
-        return AvailableCharacters[index];
+        if(index < AvailableCharacters.Count)
+        {
+            return AvailableCharacters[index];
+        }
+        else
+        {
+            return AvailableCharacters[0];
+        }
+
     }
 
     public void SetCharacter(int index, GameObject character)
@@ -85,6 +96,11 @@ public class GameController : MonoBehaviour
     public List<GameObject> GetAvailableEnemies()
     {
         return AvailableEnemies;
+    }
+
+    public GameObject GetBoss()
+    {
+        return Boss;
     }
 
     public int GetCharacterCount()
@@ -136,7 +152,7 @@ public class GameController : MonoBehaviour
 
     public void ExitBattle()
     {
-        if (Level >= MaxLevel)
+        if (SceneManager.GetActiveScene().name == "EnemyVillage")
         {
             SceneManager.LoadScene("Win");
         }
@@ -148,6 +164,12 @@ public class GameController : MonoBehaviour
 
     public void ReturnToMenu()
     {
+        if(LockedCharacters.Count > 0)
+        {
+            GameObject newCharcter = LockedCharacters[Random.Range(0, LockedCharacters.Count)];
+            AvailableCharacters.Add(newCharcter);
+            LockedCharacters.Remove(newCharcter);
+        }
         Reset();
         SceneManager.LoadScene("StartScene");
     }
@@ -159,12 +181,12 @@ public class GameController : MonoBehaviour
             Destroy(character);
         }
         SelectedCharacters = new List<GameObject>();
-        SelectedCharacters.Add(AvailableCharacters[0]);
-        SelectedCharacters.Add(AvailableCharacters[1]);
-        SelectedCharacters.Add(AvailableCharacters[2]);
-        SelectedCharacters.Add(AvailableCharacters[3]);
+        SelectedCharacters.AddRange(AvailableCharacters);
+        while (SelectedCharacters.Count <4)
+        {
+            SelectedCharacters.Add(AvailableCharacters[0]);
+        }
         Level = 1;
-        MaxLevel = 10;
     }
     // Update is called once per frame
     void Update()

@@ -106,7 +106,15 @@ public class CharacterSelecter : MonoBehaviour
         _characterAttack.text = "Attack: " + _currentPrefab.GetComponent<PlayerCharacter>().GetAttack().ToString();
         _characterDefence.text = "Defence: " + _currentPrefab.GetComponent<PlayerCharacter>().GetDefence().ToString();
         _characterMagic.text = "Magic: " + _currentPrefab.GetComponent<PlayerCharacter>().GetMagic().ToString();
-        _characterSkill.text = "Skills: " + _currentPrefab.GetComponent<PlayerCharacter>().GetSelectedSkills()[0].GetComponent<Skill>().GetSkillName();
+        if(_currentPrefab.GetComponent<PlayerCharacter>().GetSelectedSkills().Count > 0)
+        {
+            _characterSkill.text = "Skill: " + _currentPrefab.GetComponent<PlayerCharacter>().GetSelectedSkills()[0].GetComponent<Skill>().GetSkillName();
+        }
+        else
+        {
+            _characterSkill.text = "Skill: N/A";
+        }
+      
 
     }
 }

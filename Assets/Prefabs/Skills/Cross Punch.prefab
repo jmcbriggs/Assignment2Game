@@ -46,7 +46,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _skillName: Cross Punch
-  _power: 3
+  _power: 1
   _range: 2
   _splash: 0
   _cooldown: 2

@@ -42,6 +42,10 @@ public class CombatManager : MonoBehaviour
 
     [SerializeField]
     int _levelDifficulty = 1;
+    [SerializeField]
+    int _maxEnemies = 6;
+    [SerializeField]
+    float _difficultyMultiplier = 2;
 
     [SerializeField]
     Skill _selectedSkill;
@@ -76,7 +80,14 @@ public class CombatManager : MonoBehaviour
         if (GameController.Instance != null)
         {
             _playerCharacters = GameController.Instance.GetSelectedCharacters();
-            _levelDifficulty = 2 + (GameController.Instance.GetLevel() * 2);
+            if(GameController.Instance.GetLevel() == 1)
+            {
+                _levelDifficulty = 2;
+            }
+            else
+            {
+                _levelDifficulty = (Mathf.RoundToInt(GameController.Instance.GetLevel() * _difficultyMultiplier));
+            }
         }
         _grid = GetComponent<GridManager>();
         _uiManager = GetComponent<UIManager>();
@@ -142,6 +153,17 @@ public class CombatManager : MonoBehaviour
         {
             _enemyCharacters = GameController.Instance.GetAvailableEnemies();
         }
+        if(GameController.Instance != null)
+        {
+            if(GameController.Instance.GetLevel() == 10)
+            {
+                _selectedEnemies.Add(GameController.Instance.GetBoss());
+            }
+        }
+        if(_levelDifficulty == 0)
+        {
+            _levelDifficulty = 1;
+        }
         while (currentDifficulty != _levelDifficulty)
         {
             GameObject newEnemy = _enemyCharacters[Random.Range(0, _enemyCharacters.Count)];
@@ -155,6 +177,20 @@ public class CombatManager : MonoBehaviour
             {
                 Debug.Log("Could not build enemy list for difficulty " + _levelDifficulty);
                 break;
+            }
+            if(_selectedEnemies.Count > _maxEnemies || currentDifficulty >= _levelDifficulty && _selectedEnemies.Count == 1)
+            {
+                _selectedEnemies = new List<GameObject>();
+                currentDifficulty = 0;
+                if (GameController.Instance != null)
+                {
+                    if (GameController.Instance.GetLevel() == 10)
+                    {
+                        GameObject boss = GameController.Instance.GetBoss();
+                        _selectedEnemies.Add(boss);
+                        currentDifficulty += boss.GetComponent<EnemyCharacter>().GetDifficulty();
+                    }
+                }
             }
         }
     }
@@ -454,7 +490,7 @@ public class CombatManager : MonoBehaviour
                     if (occupant != null)
                     {
                         targets.Add(occupant);
-                        damages.Add(_selectedSkill.GetPower() * -1);
+                        damages.Add(CalculateDamageSkill(_selectedCharacter, occupant) * -1);
                         _selectedAction = Actions.NONE;
                         _selectedTiles = null;
                     }
@@ -479,8 +515,8 @@ public class CombatManager : MonoBehaviour
         int attack = attacker.GetComponent<Character>().GetAttack();
         int defence = target.GetComponent<Character>().GetDefence();
 
-        float multiplyer = (1 + ((float)attack - (float)defence) / 10);
-        int damage = (int)Mathf.Clamp((2 * multiplyer), 1, 100);
+        float multiplyer = (attack - defence);
+        int damage = (int)Mathf.Clamp(multiplyer, 1, 100);
         Debug.Log(damage + " damage has been done by " + attacker.name);
 
         return damage;
@@ -488,24 +524,31 @@ public class CombatManager : MonoBehaviour
 
     public int CalculateDamageSkill(GameObject attacker, GameObject target)
     {
-        int skillDamage = _selectedSkill.GetPower();
-        float multiplyer = 0;
+        float skillDamage = _selectedSkill.GetPower();
+        float baseDamage = 0;
         if (_selectedSkill.IsMagic())
         {
             int attackerMagic = attacker.GetComponent<Character>().GetMagic();
             int defenderMagic = target.GetComponent<Character>().GetMagic();
+            if (_selectedSkill.GetSkillTarget() == Skill.SkillTarget.FRIENDLY)
+            {
+                baseDamage = Mathf.Clamp((attackerMagic - 10), 1, 100);
+            }
+            else
+            {
 
-            multiplyer = (1 + ((float)attackerMagic - (float)defenderMagic) / 10);
+                baseDamage = Mathf.Clamp((attackerMagic - defenderMagic), 1, 100);
+            }
         }
         else
         {
             int attack = attacker.GetComponent<Character>().GetAttack();
             int defence = target.GetComponent<Character>().GetDefence();
 
-            multiplyer = (1 + ((float)attack - (float)defence) / 10);
+            baseDamage = Mathf.Clamp((attack - defence),1, 100);
         }
 
-        int damage = (int)Mathf.Clamp((skillDamage * multiplyer), 1, 100);
+        int damage = (int)Mathf.Round(skillDamage * baseDamage);
         Debug.Log(damage + " damage has been done by " + attacker.name + " using the skill " + _selectedSkill.name);
 
         return damage;

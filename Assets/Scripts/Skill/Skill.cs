@@ -8,7 +8,7 @@ public class Skill : MonoBehaviour
     [SerializeField]
     string _skillName;
     [SerializeField]
-    int _power;
+    float _power;
     [SerializeField]
     int _range;
     [SerializeField]
@@ -92,7 +92,7 @@ public class Skill : MonoBehaviour
         return _range;
     }
 
-    public int GetPower()
+    public float GetPower()
     {
         return _power;
     }

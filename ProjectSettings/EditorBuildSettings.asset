@@ -30,6 +30,18 @@ EditorBuildSettings:
     path: Assets/Scenes/ForrestExit.unity
     guid: 140f5530bc1fdc942bcb62b146e89c89
   - enabled: 1
+    path: Assets/Scenes/CaveEntrance.unity
+    guid: 5a74147c8210e3c42b07a199dfffd85b
+  - enabled: 1
+    path: Assets/Scenes/Cave1.unity
+    guid: eadaeee33650ef8419f2e1c5143d2a1e
+  - enabled: 1
+    path: Assets/Scenes/Cave2.unity
+    guid: a08e666dbb5aa9648b374cb4307bbe34
+  - enabled: 1
+    path: Assets/Scenes/CaveExit.unity
+    guid: 5f4403fabc6530a4384d77d52b974c93
+  - enabled: 1
     path: Assets/Scenes/EnemyVillage.unity
     guid: 5ed7da729df35894ba94b476e5e5fc8b
   m_configObjects: {}

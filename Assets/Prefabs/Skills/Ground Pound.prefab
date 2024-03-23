@@ -46,13 +46,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _skillName: Ground Pound
-  _power: 3
+  _power: 1
   _range: 1
   _splash: 0
   _cooldown: 2
   _cooldownCounter: 0
   _skillDescription: Strikes the ground and damages everyone in a small area
-  _level: 2
+  _level: 3
   _animationType: 0
   _skillType: 2
   _skillTarget: 0
