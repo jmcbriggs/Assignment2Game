@@ -722,6 +722,7 @@ GameObject:
   - component: {fileID: 1090496029534340770}
   - component: {fileID: 4166994231509790216}
   - component: {fileID: 3373735823609961099}
+  - component: {fileID: 5148912664812834639}
   m_Layer: 0
   m_Name: Elite
   m_TagString: Untagged
@@ -817,15 +818,19 @@ MonoBehaviour:
   _attack: 18
   _defence: 15
   _movement: 6
-  _movementRemaining: 8
+  _movementRemaining: 5
   _magic: 15
   _usedAction: 0
+  _selectedSkills:
+  - {fileID: 7536893309470946647, guid: 283bf7e204420ba4899e4959342f0041, type: 3}
+  - {fileID: 7536893309470946647, guid: 1b5284d0ca3c3f8419d2d039cdb5362c, type: 3}
+  _skills: []
   _uiManager: {fileID: 0}
   _combatManager: {fileID: 0}
   _characterMovement: {fileID: 0}
   _healthBar: {fileID: 8847339782455140946}
   _damageNumber: {fileID: 5154126224071687899, guid: 98ac40523c076604f8ffec8ec9fb016d, type: 3}
-  _targetTile: {fileID: 0}
+  _damageDone: 0
   _difficulty: 6
 --- !u!114 &3373735823609961099
 MonoBehaviour:
@@ -843,6 +848,20 @@ MonoBehaviour:
   _combatManager: {fileID: 0}
   _movementRemaining: 5
   _yOffset: 1.1
+--- !u!114 &5148912664812834639
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4231711683031803762}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c76ee532ab729044bb3030dbba4ff12e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _targetingPriority: 0
+  _priorityWeighting: 2
 --- !u!1 &4557928687607586448
 GameObject:
   m_ObjectHideFlags: 0

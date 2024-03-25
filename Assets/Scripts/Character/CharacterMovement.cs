@@ -41,7 +41,7 @@ public class CharacterMovement : MonoBehaviour
         _character.SetPosition(_currentTile.transform.position + new Vector3(0, _yOffset));
         _movementRemaining = _character._movementRemaining;
     }
-    public void OnSetTile(List<GameObject> path)
+    public void MoveThroughPath(List<GameObject> path)
     {
         _currentTile.GetComponent<Tile>().RemoveOccupant();
         if (path.Count > 0)
@@ -74,7 +74,7 @@ public class CharacterMovement : MonoBehaviour
             _currentTile = path[i];
         }
         _isMoving = false;
-        _currentTile.GetComponent<Tile>().SetOccupant(gameObject);
+        _currentTile.GetComponent<Tile>().SetOccupant(this.gameObject);
         _character.SetPosition(_currentTile.transform.position + new Vector3(0,_yOffset));
         _character.FinishMove();
     }

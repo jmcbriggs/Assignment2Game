@@ -5,41 +5,48 @@ using UnityEngine;
 public class EnemyCharacter : Character
 {
     [SerializeField]
-    Tile _targetTile;
-    [SerializeField]
     int _difficulty = 1;
+    EnemyBrain _brain;
 
     public override void OnTurnStart()
     {
         base.OnTurnStart();
-        _targetTile = _combatManager.GetClosestPlayer(_characterMovement.GetCurrentTile());
-    }
-
-    public Tile GetTargetTile()
-    {
-        return _targetTile;
-    }
-
-    public void SetTargetTile(Tile tile)
-    {
-        _targetTile = tile;
     }
 
     public override void FinishMove()
     {
         base.FinishMove();
-        _combatManager.SetEnemyAttack(true);
+        if(_brain != null)
+        {
+            _brain.FinishMoving();
+        }
+        else
+        {
+            Debug.LogError("No brain assigned to enemy character");
+        }
     }
 
     public override void FinishAttack()
     {
         base.FinishAttack();
-        _combatManager.EnemyAttackFinished();
+        if (_brain != null)
+        {
+            _brain.FinishTurn();
+        }
+        else
+        {
+            Debug.LogError("No brain assigned to enemy character");
+        }
     }
 
     public int GetDifficulty()
     {
         return _difficulty;
+    }
+
+    public void SetEnemyBrain(EnemyBrain brain)
+    {
+        _brain = brain;
     }
 
 }

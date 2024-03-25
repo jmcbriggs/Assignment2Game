@@ -6087,8 +6087,8 @@ MonoBehaviour:
   - {fileID: 4231711683031803762, guid: f609f30c110664f4596dfe7bcf6c5e07, type: 3}
   _enemyCharacters:
   - {fileID: 4231711683031803762, guid: 64e4b77712cde0040bfb4e28401a2f70, type: 3}
-  - {fileID: 4231711683031803762, guid: 64e4b77712cde0040bfb4e28401a2f70, type: 3}
-  - {fileID: 4231711683031803762, guid: 64e4b77712cde0040bfb4e28401a2f70, type: 3}
+  - {fileID: 4231711683031803762, guid: 8a247466a0c51744f81cb6476278ca9d, type: 3}
+  - {fileID: 4231711683031803762, guid: 5f8248132e9d74649be3f341f31558e0, type: 3}
   _selectedEnemies: []
   _selectedCharacter: {fileID: 0}
   _selectedTiles: []
@@ -6099,7 +6099,9 @@ MonoBehaviour:
   _selectedEnemy: 0
   _enemyMove: 0
   _enemyAttack: 0
-  _levelDifficulty: 4
+  _levelDifficulty: 20
+  _maxEnemies: 6
+  _difficultyMultiplier: 2
   _selectedSkill: {fileID: 0}
   _selectedAction: 3
 --- !u!114 &1517076118

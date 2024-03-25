@@ -7,10 +7,6 @@ using static Gear;
 public class PlayerCharacter : Character
 {
     // Start is called before the first frame update
-    [SerializeField]
-    List<GameObject> _selectedSkills = new List<GameObject>();
-    [SerializeField]
-    List<GameObject> _skills = new List<GameObject>();
 
     [Header("Equipment")]
     [SerializeField]
@@ -91,11 +87,6 @@ public class PlayerCharacter : Character
         base.OnMove(distance);
         _uiManager.UpdateCharacterStats(this);
     }
-
-    public List<GameObject> GetSkills()
-    {
-        return _skills;
-    } 
     
     public List<GameObject> GetSelectedSkills()
     {
@@ -125,15 +116,6 @@ public class PlayerCharacter : Character
         }
     }
 
-    public override void OnTurnStart()
-    {
-        base.OnTurnStart();
-        foreach(GameObject skill in _skills)
-        {
-            skill.GetComponent<Skill>().DecrementCooldown();
-        }
-    }
-
     public void OnCombatEnd()
     {
         foreach(GameObject skill in _skills)
@@ -143,17 +125,6 @@ public class PlayerCharacter : Character
         _skills = new List<GameObject>();
         _usedAction = false;
         TakeDamage(-5);
-    }
-
-    public override void OnCreate()
-    {
-        base.OnCreate();
-        _skills =  new List<GameObject>();
-        foreach(GameObject skill in _selectedSkills)
-        {
-            GameObject newSkill = Instantiate(skill, skill.transform.position, skill.transform.rotation, transform);
-            _skills.Add(newSkill);
-        }
     }
 
     public void OnEquip(GameObject gearPiece, bool isStart)

@@ -125,7 +125,7 @@ public class GridManager : MonoBehaviour
         foreach (GameObject neighbourObj in neighbours)
         {
             Tile neighbour = neighbourObj.GetComponent<Tile>();
-            if (neighbour._isWalkable)
+            if (neighbour._isWalkable && neighbour.GetOccupant() == null)
             {
                 float distance = Vector3.Distance(startTile.transform.position, neighbour.transform.position);
                 if (distance < closestDistance)
@@ -151,7 +151,7 @@ public class GridManager : MonoBehaviour
         return false;
     }
 
-    public List<GameObject> GetTilePath(int startx, int starty, int endx, int endy, int distance)
+    public List<GameObject> GetTilePath(int startx, int starty, int endx, int endy, int distance, bool checkDistance)
     {
         GameObject startTile = _grid[startx][starty];
         GameObject endTile = _grid[endx][endy];
@@ -159,7 +159,12 @@ public class GridManager : MonoBehaviour
         if (startTile == endTile)
         {
             path.Add(startTile);
-            return CheckPathDistance(path, distance);
+            if (checkDistance)
+            {
+                return CheckPathDistance(path, distance);
+            }
+            return path;
+
         }
         List<GameObject> openList = new List<GameObject>();
         List<GameObject> closedList = new List<GameObject>();
@@ -179,7 +184,11 @@ public class GridManager : MonoBehaviour
                 }
                 path.Add(startTile);
                 path.Reverse(); // Reverse the path to get it in the correct order
-                return CheckPathDistance(path,distance);
+                if (checkDistance)
+                {
+                    return CheckPathDistance(path, distance);
+                }
+                return path;
             }
             if(startx > endx)
             {
@@ -245,7 +254,20 @@ public class GridManager : MonoBehaviour
             }
            
         }
-        return CheckPathDistance(path, distance);
+        if(checkDistance)
+        {
+            return CheckPathDistance(path, distance);
+        }
+        return path;
+    }
+    public List<GameObject> GetTilePath(Tile tile1, Tile tile2,  int distance, bool checkDistance)
+    {
+        int startx = tile1._x;
+        int starty = tile1._y;
+        int endx = tile2._x;
+        int endy = tile2._y;
+
+        return GetTilePath(startx, starty, endx, endy, distance, checkDistance);
     }
 
     public List<GameObject> GetRangeTiles(Tile characterTile, int range, Skill.SkillType type)
@@ -354,6 +376,34 @@ public class GridManager : MonoBehaviour
         return Range;
     }
 
+    public List<Tile> GetTilesInWalkingRange(Tile characterTile, int range)
+    {
+        List<Tile> Range = new List<Tile>();
+        int x = characterTile._x;
+        int y = characterTile._y;
+        for (int i = 0; i < _gridWidth; i++)
+        {
+            for (int j = 0; j < _gridHeight; j++)
+            {
+                if (_grid[i][j].GetComponent<Tile>()._isWalkable && _grid[i][j].GetComponent<Tile>().GetOccupant() == null)
+                {
+                    List<GameObject> path = GetTilePath(x, y, i, j, range, false);
+                    if (path.Count <= range + 1)
+                    {
+                        Range.Add(_grid[i][j].GetComponent<Tile>());
+                    }
+                }
+            }
+        }
+        return Range;
+    }
+
+    public int GetWalkingDistance(Tile startTile, Tile endTile)
+    {
+        List<GameObject> path = GetTilePath(startTile._x, startTile._y, endTile._x, endTile._y, 0, false);
+        return path.Count - 1;
+    }
+
    List<GameObject> CheckPathDistance(List<GameObject> path, int distance)
     {
         if(path.Count > distance + 1)
@@ -393,6 +443,120 @@ public class GridManager : MonoBehaviour
     public List<Tile> GetEnemyStartTiles()
     {
         return _enemyStartTiles;
+    }
+
+    public List<GameObject> GetSkillTargetTiles(GameObject tile, Skill selectedSkill, Tile characterTile)
+    {
+        List<GameObject> selectedTargetTiles = new List<GameObject>();
+        List<GameObject> rangeTiles = GetRangeTiles(characterTile, selectedSkill.GetRange(), selectedSkill.GetSkillType());
+        if (selectedSkill.GetSkillHitType() == Skill.SkillHitType.POINT)
+        {
+            if (selectedSkill.GetSplash() > 0)
+            {
+                selectedTargetTiles = GetRangeTiles(tile.GetComponent<Tile>(), selectedSkill.GetSplash(), Skill.SkillType.AREA);
+            }
+            else
+            {
+                selectedTargetTiles = new List<GameObject>();
+            }
+            selectedTargetTiles.Add(tile);
+        }
+        else if (selectedSkill.GetSkillHitType() == Skill.SkillHitType.DIRECTIONAL)
+        {
+            if (selectedSkill.GetSkillType() == Skill.SkillType.LINE)
+            {
+                if (tile.GetComponent<Tile>()._x > characterTile._x)
+                {
+                    foreach (GameObject t in rangeTiles)
+                    {
+                        if (t.GetComponent<Tile>()._x > characterTile._x)
+                        {
+                            selectedTargetTiles.Add(t);
+                        }
+                    }
+                }
+                else if (tile.GetComponent<Tile>()._x < characterTile._x)
+                {
+                    foreach (GameObject t in rangeTiles)
+                    {
+                        if (t.GetComponent<Tile>()._x < characterTile._x)
+                        {
+                            selectedTargetTiles.Add(t);
+                        }
+                    }
+                }
+                else if (tile.GetComponent<Tile>()._y > characterTile._y)
+                {
+                    foreach (GameObject t in rangeTiles)
+                    {
+                        if (t.GetComponent<Tile>()._y > characterTile._y)
+                        {
+                            selectedTargetTiles.Add(t);
+                        }
+                    }
+                }
+                else if (tile.GetComponent<Tile>()._y < characterTile._y)
+                {
+                    foreach (GameObject t in rangeTiles)
+                    {
+                        if (t.GetComponent<Tile>()._y < characterTile._y)
+                        {
+                            selectedTargetTiles.Add(t);
+                        }
+                    }
+                }
+
+            }
+            else if (selectedSkill.GetSkillType() == Skill.SkillType.CROSS)
+            {
+                if (tile.GetComponent<Tile>()._x > characterTile._x && tile.GetComponent<Tile>()._y > characterTile._y)
+                {
+                    foreach (GameObject t in rangeTiles)
+                    {
+                        if (t.GetComponent<Tile>()._x >= characterTile._x && t.GetComponent<Tile>()._y >= characterTile._y)
+                        {
+                            selectedTargetTiles.Add(t);
+                        }
+                    }
+                }
+                else if (tile.GetComponent<Tile>()._x < characterTile._x && tile.GetComponent<Tile>()._y > characterTile._y)
+                {
+                    foreach (GameObject t in rangeTiles)
+                    {
+                        if (t.GetComponent<Tile>()._x <= characterTile._x && t.GetComponent<Tile>()._y >= characterTile._y)
+                        {
+                            selectedTargetTiles.Add(t);
+                        }
+                    }
+                }
+                else if (tile.GetComponent<Tile>()._x > characterTile._x && tile.GetComponent<Tile>()._y < characterTile._y)
+                {
+                    foreach (GameObject t in rangeTiles)
+                    {
+                        if (t.GetComponent<Tile>()._x >= characterTile._x && t.GetComponent<Tile>()._y <= characterTile._y)
+                        {
+                            selectedTargetTiles.Add(t);
+                        }
+                    }
+                }
+                else if (tile.GetComponent<Tile>()._x < characterTile._x && tile.GetComponent<Tile>()._y < characterTile._y)
+                {
+                    foreach (GameObject t in rangeTiles)
+                    {
+                        if (t.GetComponent<Tile>()._x <= characterTile._x && t.GetComponent<Tile>()._y <= characterTile._y)
+                        {
+                            selectedTargetTiles.Add(t);
+                        }
+                    }
+                }
+            }
+
+        }
+        else if (selectedSkill.GetSkillHitType() == Skill.SkillHitType.AREA)
+        {
+            selectedTargetTiles = rangeTiles;
+        }
+        return selectedTargetTiles;
     }
    
 }

@@ -834,15 +834,16 @@ MonoBehaviour:
   _movementRemaining: 5
   _magic: 10
   _usedAction: 0
+  _selectedSkills:
+  - {fileID: 7536893309470946647, guid: e79c82df02ce9fb4a9583b32056f96db, type: 3}
+  - {fileID: 7536893309470946647, guid: 171c1b3e47f142e458397e048beab098, type: 3}
+  _skills: []
   _uiManager: {fileID: 0}
   _combatManager: {fileID: 0}
   _characterMovement: {fileID: 0}
   _healthBar: {fileID: 8847339782455140946}
   _damageNumber: {fileID: 5154126224071687899, guid: 98ac40523c076604f8ffec8ec9fb016d, type: 3}
-  _selectedSkills:
-  - {fileID: 7536893309470946647, guid: e79c82df02ce9fb4a9583b32056f96db, type: 3}
-  - {fileID: 7536893309470946647, guid: 171c1b3e47f142e458397e048beab098, type: 3}
-  _skills: []
+  _damageDone: 0
   _helmet: {fileID: 4058456132065245256, guid: 795cee39537344540b4218790e78d718, type: 3}
   _chest: {fileID: 5013010966146391377, guid: d13d721c8c4f2c945b43e160b03132e0, type: 3}
   _legs: {fileID: 2033211744312382765, guid: 1dae9783b8ac5424986ae79fe6c6df8a, type: 3}

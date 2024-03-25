@@ -3281,6 +3281,9 @@ MonoBehaviour:
   - {fileID: 4231711683031803762, guid: 8a247466a0c51744f81cb6476278ca9d, type: 3}
   - {fileID: 4231711683031803762, guid: 31522ec88e28c084eb7cb15ff80eb2ce, type: 3}
   - {fileID: 4231711683031803762, guid: 5f8248132e9d74649be3f341f31558e0, type: 3}
+  - {fileID: 4231711683031803762, guid: 273b31b2e21d86e42ae3d6e6988459c3, type: 3}
+  - {fileID: 4231711683031803762, guid: a31d8e64e6db9174aa2f7b265578488b, type: 3}
+  - {fileID: 4231711683031803762, guid: 0049d2aacbd678f47ac87b4bbbe1d53f, type: 3}
   Boss: {fileID: 4231711683031803762, guid: 6ac3e6707e5f0a244ad3312bf9e7f2e3, type: 3}
   Level: 0
   UtilitySceneCount: 3

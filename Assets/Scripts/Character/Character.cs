@@ -25,6 +25,10 @@ public class Character : MonoBehaviour
     public int _magic = 8;
     [SerializeField]
     public bool _usedAction = false;
+    [SerializeField]
+    protected List<GameObject> _selectedSkills = new List<GameObject>();
+    [SerializeField]
+    protected List<GameObject> _skills = new List<GameObject>();
 
 
     [Header("Related Scripts")]
@@ -41,7 +45,11 @@ public class Character : MonoBehaviour
 
     [SerializeField]
     GameObject _damageNumber;
-    
+
+
+    [SerializeField]
+    int _damageDone;
+
 
     bool _attackFinished = false;
     Vector3 _setPosition;
@@ -75,6 +83,13 @@ public class Character : MonoBehaviour
         _animator.SetBool("HasAction", true);
 
         _yOffset = _characterMovement.GetYOffset();
+
+        _skills = new List<GameObject>();
+        foreach (GameObject skill in _selectedSkills)
+        {
+            GameObject newSkill = Instantiate(skill, skill.transform.position, skill.transform.rotation, transform);
+            _skills.Add(newSkill);
+        }
     }
 
     public virtual void OnMove(int distance)
@@ -87,20 +102,20 @@ public class Character : MonoBehaviour
         _animator.SetBool("isMoving", false);
     }
 
-    public void OnSkill(CombatManager.SkillTargetParameters parameters, List<int> damages, Skill skill)
+    public void OnSkill(CombatManager.SkillTargetParameters parameters, Skill skill)
     {
         _usedAction = true;
         skill.StartCooldown();
         switch (skill.GetAnimationType())
         {
             case Skill.AnimationType.Attack:
-                UseAttackAnimation(parameters, damages, skill);
+                UseAttackAnimation(parameters, skill);
                 break;
             case Skill.AnimationType.OffensiveSpell:
-                UseOffensiveSpellAnimation(parameters, damages, skill);
+                UseOffensiveSpellAnimation(parameters, skill);
                 break;
             case Skill.AnimationType.DefensiveSpell:
-                UseDefensiveSpellAnimation(parameters, damages, skill);
+                UseDefensiveSpellAnimation(parameters, skill);
                 break;
 
         }
@@ -115,32 +130,33 @@ public class Character : MonoBehaviour
         damages.Add(damage);
         CombatManager.SkillTargetParameters parameters = new CombatManager.SkillTargetParameters();
         parameters._targets = targets;
-        UseAttackAnimation(parameters, damages, null);
+        parameters._damages = damages;
+        UseAttackAnimation(parameters, null);
         
     }
 
-    public void UseAttackAnimation(CombatManager.SkillTargetParameters parameters, List<int> damages, Skill skill)
+    public void UseAttackAnimation(CombatManager.SkillTargetParameters parameters, Skill skill)
     {
         _attackFinished = false;
         _animator.SetTrigger("Attack");
-        StartCoroutine(AttackAnimation(parameters, damages, skill, Skill.AnimationType.Attack));
+        StartCoroutine(AttackAnimation(parameters, skill, Skill.AnimationType.Attack));
     }
 
-    public void UseOffensiveSpellAnimation(CombatManager.SkillTargetParameters parameters, List<int> damages, Skill skill)
+    public void UseOffensiveSpellAnimation(CombatManager.SkillTargetParameters parameters, Skill skill)
     {
         _attackFinished = false;
         _animator.SetTrigger("OffensiveSpell");
-        StartCoroutine(AttackAnimation(parameters, damages, skill, Skill.AnimationType.OffensiveSpell));
+        StartCoroutine(AttackAnimation(parameters, skill, Skill.AnimationType.OffensiveSpell));
     }
 
-    public void UseDefensiveSpellAnimation(CombatManager.SkillTargetParameters parameters, List<int> damages, Skill skill)
+    public void UseDefensiveSpellAnimation(CombatManager.SkillTargetParameters parameters, Skill skill)
     {
         _attackFinished = false;
         _animator.SetTrigger("DefensiveSpell");
-        StartCoroutine(AttackAnimation(parameters, damages, skill, Skill.AnimationType.DefensiveSpell));
+        StartCoroutine(AttackAnimation(parameters, skill, Skill.AnimationType.DefensiveSpell));
     }
     
-    IEnumerator AttackAnimation(CombatManager.SkillTargetParameters parameters, List<int> damages, Skill skill, Skill.AnimationType transition)
+    IEnumerator AttackAnimation(CombatManager.SkillTargetParameters parameters, Skill skill, Skill.AnimationType transition)
     {
         
         while(!_animator.IsInTransition(0) && !_animator.GetAnimatorTransitionInfo(0).IsName(transition.ToString() + " -> Idle"))
@@ -180,8 +196,8 @@ public class Character : MonoBehaviour
         }
         for (int i = 0; i < parameters._targets.Count; i++)
         {
-            parameters._targets[i].GetComponent<Character>().TakeDamage(damages[i]);
-
+            parameters._targets[i].GetComponent<Character>().TakeDamage(parameters._damages[i]);
+            _damageDone += parameters._damages[i];
         }
 
     }
@@ -230,7 +246,17 @@ public class Character : MonoBehaviour
     public int GetMovementRemaining()
     {
         return _movementRemaining;
-    }   
+    }
+
+    public int GetDamageDone()
+    {
+        return _damageDone;
+    }
+
+    public List<GameObject> GetSkills()
+    {
+        return _skills;
+    }
 
     public virtual void TakeDamage(int damage)
     {
@@ -300,6 +326,10 @@ public class Character : MonoBehaviour
         _usedAction = false;
         _animator.SetBool("HasAction", true);
         _movementRemaining = _movement;
+        foreach (GameObject skill in _skills)
+        {
+            skill.GetComponent<Skill>().DecrementCooldown();
+        }
     }
 
     // Update is called once per frame

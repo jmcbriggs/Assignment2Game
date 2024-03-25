@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics.Tracing;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -45,7 +46,7 @@ public class CombatManager : MonoBehaviour
     [SerializeField]
     int _maxEnemies = 6;
     [SerializeField]
-    float _difficultyMultiplier = 2;
+    float _difficultyMultiplier = 2f;
 
     [SerializeField]
     Skill _selectedSkill;
@@ -73,6 +74,7 @@ public class CombatManager : MonoBehaviour
         public List<GameObject> _targets;
         public GameObject _tile;
         public List<GameObject> _allTiles;
+        public List<int> _damages;
     }
 
     void Start()
@@ -252,7 +254,7 @@ public class CombatManager : MonoBehaviour
                 Tile characterTile = _selectedCharacter.GetComponent<CharacterMovement>().GetCurrentTile();
                 if (tile.GetComponent<Tile>()._isWalkable)
                 {
-                    _selectedTiles = _grid.GetTilePath(characterTile._x, characterTile._y, tile.GetComponent<Tile>()._x, tile.GetComponent<Tile>()._y, _selectedCharacter.GetComponent<PlayerCharacter>().GetMovementRemaining());
+                    _selectedTiles = _grid.GetTilePath(characterTile._x, characterTile._y, tile.GetComponent<Tile>()._x, tile.GetComponent<Tile>()._y, _selectedCharacter.GetComponent<PlayerCharacter>().GetMovementRemaining(), true);
                 }
             }
         }
@@ -261,113 +263,7 @@ public class CombatManager : MonoBehaviour
             _selectedTargetTiles = new List<GameObject>();
             if (_selectedTiles.Contains(tile))
             {
-                if (_selectedSkill.GetSkillHitType() == Skill.SkillHitType.POINT)
-                {
-                    if (_selectedSkill.GetSplash() > 0)
-                    {
-                        _selectedTargetTiles = _grid.GetRangeTiles(tile.GetComponent<Tile>(), _selectedSkill.GetSplash(), Skill.SkillType.AREA);
-                    }
-                    else
-                    {
-                        _selectedTargetTiles = new List<GameObject>();
-                    }
-                    _selectedTargetTiles.Add(tile);
-                }
-                else if (_selectedSkill.GetSkillHitType() == Skill.SkillHitType.DIRECTIONAL)
-                {
-                    if (_selectedSkill.GetSkillType() == Skill.SkillType.LINE)
-                    {
-                        if (tile.GetComponent<Tile>()._x > _selectedCharacter.GetComponent<CharacterMovement>().GetCurrentTile()._x)
-                        {
-                            foreach (GameObject t in _selectedTiles)
-                            {
-                                if (t.GetComponent<Tile>()._x > _selectedCharacter.GetComponent<CharacterMovement>().GetCurrentTile()._x)
-                                {
-                                    _selectedTargetTiles.Add(t);
-                                }
-                            }
-                        }
-                        else if (tile.GetComponent<Tile>()._x < _selectedCharacter.GetComponent<CharacterMovement>().GetCurrentTile()._x)
-                        {
-                            foreach (GameObject t in _selectedTiles)
-                            {
-                                if (t.GetComponent<Tile>()._x < _selectedCharacter.GetComponent<CharacterMovement>().GetCurrentTile()._x)
-                                {
-                                    _selectedTargetTiles.Add(t);
-                                }
-                            }
-                        }
-                        else if (tile.GetComponent<Tile>()._y > _selectedCharacter.GetComponent<CharacterMovement>().GetCurrentTile()._y)
-                        {
-                            foreach (GameObject t in _selectedTiles)
-                            {
-                                if (t.GetComponent<Tile>()._y > _selectedCharacter.GetComponent<CharacterMovement>().GetCurrentTile()._y)
-                                {
-                                    _selectedTargetTiles.Add(t);
-                                }
-                            }
-                        }
-                        else if (tile.GetComponent<Tile>()._y < _selectedCharacter.GetComponent<CharacterMovement>().GetCurrentTile()._y)
-                        {
-                            foreach (GameObject t in _selectedTiles)
-                            {
-                                if (t.GetComponent<Tile>()._y < _selectedCharacter.GetComponent<CharacterMovement>().GetCurrentTile()._y)
-                                {
-                                    _selectedTargetTiles.Add(t);
-                                }
-                            }
-                        }
-
-                    }
-                    else if (_selectedSkill.GetSkillType() == Skill.SkillType.CROSS)
-                    {
-                        if (tile.GetComponent<Tile>()._x > _selectedCharacter.GetComponent<CharacterMovement>().GetCurrentTile()._x && tile.GetComponent<Tile>()._y > _selectedCharacter.GetComponent<CharacterMovement>().GetCurrentTile()._y)
-                        {
-                            foreach (GameObject t in _selectedTiles)
-                            {
-                                if (t.GetComponent<Tile>()._x >= _selectedCharacter.GetComponent<CharacterMovement>().GetCurrentTile()._x && t.GetComponent<Tile>()._y >= _selectedCharacter.GetComponent<CharacterMovement>().GetCurrentTile()._y)
-                                {
-                                    _selectedTargetTiles.Add(t);
-                                }
-                            }
-                        }
-                        else if (tile.GetComponent<Tile>()._x < _selectedCharacter.GetComponent<CharacterMovement>().GetCurrentTile()._x && tile.GetComponent<Tile>()._y > _selectedCharacter.GetComponent<CharacterMovement>().GetCurrentTile()._y)
-                        {
-                            foreach (GameObject t in _selectedTiles)
-                            {
-                                if (t.GetComponent<Tile>()._x <= _selectedCharacter.GetComponent<CharacterMovement>().GetCurrentTile()._x && t.GetComponent<Tile>()._y >= _selectedCharacter.GetComponent<CharacterMovement>().GetCurrentTile()._y)
-                                {
-                                    _selectedTargetTiles.Add(t);
-                                }
-                            }
-                        }
-                        else if (tile.GetComponent<Tile>()._x > _selectedCharacter.GetComponent<CharacterMovement>().GetCurrentTile()._x && tile.GetComponent<Tile>()._y < _selectedCharacter.GetComponent<CharacterMovement>().GetCurrentTile()._y)
-                        {
-                            foreach (GameObject t in _selectedTiles)
-                            {
-                                if (t.GetComponent<Tile>()._x >= _selectedCharacter.GetComponent<CharacterMovement>().GetCurrentTile()._x && t.GetComponent<Tile>()._y <= _selectedCharacter.GetComponent<CharacterMovement>().GetCurrentTile()._y)
-                                {
-                                    _selectedTargetTiles.Add(t);
-                                }
-                            }
-                        }
-                        else if (tile.GetComponent<Tile>()._x < _selectedCharacter.GetComponent<CharacterMovement>().GetCurrentTile()._x && tile.GetComponent<Tile>()._y < _selectedCharacter.GetComponent<CharacterMovement>().GetCurrentTile()._y)
-                        {
-                            foreach (GameObject t in _selectedTiles)
-                            {
-                                if (t.GetComponent<Tile>()._x <= _selectedCharacter.GetComponent<CharacterMovement>().GetCurrentTile()._x && t.GetComponent<Tile>()._y <= _selectedCharacter.GetComponent<CharacterMovement>().GetCurrentTile()._y)
-                                {
-                                    _selectedTargetTiles.Add(t);
-                                }
-                            }
-                        }
-                    }
-
-                }
-                else if (_selectedSkill.GetSkillHitType() == Skill.SkillHitType.AREA)
-                {
-                    _selectedTargetTiles = _selectedTiles;
-                }
+                _selectedTargetTiles = _grid.GetSkillTargetTiles(tile, _selectedSkill, _selectedCharacter.GetComponent<CharacterMovement>().GetCurrentTile());
             }
             else
             {
@@ -440,7 +336,7 @@ public class CombatManager : MonoBehaviour
     {
         if (_selectedAction == Actions.MOVE && _selectedTiles != null && _selectedCharacter != null)
         {
-            _selectedCharacter.GetComponent<CharacterMovement>().OnSetTile(_selectedTiles);
+            _selectedCharacter.GetComponent<CharacterMovement>().MoveThroughPath(_selectedTiles);
             _selectedTiles = null;
             _grid.ClearColour();
             EnableColliders(true);
@@ -468,46 +364,51 @@ public class CombatManager : MonoBehaviour
         }
         else if (_selectedAction == Actions.SKILL && _selectedTargetTiles != null && _selectedCharacter != null)
         {
-            List<GameObject> targets = new List<GameObject>();
-            List<int> damages = new List<int>();
-            foreach (GameObject t in _selectedTargetTiles)
+           SkillTargetParameters parameters = GetSkillParameters(tile, _selectedSkill, _selectedTargetTiles, _selectedCharacter);
+            if (parameters._targets.Count > 0)
             {
-                if (_selectedSkill.GetSkillTarget() == Skill.SkillTarget.ENEMY)
-                {
-                    GameObject occupant = t.GetComponent<Tile>().GetOccupant();
-                    if (occupant != null)
-                    {
-                        targets.Add(occupant);
-                        damages.Add(CalculateDamageSkill(_selectedCharacter, occupant));
-                        _selectedAction = Actions.NONE;
-                        _selectedTiles = null;
-                        _grid.ClearColour();
-                    }
-                }
-                else
-                {
-                    GameObject occupant = t.GetComponent<Tile>().GetOccupant();
-                    if (occupant != null)
-                    {
-                        targets.Add(occupant);
-                        damages.Add(CalculateDamageSkill(_selectedCharacter, occupant) * -1);
-                        _selectedAction = Actions.NONE;
-                        _selectedTiles = null;
-                    }
-                }
-              
-            }
-            if (targets.Count > 0)
-            {
-                SkillTargetParameters parameters = new SkillTargetParameters();
-                parameters._targets = targets;
-                parameters._tile = tile;
-                parameters._allTiles = _selectedTargetTiles;
-                _selectedCharacter.GetComponent<PlayerCharacter>().OnSkill(parameters, damages, _selectedSkill);
+                _selectedAction = Actions.NONE;
+                _selectedTiles = null;
+                _grid.ClearColour();
+                _selectedCharacter.GetComponent<PlayerCharacter>().OnSkill(parameters, _selectedSkill);
                 EnableColliders(true);
             }
             _selectedTargetTiles = new List<GameObject>();
         }
+    }
+
+    public SkillTargetParameters GetSkillParameters(GameObject tile, Skill selectedSkill, List<GameObject> selectedTargetTiles, GameObject character)
+    {
+        List<GameObject> targets = new List<GameObject>();
+        List<int> damages = new List<int>();
+        foreach (GameObject t in selectedTargetTiles)
+        {
+            if (selectedSkill.GetSkillTarget() == Skill.SkillTarget.ENEMY)
+            {
+                GameObject occupant = t.GetComponent<Tile>().GetOccupant();
+                if (occupant != null)
+                {
+                    targets.Add(occupant);
+                    damages.Add(CalculateDamageSkill(character, occupant, selectedSkill));
+                }
+            }
+            else
+            {
+                GameObject occupant = t.GetComponent<Tile>().GetOccupant();
+                if (occupant != null)
+                {
+                    targets.Add(occupant);
+                    damages.Add(CalculateDamageSkill(character, occupant, selectedSkill) * -1);
+                }
+            }
+
+        }
+        SkillTargetParameters parameters = new SkillTargetParameters();
+        parameters._targets = targets;
+        parameters._tile = tile;
+        parameters._allTiles = selectedTargetTiles;
+        parameters._damages = damages;
+        return parameters;
     }
 
     public int CalculateDamageAttack(GameObject attacker, GameObject target)
@@ -515,29 +416,29 @@ public class CombatManager : MonoBehaviour
         int attack = attacker.GetComponent<Character>().GetAttack();
         int defence = target.GetComponent<Character>().GetDefence();
 
-        float multiplyer = (attack - defence);
+        float multiplyer = 1+ (attack - defence);
         int damage = (int)Mathf.Clamp(multiplyer, 1, 100);
         Debug.Log(damage + " damage has been done by " + attacker.name);
 
         return damage;
     }
 
-    public int CalculateDamageSkill(GameObject attacker, GameObject target)
+    public int CalculateDamageSkill(GameObject attacker, GameObject target, Skill skill)
     {
-        float skillDamage = _selectedSkill.GetPower();
+        float skillDamage = skill.GetPower();
         float baseDamage = 0;
-        if (_selectedSkill.IsMagic())
+        if (skill.IsMagic())
         {
             int attackerMagic = attacker.GetComponent<Character>().GetMagic();
             int defenderMagic = target.GetComponent<Character>().GetMagic();
-            if (_selectedSkill.GetSkillTarget() == Skill.SkillTarget.FRIENDLY)
+            if (skill.GetSkillTarget() == Skill.SkillTarget.FRIENDLY)
             {
-                baseDamage = Mathf.Clamp((attackerMagic - 10), 1, 100);
+                baseDamage = Mathf.Clamp(1+(attackerMagic - 10), 1, 100);
             }
             else
             {
 
-                baseDamage = Mathf.Clamp((attackerMagic - defenderMagic), 1, 100);
+                baseDamage = Mathf.Clamp(1+(attackerMagic - defenderMagic), 1, 100);
             }
         }
         else
@@ -549,7 +450,7 @@ public class CombatManager : MonoBehaviour
         }
 
         int damage = (int)Mathf.Round(skillDamage * baseDamage);
-        Debug.Log(damage + " damage has been done by " + attacker.name + " using the skill " + _selectedSkill.name);
+        Debug.Log(damage + " damage has been done by " + attacker.name + " using the skill " + skill.name);
 
         return damage;
     }
@@ -577,9 +478,7 @@ public class CombatManager : MonoBehaviour
             {
                 enemy.GetComponent<Character>().OnTurnStart();
             }
-            _enemyMove = true;
-            _enemyAttack = false;
-            _selectedEnemy = 0;
+
         }
         else
         {
@@ -616,10 +515,11 @@ public class CombatManager : MonoBehaviour
 
     void TriggerEnemyTurn()
     {
+        _selectedEnemy = 0;
         StartCoroutine(EnemyTurn());
     }
 
-    public Tile GetClosestPlayer(Tile enemyTile)
+    public GameObject GetClosestPlayer(Tile enemyTile)
     {
         List<Tile> playerTiles = new List<Tile>();
         foreach (GameObject player in _activePlayers)
@@ -627,17 +527,26 @@ public class CombatManager : MonoBehaviour
             playerTiles.Add(player.GetComponent<CharacterMovement>().GetCurrentTile());
         }
         Tile closestTile = null;
-        int closestDistance = 1000;
+        float closestDistance = Mathf.Infinity;
         foreach (Tile playerTile in playerTiles)
         {
-            int distance = Mathf.Abs(playerTile._x - enemyTile._x) + Mathf.Abs(playerTile._y - enemyTile._y);
+            float distance = Mathf.Abs(playerTile._x - enemyTile._x) + Mathf.Abs(playerTile._y - enemyTile._y);
             if (distance < closestDistance)
             {
                 closestDistance = distance;
                 closestTile = playerTile;
             }
         }
-        return closestTile;
+        if(closestTile == null)
+        {
+            Debug.LogError("No closest tile found");
+            if (playerTiles.Count > 0)
+            {
+                return playerTiles[0].GetOccupant();
+            }
+            return null;
+        }
+        return closestTile.GetOccupant();
     }
 
     public void RemoveCharacter(GameObject character)
@@ -671,92 +580,36 @@ public class CombatManager : MonoBehaviour
 
     IEnumerator EnemyTurn()
     {
+        int check = -1;
+        float timeCheck = 0;    
         while (_selectedEnemy < _activeEnemies.Count)
         {
-            if (_enemyMove)
+            if(check != _selectedEnemy)
             {
-                Tile enemyTarget = _activeEnemies[_selectedEnemy].GetComponent<EnemyCharacter>().GetTargetTile();
-                if (enemyTarget == null || enemyTarget.GetOccupant() == null)
+                if (_activeEnemies[_selectedEnemy].GetComponent<EnemyBrain>() != null)
                 {
-                    enemyTarget = GetClosestPlayer(_activeEnemies[_selectedEnemy].GetComponent<CharacterMovement>().GetCurrentTile());
-                    _activeEnemies[_selectedEnemy].GetComponent<EnemyCharacter>().SetTargetTile(enemyTarget);
-                }
-                Tile enemyTile = _activeEnemies[_selectedEnemy].GetComponent<CharacterMovement>().GetCurrentTile();
-                if (_grid.IsTileInNeighbours(enemyTarget, enemyTile))
-                {
-                    SetEnemyAttack(true);
-
+                    _activeEnemies[_selectedEnemy].GetComponent<EnemyBrain>().TriggerTurn();
                 }
                 else
                 {
-                    CharacterMovement enemyMovement = _activeEnemies[_selectedEnemy].GetComponent<CharacterMovement>();
-                    Character enemyCharacter = _activeEnemies[_selectedEnemy].GetComponent<Character>();
-                    Tile closestWalkable = _grid.FindClosestWalkableTile(enemyTarget, enemyTile);
-                    if (closestWalkable != null)
-                    {
-                        _selectedTiles = _grid.GetTilePath(enemyTile._x, enemyTile._y, closestWalkable._x, closestWalkable._y, enemyCharacter.GetMovement());
-                        _grid.ClearColour();
-                        enemyMovement.OnSetTile(_selectedTiles);
-                        _enemyMove = false;
-                    }
-                    else
-                    {
-                        SetEnemyAttack(true);
-                    }
+                    Debug.LogError("No brain assigned to enemy character");
+                    EnemyAttackFinished();
                 }
             }
-            if (_enemyAttack)
+            check = _selectedEnemy;
+            timeCheck += Time.deltaTime;
+            if(timeCheck > 1000)
             {
-                if (_activeEnemies[_selectedEnemy].GetComponent<EnemyCharacter>().GetTargetTile() == null)
-                {
-                    _activeEnemies[_selectedEnemy].GetComponent<EnemyCharacter>().SetTargetTile(GetClosestPlayer(_activeEnemies[_selectedEnemy].GetComponent<CharacterMovement>().GetCurrentTile()));
-                    if (_activeEnemies[_selectedEnemy].GetComponent<EnemyCharacter>().GetTargetTile() == null)
-                    {
-                        break;
-                    }
-                }
-                GameObject enemyTarget = _activeEnemies[_selectedEnemy].GetComponent<EnemyCharacter>().GetTargetTile().gameObject;
-                _selectedTiles = _grid.GetRangeTiles(_activeEnemies[_selectedEnemy].GetComponent<CharacterMovement>().GetCurrentTile(), 1, Skill.SkillType.AREA);
-                _grid.ClearColour();
-                if (_selectedTiles.Contains(enemyTarget))
-                {
-                    GameObject occupant = enemyTarget.GetComponent<Tile>().GetOccupant();
-                    if (occupant != null)
-                    {
-                        int damage = CalculateDamageAttack(_activeEnemies[_selectedEnemy], occupant);
-                        Character targetCharacter = occupant.GetComponent<Character>();
-                        _activeEnemies[_selectedEnemy].GetComponent<EnemyCharacter>().OnAttack(targetCharacter, damage);
-                        _enemyAttack = false;
-                    }
-                    else
-                    {
-                        Tile newTarget = GetClosestPlayer(_activeEnemies[_selectedEnemy].GetComponent<CharacterMovement>().GetCurrentTile());
-                        _activeEnemies[_selectedEnemy].GetComponent<EnemyCharacter>().SetTargetTile(newTarget);
-                    }
-                }
-                else
-                {
-                    _selectedEnemy++;
-                    _enemyMove = true;
-                    _enemyAttack = false;
-                }
-
+                break;
             }
-            yield return null;
+            yield return new WaitForSeconds(0.5f);
         }
         yield return new WaitForSeconds(0.5f);
         EndTurn();
     }
 
-    public void SetEnemyAttack(bool active)
-    {
-        _enemyAttack = active;
-        _enemyMove = false;
-    }
-
     public void EnemyAttackFinished()
     {
-        _enemyMove = true;
         _selectedEnemy++;
     }
 
@@ -787,6 +640,11 @@ public class CombatManager : MonoBehaviour
             }
             EnableColliders(false);
         }
+    }
+
+    public GridManager GetGrid()
+    {
+        return _grid;
     }
 
     public void SkillButton()
@@ -851,6 +709,112 @@ public class CombatManager : MonoBehaviour
             Debug.Log("GameController not found");
             Debug.Log("Pretend to return to menu");
         }
+    }
+
+    public GameObject GetWeakestPlayer()
+    {
+        GameObject weakestPlayer = null;
+        foreach(GameObject player in _activePlayers)
+        {
+            if(weakestPlayer == null)
+            {
+                weakestPlayer = player;
+            }
+            else
+            {
+                if(player.GetComponent<Character>().GetDamageDone() < weakestPlayer.GetComponent<Character>().GetDamageDone())
+                {
+                    weakestPlayer = player;
+                }
+            }
+        }
+        return weakestPlayer;
+    }
+
+    public GameObject GetStrongestPlayer()
+    {
+        GameObject strongestPlayer = null;
+        foreach (GameObject player in _activePlayers)
+        {
+            if (strongestPlayer == null)
+            {
+                strongestPlayer = player;
+            }
+            else
+            {
+                if (player.GetComponent<Character>().GetDamageDone() > strongestPlayer.GetComponent<Character>().GetDamageDone())
+                {
+                    strongestPlayer = player;
+                }
+            }
+        }
+        return strongestPlayer;
+    }
+
+    public GameObject GetLowestHealthPlayer()
+    {
+        GameObject lowestHealthPlayer = null;
+        foreach (GameObject player in _activePlayers)
+        {
+            if (lowestHealthPlayer == null)
+            {
+                lowestHealthPlayer = player;
+            }
+            else
+            {
+                float healthPercentage = player.GetComponent<Character>().GetHealth() / player.GetComponent<Character>().GetMaxHealth();
+                float lowestHealthPercentage = lowestHealthPlayer.GetComponent<Character>().GetHealth() / lowestHealthPlayer.GetComponent<Character>().GetMaxHealth();
+                if (healthPercentage < lowestHealthPercentage)
+                {
+                    lowestHealthPlayer = player;
+                }
+            }
+        }
+        return lowestHealthPlayer;
+    }
+
+    public GameObject GetHighestHealthPlayer()
+    {
+        GameObject highestHealthPlayer = null;
+        foreach (GameObject player in _activePlayers)
+        {
+            if (highestHealthPlayer == null)
+            {
+                highestHealthPlayer = player;
+            }
+            else
+            {
+                float healthPercentage = player.GetComponent<Character>().GetHealth() / player.GetComponent<Character>().GetMaxHealth();
+                float highestHealthPercentage = highestHealthPlayer.GetComponent<Character>().GetHealth() / highestHealthPlayer.GetComponent<Character>().GetMaxHealth();
+                if (healthPercentage > highestHealthPercentage)
+                {
+                    highestHealthPlayer = player;
+                }
+            }
+        }
+        return highestHealthPlayer;
+    }
+
+    public GameObject GetLowestHealthEnemy()
+    {
+        GameObject lowestHealthPlayer = null;
+        foreach (GameObject player in _activeEnemies)
+        {
+            if (lowestHealthPlayer == null)
+            {
+                lowestHealthPlayer = player;
+            }
+            else
+            {
+                float healthPercentage = player.GetComponent<Character>().GetHealth() / player.GetComponent<Character>().GetMaxHealth();
+                float lowestHealthPercentage = lowestHealthPlayer.GetComponent<Character>().GetHealth() / lowestHealthPlayer.GetComponent<Character>().GetMaxHealth();
+                if (healthPercentage < lowestHealthPercentage)
+                {
+                    lowestHealthPlayer = player;
+                }
+            }
+        }
+        return lowestHealthPlayer;
     }
 
 }
