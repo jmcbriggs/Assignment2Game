@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 6996026550117955587}
   - component: {fileID: -5938146918159284888}
   - component: {fileID: 5961266231047512786}
+  - component: {fileID: 6060517469800001790}
   m_Layer: 0
   m_Name: Magic Ball
   m_TagString: Untagged
@@ -76,3 +77,52 @@ MonoBehaviour:
   _hitEffect: {fileID: 8978398038785177946, guid: a50016a7425f0b84f8560b17842c3188, type: 3}
   _scale: 0.3
   _explodeScale: 0.1
+  _fmodCast:
+    Guid:
+      Data1: 1131010352
+      Data2: 1335873936
+      Data3: -965127753
+      Data4: -630406964
+    Path: event:/MagicBallCast
+  _fmodHit:
+    Guid:
+      Data1: -1195097999
+      Data2: 1255469271
+      Data3: -305408113
+      Data4: -807768048
+    Path: event:/MagicBallHit
+--- !u!114 &6060517469800001790
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7536893309470946647}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CollisionTag: 
+  EventReference:
+    Guid:
+      Data1: 1131010352
+      Data2: 1335873936
+      Data3: -965127753
+      Data4: -630406964
+    Path: event:/MagicBallCast
+  Event: 
+  PlayEvent: 0
+  StopEvent: 0
+  AllowFadeout: 0
+  TriggerOnce: 0
+  Preload: 0
+  AllowNonRigidbodyDoppler: 0
+  Params:
+  - Name: Pitch
+    Value: 0.45
+  - Name: Volume
+    Value: 0.794
+  OverrideAttenuation: 0
+  OverrideMinDistance: 1
+  OverrideMaxDistance: 20

@@ -1,3 +1,4 @@
+using FMODUnity;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,9 +10,20 @@ public class ExplodeEffect : SkillEffect
     [SerializeField] private GameObject _hitEffect;
     [SerializeField] private float _scale;
     [SerializeField] private float _explodeScale;
+    [SerializeField] private EventReference _fmodCast;
+    FMOD.Studio.EventInstance _castInstance;
     // Start is called before the first frame update
     void Start()
     {
+        if (!_fmodCast.IsNull)
+        {
+            _castInstance = RuntimeManager.CreateInstance(_fmodCast);
+
+        }
+        else
+        {
+            Debug.LogError("No cast sound assigned to " + gameObject.name);
+        }
     }
 
     public override void TriggerEffect(Transform user, Transform singleTarget, List<Transform> targets)
@@ -54,9 +66,20 @@ public class ExplodeEffect : SkillEffect
         user.GetComponent<Character>().FinishAttack();
     }
 
+    public override void TriggerCastSound()
+    {
+        if (_castInstance.isValid())
+        {
+            _castInstance.start();
+        }
+    }
+
     // Update is called once per frame
     void Update()
     {
-        
+        if (GameController.Instance != null)
+        {
+            _castInstance.setParameterByName("Volume", GameController.Instance.GetEffectsVolume());
+        }
     }
 }

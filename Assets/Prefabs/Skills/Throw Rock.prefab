@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 6996026550117955587}
   - component: {fileID: -5938146918159284888}
   - component: {fileID: 905384389826317807}
+  - component: {fileID: -6244668799105492905}
   m_Layer: 0
   m_Name: Throw Rock
   m_TagString: Untagged
@@ -76,3 +77,48 @@ MonoBehaviour:
   _hitEffect: {fileID: 8978398038785177946, guid: 1128a482d2494f74181087d621b3e170, type: 3}
   _scale: 0.2
   _explodeScale: 0.1
+  _fmodCast:
+    Guid:
+      Data1: 968346056
+      Data2: 1170668539
+      Data3: 585457330
+      Data4: 2001053426
+    Path: event:/ThrowRockCast
+  _fmodHit:
+    Guid:
+      Data1: -424499726
+      Data2: 1201517153
+      Data3: 303376783
+      Data4: -963356074
+    Path: event:/ThrowRockHit
+--- !u!114 &-6244668799105492905
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7536893309470946647}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CollisionTag: 
+  EventReference:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
+  Event: 
+  PlayEvent: 0
+  StopEvent: 0
+  AllowFadeout: 1
+  TriggerOnce: 0
+  Preload: 0
+  AllowNonRigidbodyDoppler: 0
+  Params: []
+  OverrideAttenuation: 0
+  OverrideMinDistance: -1
+  OverrideMaxDistance: -1

@@ -158,14 +158,18 @@ public class Character : MonoBehaviour
     
     IEnumerator AttackAnimation(CombatManager.SkillTargetParameters parameters, Skill skill, Skill.AnimationType transition)
     {
-        
-        while(!_animator.IsInTransition(0) && !_animator.GetAnimatorTransitionInfo(0).IsName(transition.ToString() + " -> Idle"))
+        if (skill != null && skill.HasExtraEffect())
+        {
+            skill.TriggerCastSound();
+        }
+        while (!_animator.IsInTransition(0) && !_animator.GetAnimatorTransitionInfo(0).IsName(transition.ToString() + " -> Idle"))
         {
             yield return null;
         }
         if (skill != null && skill.HasExtraEffect())
         {
-            if(skill.GetSkillHitType() == Skill.SkillHitType.POINT && skill.GetSplash() > 0)
+ 
+            if (skill.GetSkillHitType() == Skill.SkillHitType.POINT && skill.GetSplash() > 0)
             {
                 skill.TriggerExtraEffect(transform, parameters._tile.transform);
             }
@@ -173,7 +177,7 @@ public class Character : MonoBehaviour
             {
                 skill.TriggerExtraEffect(transform, parameters._tile.transform);
             }
-            else if (skill.GetSkillType() == Skill.SkillType.AREA)
+            else if (skill.GetSkillType() == Skill.SkillType.AREA || skill.GetSkillHitType() == Skill.SkillHitType.AREA)
             {
                 skill.TriggerExtraEffect(transform, transform, parameters._targets);
             }
@@ -199,7 +203,6 @@ public class Character : MonoBehaviour
             parameters._targets[i].GetComponent<Character>().TakeDamage(parameters._damages[i]);
             _damageDone += parameters._damages[i];
         }
-
     }
 
 

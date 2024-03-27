@@ -835,7 +835,8 @@ MonoBehaviour:
   _magic: 10
   _usedAction: 0
   _selectedSkills:
-  - {fileID: 7536893309470946647, guid: 283bf7e204420ba4899e4959342f0041, type: 3}
+  - {fileID: 7536893309470946647, guid: 48fce5d68e6959846b895910d10a50ca, type: 3}
+  - {fileID: 7536893309470946647, guid: 48249a7c7f2e34d4fbd1057598d59932, type: 3}
   _skills: []
   _uiManager: {fileID: 0}
   _combatManager: {fileID: 0}

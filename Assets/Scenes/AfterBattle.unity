@@ -219,6 +219,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 594394270}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
 --- !u!114 &1353852
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1668,7 +1680,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &594394271
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2085,7 +2097,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Gear Select
+  m_text: Switch To Gear Select
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: f924cc8571282a04d85eb782002cc88c, type: 2}
   m_sharedMaterial: {fileID: -2474677072147003050, guid: f924cc8571282a04d85eb782002cc88c, type: 2}
@@ -2112,10 +2124,10 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 42
+  m_fontSize: 32.4
   m_fontSizeBase: 42
   m_fontWeight: 400
-  m_enableAutoSizing: 0
+  m_enableAutoSizing: 1
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 1
@@ -2148,7 +2160,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_margin: {x: 31.403328, y: 6.8950157, z: 47.810295, w: 3.5134277}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -3764,9 +3776,9 @@ RectTransform:
   - {fileID: 248344577}
   - {fileID: 599482420}
   - {fileID: 594394271}
+  - {fileID: 1623657852}
   - {fileID: 704911986}
   - {fileID: 411430176}
-  - {fileID: 1623657852}
   - {fileID: 1353850}
   - {fileID: 863340848}
   - {fileID: 1224243355}

@@ -127,13 +127,13 @@ public class AssignmentScreenContoller : MonoBehaviour
         {
             _skillPoolScript.gameObject.SetActive(false);
             _gearPoolScript.gameObject.SetActive(true);
-            buttonText.text = "Skill Select";
+            buttonText.text = "Switch To Skill Select";
         }
         else
         {
             _skillPoolScript.gameObject.SetActive(true);
             _gearPoolScript.gameObject.SetActive(false);
-            buttonText.text = "Gear Select";
+            buttonText.text = "Switch To Gear Select";
         }
     }
 

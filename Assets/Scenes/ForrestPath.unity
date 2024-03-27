@@ -6903,6 +6903,7 @@ GameObject:
   - component: {fileID: 1517076115}
   - component: {fileID: 1517076117}
   - component: {fileID: 1517076118}
+  - component: {fileID: 1517076119}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -6978,6 +6979,8 @@ MonoBehaviour:
   _enemyMove: 0
   _enemyAttack: 0
   _levelDifficulty: 4
+  _maxEnemies: 6
+  _difficultyMultiplier: 2
   _selectedSkill: {fileID: 0}
   _selectedAction: 3
 --- !u!114 &1517076118
@@ -7013,6 +7016,19 @@ MonoBehaviour:
   _turnAnnouncementAnimator: {fileID: 2041282282}
   _winAnimator: {fileID: 1875428236}
   _loseAnimator: {fileID: 1155390151}
+--- !u!114 &1517076119
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1517076114}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 52c7f75c788ea4344bc472d281c1484f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  state: 1
 --- !u!1 &1538577990
 GameObject:
   m_ObjectHideFlags: 0

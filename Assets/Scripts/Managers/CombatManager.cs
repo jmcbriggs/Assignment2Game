@@ -98,6 +98,11 @@ public class CombatManager : MonoBehaviour
         CreateCharacter();
         StartCombat(CombatState.PLAYER);
         EnableColliders(true);
+        if (GameController.Instance != null)
+        {
+            GameController.Instance.GetComponent<MusicManager>().PlaySting(MusicManager.Sting.Start);
+        }
+
 
     }
 
@@ -569,12 +574,14 @@ public class CombatManager : MonoBehaviour
         {
             Debug.Log("ENEMY WINS");
             _uiManager.ShowDeathScreen();
+            GameController.Instance.GetComponent<MusicManager>().PlaySting(MusicManager.Sting.Lose);
         }
         else if (_activeEnemies.Count == 0)
         {
             Debug.Log("PLAYER WINS");
             OnCharacterDeselect();
             _uiManager.EndBattle();
+            GameController.Instance.GetComponent<MusicManager>().PlaySting(MusicManager.Sting.Win);
         }
     }
 

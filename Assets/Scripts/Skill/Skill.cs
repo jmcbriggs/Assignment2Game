@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using FMODUnity;
 
 public class Skill : MonoBehaviour
 {
@@ -184,6 +185,19 @@ public class Skill : MonoBehaviour
                 targetsTransforms.Add(target.transform);
             }
             effect.TriggerEffect(user, singleTarget, targetsTransforms);
+        }
+        else
+        {
+            Debug.LogError("This skill has no extra effect");
+        }
+    }
+
+    public void TriggerCastSound()
+    {
+        if (_extraEffect)
+        {
+            SkillEffect effect = GetComponent<SkillEffect>();
+            effect.TriggerCastSound();
         }
         else
         {

@@ -21,6 +21,10 @@ public class GameController : MonoBehaviour
     int UtilitySceneCount = 1;
     [SerializeField]
     int ActiveLevels = 1;
+    [SerializeField, Range(0,1)]
+    float MusicVolume;
+    [SerializeField, Range(0, 1)]
+    float EffectsVolume;
   
     [SerializeField]
     Color[] BodyColours;
@@ -139,7 +143,8 @@ public class GameController : MonoBehaviour
     public void EnterBattle()
     {
         Level++;
-        if(Level >= ActiveLevels)
+        GetComponent<MusicManager>().ChangeMute();
+        if (Level >= ActiveLevels)
         {
             SceneManager.LoadScene("Win");
         }
@@ -158,6 +163,7 @@ public class GameController : MonoBehaviour
         }
         else
         {
+            GetComponent<MusicManager>().ChangeMute();
             SceneManager.LoadScene("AfterBattle");
         }
     }
@@ -195,5 +201,14 @@ public class GameController : MonoBehaviour
         {
             Application.Quit();
         }
+    }
+
+    public float GetMusicVolume()
+    {
+        return MusicVolume;
+    }
+    public float GetEffectsVolume()
+    {
+        return EffectsVolume;
     }
 }

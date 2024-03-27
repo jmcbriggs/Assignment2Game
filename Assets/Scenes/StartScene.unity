@@ -3249,6 +3249,8 @@ GameObject:
   m_Component:
   - component: {fileID: 821049458}
   - component: {fileID: 821049457}
+  - component: {fileID: 821049459}
+  - component: {fileID: 821049460}
   m_Layer: 0
   m_Name: GameController
   m_TagString: Untagged
@@ -3288,6 +3290,8 @@ MonoBehaviour:
   Level: 0
   UtilitySceneCount: 3
   ActiveLevels: 1
+  MusicVolume: 0.306
+  EffectsVolume: 1
   BodyColours:
   - {r: 1, g: 0, b: 0.9456892, a: 1}
   - {r: 1, g: 0.9048885, b: 0, a: 1}
@@ -3308,6 +3312,98 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &821049459
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 821049456}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CollisionTag: 
+  EventReference:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
+  Event: 
+  PlayEvent: 0
+  StopEvent: 0
+  AllowFadeout: 1
+  TriggerOnce: 0
+  Preload: 0
+  AllowNonRigidbodyDoppler: 0
+  Params: []
+  OverrideAttenuation: 0
+  OverrideMinDistance: -1
+  OverrideMaxDistance: -1
+--- !u!114 &821049460
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 821049456}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dcd4849f07092ce4a92f373d2536a90d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _mainMusic:
+    Guid:
+      Data1: -1922092177
+      Data2: 1302587387
+      Data3: -1938922589
+      Data4: -1107952606
+    Path: event:/Music/MainMusic
+  _forestMusic:
+    Guid:
+      Data1: 1677147552
+      Data2: 1223691356
+      Data3: 655788936
+      Data4: 1339747799
+    Path: event:/Music/ForestMusic
+  _caveMusic:
+    Guid:
+      Data1: -1066363387
+      Data2: 1298363790
+      Data3: 1191803786
+      Data4: 1524182686
+    Path: event:/Music/CaveMusic
+  _finalMusic:
+    Guid:
+      Data1: -434039624
+      Data2: 1306217019
+      Data3: -614685818
+      Data4: 1669517366
+    Path: event:/Music/FinalFightMusic
+  _startBattleSting:
+    Guid:
+      Data1: 1628386380
+      Data2: 1143541857
+      Data3: -1271904594
+      Data4: -1512314956
+    Path: event:/Music/StartBattle
+  _winBattleSting:
+    Guid:
+      Data1: -395280433
+      Data2: 1169107233
+      Data3: 1988977596
+      Data4: 828569010
+    Path: event:/Music/WinBattle
+  _loseBattleSting:
+    Guid:
+      Data1: 1261641513
+      Data2: 1338297361
+      Data3: 1909239683
+      Data4: -629816893
+    Path: event:/Music/LoseBattle
 --- !u!1 &876771241
 GameObject:
   m_ObjectHideFlags: 0
@@ -6192,7 +6288,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1569700196}
   - component: {fileID: 1569700195}
-  - component: {fileID: 1569700194}
+  - component: {fileID: 1569700197}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -6200,14 +6296,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!81 &1569700194
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1569700193}
-  m_Enabled: 1
 --- !u!20 &1569700195
 Camera:
   m_ObjectHideFlags: 0
@@ -6274,6 +6362,19 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1569700197
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1569700193}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86c6556701af9e04380698b89f691b6e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  attenuationObject: {fileID: 0}
 --- !u!1 &1582936140
 GameObject:
   m_ObjectHideFlags: 0

@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 6996026550117955587}
   - component: {fileID: -5938146918159284888}
   - component: {fileID: 869015740518975487}
+  - component: {fileID: 245539894244391639}
   m_Layer: 0
   m_Name: Super Heal
   m_TagString: Untagged
@@ -73,3 +74,41 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _hitEffect: {fileID: 8978398038785177946, guid: 2b0fd58b3907f2d4d846d2f41f24d4eb, type: 3}
   _scale: 0.3
+  _fmodCast:
+    Guid:
+      Data1: 382734204
+      Data2: 1195818525
+      Data3: -562235209
+      Data4: 2128771566
+    Path: event:/HealCast
+--- !u!114 &245539894244391639
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7536893309470946647}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CollisionTag: 
+  EventReference:
+    Guid:
+      Data1: 382734204
+      Data2: 1195818525
+      Data3: -562235209
+      Data4: 2128771566
+    Path: event:/HealCast
+  Event: 
+  PlayEvent: 0
+  StopEvent: 0
+  AllowFadeout: 1
+  TriggerOnce: 0
+  Preload: 0
+  AllowNonRigidbodyDoppler: 0
+  Params: []
+  OverrideAttenuation: 0
+  OverrideMinDistance: 1
+  OverrideMaxDistance: 20

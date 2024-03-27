@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 6996026550117955587}
   - component: {fileID: -5938146918159284888}
   - component: {fileID: 1142199409811876991}
+  - component: {fileID: -6467086339296813344}
   m_Layer: 0
   m_Name: Small Explode
   m_TagString: Untagged
@@ -75,3 +76,41 @@ MonoBehaviour:
   _hitEffect: {fileID: 8978398038785177946, guid: feae4cc3439e401449058fafc200a357, type: 3}
   _scale: 0.5
   _explodeScale: 0.1
+  _fmodCast:
+    Guid:
+      Data1: -2063962934
+      Data2: 1284325892
+      Data3: -2055198535
+      Data4: 1785037983
+    Path: event:/ExplosionCast
+--- !u!114 &-6467086339296813344
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7536893309470946647}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CollisionTag: 
+  EventReference:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
+  Event: 
+  PlayEvent: 0
+  StopEvent: 0
+  AllowFadeout: 1
+  TriggerOnce: 0
+  Preload: 0
+  AllowNonRigidbodyDoppler: 0
+  Params: []
+  OverrideAttenuation: 0
+  OverrideMinDistance: -1
+  OverrideMaxDistance: -1
