@@ -1,5 +1,6 @@
 {
     "name": "FMODUnityEditor",
+    "rootNamespace": "",
     "references": [
         "FMODUnity",
         "Unity.Timeline.Editor",

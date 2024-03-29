@@ -6,6 +6,10 @@ public class EnemyCharacter : Character
 {
     [SerializeField]
     int _difficulty = 1;
+    [SerializeField]
+    int _minLevel;
+    [SerializeField]
+    int _maxLevel;
     EnemyBrain _brain;
 
     public override void OnTurnStart()

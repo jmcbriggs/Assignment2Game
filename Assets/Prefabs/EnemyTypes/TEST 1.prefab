@@ -831,6 +831,8 @@ MonoBehaviour:
   _damageNumber: {fileID: 5154126224071687899, guid: 98ac40523c076604f8ffec8ec9fb016d, type: 3}
   _damageDone: 0
   _difficulty: 3
+  _minLevel: 0
+  _maxLevel: 0
 --- !u!114 &3373735823609961099
 MonoBehaviour:
   m_ObjectHideFlags: 0

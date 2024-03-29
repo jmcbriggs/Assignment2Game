@@ -1,5 +1,6 @@
 {
     "name": "FMODUnityResonanceEditor",
+    "rootNamespace": "",
     "references": [
         "FMODUnityResonance"
     ],
