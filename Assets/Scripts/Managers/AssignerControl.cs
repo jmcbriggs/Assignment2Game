@@ -73,6 +73,10 @@ public class AssignerControl : MonoBehaviour
             {
                 ChangeChildLayers(child, layer);
             }
+            if(child.gameObject.name == "Hair")
+            {
+                child.gameObject.layer = 6;
+            }
         }
     }
 }

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.02.00">
+	<object class="AudioFile" id="{2c4fb103-0814-45e1-9221-a7871b7289d5}">
+		<property name="assetPath">
+			<value>Fire/Fire_Spell/Fire_Spell_01.wav</value>
+		</property>
+		<property name="frequencyInKHz">
+			<value>44.0999985</value>
+		</property>
+		<property name="channelCount">
+			<value>2</value>
+		</property>
+		<property name="length">
+			<value>2.8295464852607708</value>
+		</property>
+		<relationship name="masterAssetFolder">
+			<destination>{b9b03b92-4960-4811-b565-ec56fbf81971}</destination>
+		</relationship>
+	</object>
+</objects>

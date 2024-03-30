@@ -8,7 +8,7 @@ public class Character : MonoBehaviour
 {
     [Header("Character Stats")]
     [SerializeField]
-    public string _characterName;
+    public string _characterClass;
     [SerializeField]
     private int _maxHealth = 15;
     [SerializeField]
@@ -49,6 +49,12 @@ public class Character : MonoBehaviour
 
     [SerializeField]
     int _damageDone;
+    [SerializeField]
+    int _healingDone;
+    [SerializeField]
+    int _damageTaken;
+    [SerializeField]
+    int _defeats; 
 
 
     bool _attackFinished = false;
@@ -90,6 +96,10 @@ public class Character : MonoBehaviour
             GameObject newSkill = Instantiate(skill, skill.transform.position, skill.transform.rotation, transform);
             _skills.Add(newSkill);
         }
+        _damageDone = 0;
+        _healingDone = 0;
+        _damageTaken = 0;
+        _defeats = 0;
     }
 
     public virtual void OnMove(int distance)
@@ -201,7 +211,14 @@ public class Character : MonoBehaviour
         for (int i = 0; i < parameters._targets.Count; i++)
         {
             parameters._targets[i].GetComponent<Character>().TakeDamage(parameters._damages[i]);
-            _damageDone += parameters._damages[i];
+            if(skill.GetSkillTarget() == Skill.SkillTarget.ENEMY)
+            {
+                _damageDone += parameters._damages[i];
+            }
+            else
+            {
+                _healingDone += parameters._damages[i];
+            }
         }
     }
 
@@ -256,6 +273,21 @@ public class Character : MonoBehaviour
         return _damageDone;
     }
 
+    public int GetHealingDone()
+    {
+        return _healingDone;
+    }
+
+    public int GetDamageTaken()
+    {
+        return _damageTaken;
+    }
+
+    public int GetDefeats()
+    {
+        return _defeats;
+    }
+
     public List<GameObject> GetSkills()
     {
         return _skills;
@@ -267,6 +299,7 @@ public class Character : MonoBehaviour
         string damageString = damage.ToString();
         if(damage > 0)
         {
+            _damageTaken += damage;
             damageText.GetComponent<DamageNumber>().SetColour(Color.red);
             damageString = "-" + damageString;
         }
@@ -320,6 +353,7 @@ public class Character : MonoBehaviour
     private void OnDeath()
     {
         Tile currentTile = _characterMovement.GetCurrentTile();
+        _defeats ++;
         currentTile.RemoveOccupant();
         _combatManager.RemoveCharacter(gameObject);
     }
@@ -367,6 +401,11 @@ public class Character : MonoBehaviour
     {
         _movement += amount;
         _movementRemaining += amount;
+    }
+
+    public virtual string GetName()
+    {
+        return _characterClass;
     }
 
 }

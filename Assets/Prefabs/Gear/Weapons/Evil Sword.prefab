@@ -100,10 +100,10 @@ MonoBehaviour:
   _gearName: Evil Sword
   _gearDescription: 
   _gearType: 2
-  _health: -2
+  _health: -1
   _attack: 8
   _defense: 0
-  _magic: 0
+  _magic: 2
   _movement: 0
   gearLevel: 7
   _arms: {fileID: 0}

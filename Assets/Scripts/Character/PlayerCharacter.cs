@@ -7,7 +7,9 @@ using static Gear;
 public class PlayerCharacter : Character
 {
     // Start is called before the first frame update
-
+    [SerializeField]
+    string _characterName;
+    
     [Header("Equipment")]
     [SerializeField]
     GameObject _helmet;
@@ -39,22 +41,29 @@ public class PlayerCharacter : Character
     Transform _rightLegLocation;
 
     CharacterSelecter _characterSelecter;
+    BodyColour _bodyColour;
 
-    void Start()
+
+    private void Awake()
     {
-        if(_helmet != null)
+        _bodyColour = GetComponent<BodyColour>();
+        if (_bodyColour == null)
+        {
+            Debug.LogWarning("Body Colour not set");
+        }
+        if (_helmet != null && _headLocation == null)
         {
             OnEquip(_helmet, true);
         }
-        if (_chest != null)
+        if (_chest != null && _chestLocation == null)
         {
             OnEquip(_chest, true);
         }
-        if (_legs != null)
+        if (_legs != null && _rightLegLocation == null)
         {
             OnEquip(_legs, true);
         }
-        if (_weapon != null)
+        if (_weapon != null && _weaponLocation == null)
         {
             OnEquip(_weapon, true);
         }
@@ -116,6 +125,21 @@ public class PlayerCharacter : Character
         }
     }
 
+    public void SetName(string name)
+    {
+        _characterName = name;
+    }
+
+    public CharacterSelecter GetCharacterSelecter()
+    {
+        return _characterSelecter;
+    }
+
+    public override string GetName()
+    {
+        return _characterName;
+    }
+
     public void OnCombatEnd()
     {
         foreach(GameObject skill in _skills)
@@ -125,6 +149,29 @@ public class PlayerCharacter : Character
         _skills = new List<GameObject>();
         _usedAction = false;
         TakeDamage(-5);
+    }
+
+    public void SetBodyColour(Color colour)
+    {
+        if(_bodyColour != null)
+        {
+            _bodyColour.SetColour(colour);
+        }
+    }
+    public void SetSkinColour(Color colour)
+    {
+        if (_bodyColour != null)
+        {
+            _bodyColour.SetSkinColor(colour);
+        }
+    }
+
+    public void SetHairColour(Color colour)
+    {
+        if (_bodyColour != null)
+        {
+            _bodyColour.SetHairColor(colour);
+        }
     }
 
     public void OnEquip(GameObject gearPiece, bool isStart)
@@ -166,7 +213,7 @@ public class PlayerCharacter : Character
 
                 if (_characterSelecter != null)
                 {
-                    _characterSelecter.ChangeChildLayers(_headLocation, 5);
+                    _characterSelecter.ChangeChildLayers(_headLocation, 7);
                 }
                 break;
             case GearType.Body:

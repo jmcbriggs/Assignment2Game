@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.02.00">
+	<object class="AudioFile" id="{1042da13-d493-49c7-94b9-0f37dbbbb874}">
+		<property name="assetPath">
+			<value>Cartoon Action Music Pack/SFX/CA_Game_Start.wav</value>
+		</property>
+		<property name="frequencyInKHz">
+			<value>48</value>
+		</property>
+		<property name="channelCount">
+			<value>2</value>
+		</property>
+		<property name="length">
+			<value>3.3566458333333333</value>
+		</property>
+		<relationship name="masterAssetFolder">
+			<destination>{b9b03b92-4960-4811-b565-ec56fbf81971}</destination>
+		</relationship>
+	</object>
+</objects>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.02.00">
+	<object class="AudioFile" id="{cdf91b34-fd35-4109-9aa1-e17475cee682}">
+		<property name="assetPath">
+			<value>Cartoon Action Music Pack/Music/CA_Final_Brawl_Lite_Loop.wav</value>
+		</property>
+		<property name="isStreaming">
+			<value>true</value>
+		</property>
+		<property name="frequencyInKHz">
+			<value>48</value>
+		</property>
+		<property name="channelCount">
+			<value>2</value>
+		</property>
+		<property name="length">
+			<value>100.69929166666667</value>
+		</property>
+		<relationship name="masterAssetFolder">
+			<destination>{b9b03b92-4960-4811-b565-ec56fbf81971}</destination>
+		</relationship>
+	</object>
+</objects>

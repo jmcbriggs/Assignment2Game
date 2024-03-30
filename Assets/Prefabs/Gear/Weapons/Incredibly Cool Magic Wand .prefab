@@ -97,13 +97,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 154b3d2e4693b0d469ada2ef30e1ebc7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _gearName: Cool Magic Wand
+  _gearName: Incredibly Cool Magic Wand
   _gearDescription: 
   _gearType: 2
   _health: 0
   _attack: 0
   _defense: 0
-  _magic: 4
+  _magic: 8
   _movement: 0
   gearLevel: 7
   _arms: {fileID: 0}

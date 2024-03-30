@@ -76,7 +76,7 @@ public class UIManager : MonoBehaviour
     public void UpdateCharacterStats(PlayerCharacter character)
     {
        
-        _characterName.text = character._characterName;
+        _characterName.text = character.GetName();
         _characterHealth.text = "Health: " + character.GetHealth() + "/" + character.GetMaxHealth();
         _characterMovement.text = "Movement: " + character._movementRemaining + "/" + character._movement;
         _characterAttack.text = "Attack: " + character.GetAttack();

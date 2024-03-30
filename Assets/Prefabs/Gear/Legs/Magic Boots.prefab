@@ -103,7 +103,7 @@ MonoBehaviour:
   _health: 0
   _attack: 0
   _defense: 0
-  _magic: 4
+  _magic: 2
   _movement: 2
-  gearLevel: 3
+  gearLevel: 5
   _arms: {fileID: 0}

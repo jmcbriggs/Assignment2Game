@@ -53,4 +53,13 @@ public class EnemyCharacter : Character
         _brain = brain;
     }
 
+    public int GetMinLevel()
+    {
+        return _minLevel;
+    }
+    public int GetMaxLevel()
+    {
+        return _maxLevel;
+    }
+
 }

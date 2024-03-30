@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -18,6 +19,8 @@ public class GameController : MonoBehaviour
     [SerializeField]
     int Level = 1;
     [SerializeField]
+    int EnemyTypeMax = 1;
+    [SerializeField]
     int UtilitySceneCount = 1;
     [SerializeField]
     int ActiveLevels = 1;
@@ -25,6 +28,15 @@ public class GameController : MonoBehaviour
     float MusicVolume;
     [SerializeField, Range(0, 1)]
     float EffectsVolume;
+    GameObject Menu;
+    List<GameObject> GearPool;
+    List<GameObject> SkillPool;
+
+    [Header("BalanceControl")]
+    [SerializeField]
+    float DropOffFactor = 0.5f;
+    [SerializeField]
+    float DefenceFactor = 0.5f;
   
     [SerializeField]
     Color[] BodyColours;
@@ -72,6 +84,7 @@ public class GameController : MonoBehaviour
             SelectedCharacters.Add(AvailableCharacters[0]);
         }
         ActiveLevels = SceneManager.sceneCountInBuildSettings;
+        Menu = GameObject.Find("Menu");
     }
 
     public GameObject GetAvailableCharacter(int index)
@@ -112,7 +125,7 @@ public class GameController : MonoBehaviour
         return AvailableCharacters.Count;
     }
 
-    public Color GetCharacterColour(int index)
+    public Color GetCharacterBodyColour(int index)
     {
         return BodyColours[index];
     }
@@ -122,22 +135,50 @@ public class GameController : MonoBehaviour
         return Level;
     }
 
+    public int GetEnemyTypeMax()
+    {
+        return EnemyTypeMax;
+    }
+
+    public float GetDropOffFactor()
+    {
+        return DropOffFactor;
+    }
+
+    public float GetDefenceFactor()
+    {
+        return DefenceFactor;
+    }
     public void BeginGame()
     {
         for(int i = 0 ; i < SelectedCharacters.Count; i++)
         {
+            List<CharacterSelecter> selecters = GetAllCharacterSelecters();
             if(SelectedCharacters[i])
             {
+                string characterName = selecters[i].GetName();
                 SelectedCharacters[i] = Instantiate(SelectedCharacters[i], new Vector3(1000,1000,0), Quaternion.identity);
-                BodyColour bodyColour = SelectedCharacters[i].GetComponentInChildren<BodyColour>();
-                if (bodyColour != null)
-                {
-                    bodyColour.SetColour(GetCharacterColour(i));
-                }
+                SelectedCharacters[i].GetComponent<PlayerCharacter>().SetName(characterName);
+                ColorCharacter(SelectedCharacters[i], GetCharacterBodyColour(i), selecters[i].GetCharacterColor(), selecters[i].GetHairColor());
                 DontDestroyOnLoad(SelectedCharacters[i]);
             }
         }
         EnterBattle();
+    }
+
+    void ColorCharacter(GameObject Character, Color bodyColor, Color skinColor, Color hairColor)
+    {
+        PlayerCharacter playerCharacter = Character.GetComponent<PlayerCharacter>();
+        playerCharacter.SetBodyColour(bodyColor);
+        playerCharacter.SetSkinColour(skinColor);
+        playerCharacter.SetHairColour(hairColor);
+    }
+
+    List<CharacterSelecter> GetAllCharacterSelecters()
+    {
+        List<CharacterSelecter> list = FindObjectsByType<CharacterSelecter>(FindObjectsSortMode.None).ToList<CharacterSelecter>();
+        list.Sort((x, y) => x.GetSelecterIndex().CompareTo(y.GetSelecterIndex()));
+        return list;
     }
 
     public void EnterBattle()
@@ -168,9 +209,9 @@ public class GameController : MonoBehaviour
         }
     }
 
-    public void ReturnToMenu()
+    public void ReturnToMenu(bool gameCompleted)
     {
-        if(LockedCharacters.Count > 0)
+        if(LockedCharacters.Count > 0 && gameCompleted)
         {
             GameObject newCharcter = LockedCharacters[Random.Range(0, LockedCharacters.Count)];
             AvailableCharacters.Add(newCharcter);
@@ -180,8 +221,60 @@ public class GameController : MonoBehaviour
         SceneManager.LoadScene("StartScene");
     }
 
+    public void SetMenu(GameObject newMenu)
+    {
+        Menu = newMenu;
+    }
+
+    public GameObject GetMenu()
+    {
+        return Menu;
+    }
+
+    public void ChangeMusicVolume(float volume)
+    {
+        MusicVolume = volume;
+    }   
+
+    public void ChangeEffectsVolume(float volume)
+    {
+        EffectsVolume = volume;
+    }
+
+    public bool HasGearPool()
+    {
+        return GearPool != null && GearPool.Count > 0;
+    }
+
+    public void SetGearPool(List<GameObject> gearPool)
+    {
+        GearPool = gearPool;
+    }
+
+    public List<GameObject> GetGearPool()
+    {
+        return GearPool;
+    }
+
+    public bool HasSkillPool()
+    {
+        return SkillPool != null && SkillPool.Count > 0;
+    }
+
+    public void SetSkillPool(List<GameObject> skillPool)
+    {
+        SkillPool = skillPool;
+    }
+
+    public List<GameObject> GetSkillPool()
+    {
+        return SkillPool;
+    }
+
     private void Reset()
     {
+        SkillPool = new List<GameObject>();
+        GearPool = new List<GameObject>();
         foreach(GameObject character in SelectedCharacters)
         {
             Destroy(character);
@@ -192,14 +285,14 @@ public class GameController : MonoBehaviour
         {
             SelectedCharacters.Add(AvailableCharacters[0]);
         }
-        Level = 1;
+        Level = 0;
     }
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetKey(KeyCode.Escape))
+        if(Input.GetKeyDown(KeyCode.Escape))
         {
-            Application.Quit();
+            Menu.SetActive(!Menu.activeSelf);
         }
     }
 

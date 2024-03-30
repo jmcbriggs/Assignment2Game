@@ -170,11 +170,11 @@ public class EnemyBrain : MonoBehaviour
                 List<GameObject> targetTiles = new List<GameObject>();
                 if(target.skill.GetSkillTarget() == Skill.SkillTarget.ENEMY)
                 {
-                    targetTiles = gridManager.GetSkillTargetTiles(target.targets[0].GetComponent<CharacterMovement>().GetCurrentTile().gameObject, target.skill, _characterMovement.GetCurrentTile());
+                    targetTiles = gridManager.GetSkillTargetTiles(target.tileTarget, target.skill, _characterMovement.GetCurrentTile());
                 }
                 else
                 {
-                    targetTiles = gridManager.GetSkillTargetTiles(target.friendlyTargets[0].GetComponent<CharacterMovement>().GetCurrentTile().gameObject, target.skill, _characterMovement.GetCurrentTile());
+                    targetTiles = gridManager.GetSkillTargetTiles(target.tileTarget, target.skill, _characterMovement.GetCurrentTile());
                 }
                 CombatManager.SkillTargetParameters parameters = _combatManager.GetSkillParameters(target.tileTarget, target.skill, targetTiles, _enemyCharacter.gameObject);
                 _enemyCharacter.OnSkill(parameters, target.skill);

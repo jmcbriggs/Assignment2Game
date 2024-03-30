@@ -62,7 +62,8 @@ public class Gear : MonoBehaviour
         Head,
         Body,
         Hand,
-        Feet
+        Feet,
+        Pool
     }
 
     public enum StatType

@@ -36,7 +36,7 @@ public class SkillBox : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, I
         }
         if(_skillDescription == null)
         {
-            _skillDescription = FindObjectOfType<SkillDescriptionBox>();
+            _skillDescription = FindObjectOfType<AssignmentScreenContoller>().GetSkillDescription().GetComponent<SkillDescriptionBox>();
         }
         if(_skill == null)
         {

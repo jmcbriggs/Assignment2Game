@@ -812,12 +812,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b50edadcb22f7d54388207736e3dbf62, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _characterName: Enemy
+  _characterClass: Goblin Wizard
   _maxHealth: 15
   _currentHealth: 15
   _attack: 11
   _defence: 11
-  _movement: 8
+  _movement: 4
   _movementRemaining: 4
   _magic: 16
   _usedAction: 0
@@ -830,9 +830,12 @@ MonoBehaviour:
   _healthBar: {fileID: 8847339782455140946}
   _damageNumber: {fileID: 5154126224071687899, guid: 98ac40523c076604f8ffec8ec9fb016d, type: 3}
   _damageDone: 0
+  _healingDone: 0
+  _damageTaken: 0
+  _defeats: 0
   _difficulty: 4
-  _minLevel: 0
-  _maxLevel: 0
+  _minLevel: 3
+  _maxLevel: 7
 --- !u!114 &3373735823609961099
 MonoBehaviour:
   m_ObjectHideFlags: 0

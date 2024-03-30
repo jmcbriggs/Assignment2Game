@@ -36,8 +36,9 @@ public class GearAssigner : MonoBehaviour
         }
         _currentCharacter = character;
         _characterPrefab = characterPrefab;
-        _assignerControl = GetComponentInParent<AssignerControl>();
+        _assignerControl = GetComponent<AssignerControl>();
         UpdateUI();
+        //Invoke("SetCharacterGear", 0.1f);
     }
 
     public void SetGearPool(List<GameObject> gearPool)

@@ -14,6 +14,7 @@ public class CharacterSelecter : MonoBehaviour
     [SerializeField]
     float CharacterScale = 1.0f;
     int _selectedCharacterIndex = 0;
+    string _chosenName;
 
     [SerializeField]
     private Transform _prefabPosition;
@@ -34,10 +35,26 @@ public class CharacterSelecter : MonoBehaviour
     private TextMeshProUGUI _characterMagic;
     [SerializeField]
     private TextMeshProUGUI _characterSkill;
+    [SerializeField]
+    List<Color> _availableCharacterColors;
+    [SerializeField]
+    List<Color> _availableHairColors;
+    [SerializeField]
+    Color _characterColor;
+    [SerializeField]
+    Color _hairColor;
     void Start()
     {
-        CurrentCharacter = GameController.Instance.GetAvailableCharacter(SelecterIndex);
         _selectedCharacterIndex = SelecterIndex;
+        SetCharacterToSelector();
+        if(_availableCharacterColors.Count > 0)
+        {
+            _characterColor = _availableCharacterColors[0];
+        }
+        if(_availableHairColors.Count > 0)
+        {
+            _hairColor = _availableHairColors[0];
+        }
         UpdatePrefab();
 
     }
@@ -49,9 +66,7 @@ public class CharacterSelecter : MonoBehaviour
         {
             _selectedCharacterIndex = 0;
         }
-        CurrentCharacter = GameController.Instance.GetAvailableCharacter(_selectedCharacterIndex);
-        GameController.Instance.SetCharacter(SelecterIndex, CurrentCharacter);
-        UpdatePrefab();
+        SetCharacterToSelector();
     }
 
     public void PreviousCharacter()
@@ -61,8 +76,57 @@ public class CharacterSelecter : MonoBehaviour
         {
             _selectedCharacterIndex = GameController.Instance.GetCharacterCount() - 1;
         }
+        SetCharacterToSelector();
+    }
+
+    void SetCharacterToSelector()
+    {
         CurrentCharacter = GameController.Instance.GetAvailableCharacter(_selectedCharacterIndex);
+        if(_chosenName == null || _chosenName == "")
+        {
+            _chosenName = "The Unloved One";
+        }
+        GameController.Instance.SetCharacter(SelecterIndex, CurrentCharacter);
         UpdatePrefab();
+    }
+
+    public void CycleBodyColors()
+    {
+        int currentIndex = _availableCharacterColors.IndexOf(_characterColor);
+        currentIndex++;
+        if (currentIndex >= _availableCharacterColors.Count)
+        {
+            currentIndex = 0;
+        }
+        _characterColor = _availableCharacterColors[currentIndex];
+        UpdatePrefab();
+    }
+
+    public void CycleHairColors()
+    {
+        int currentIndex = _availableHairColors.IndexOf(_hairColor);
+        currentIndex++;
+        if (currentIndex >= _availableHairColors.Count)
+        {
+            currentIndex = 0;
+        }
+        _hairColor = _availableHairColors[currentIndex];
+        UpdatePrefab();
+    }
+
+    public Color GetCharacterColor()
+    {
+        return _characterColor;
+    }
+
+    public Color GetHairColor()
+    {
+        return _hairColor;
+    }
+
+    public int GetSelecterIndex()
+    {
+        return SelecterIndex;
     }
 
     public void UpdatePrefab()
@@ -77,10 +141,11 @@ public class CharacterSelecter : MonoBehaviour
         _currentPrefab.layer = 5;
         _currentPrefab.GetComponent<PlayerCharacter>().SetCharacterSelecter(this);
         _currentPrefab.GetComponent<Animator>().SetBool("HasAction", true);
-        BodyColour bodyColour = _currentPrefab.GetComponentInChildren<BodyColour>();
-        if(bodyColour != null)
+        _currentPrefab.GetComponent<PlayerCharacter>().SetSkinColour(_characterColor);
+        _currentPrefab.GetComponent<PlayerCharacter>().SetHairColour(_hairColor);
+        if(GameController.Instance != null)
         {
-            bodyColour.SetColour(GameController.Instance.GetCharacterColour(SelecterIndex));
+            _currentPrefab.GetComponent<PlayerCharacter>().SetBodyColour(GameController.Instance.GetCharacterBodyColour(SelecterIndex));
         }
         ChangeChildLayers(_currentPrefab.transform, 5);
     }
@@ -98,9 +163,20 @@ public class CharacterSelecter : MonoBehaviour
         UpdateUI();
     }
 
+    public void SetChosenName(string name)
+    {
+        _chosenName = name;
+        SetCharacterToSelector();
+    }
+
+    public string GetName()
+    {
+        return _chosenName;
+    }
+
     public void UpdateUI()
     {
-        _characterName.text = "Class Name: " + _currentPrefab.GetComponent<PlayerCharacter>()._characterName;
+        _characterName.text = "Class Name: " + _currentPrefab.GetComponent<PlayerCharacter>()._characterClass;
         _characterHealth.text = "Health: " + _currentPrefab.GetComponent<PlayerCharacter>().GetMaxHealth().ToString();
         _characterMovement.text = "Movement: " + _currentPrefab.GetComponent<PlayerCharacter>().GetMovement().ToString();
         _characterAttack.text = "Attack: " + _currentPrefab.GetComponent<PlayerCharacter>().GetAttack().ToString();

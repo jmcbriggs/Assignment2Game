@@ -10,6 +10,8 @@ public class CombatManager : MonoBehaviour
     [SerializeField]
     GridManager _grid;
     UIManager _uiManager;
+    [SerializeField]
+    GameObject _menu;
 
     [SerializeField]
     List<GameObject> _playerCharacters;
@@ -47,6 +49,8 @@ public class CombatManager : MonoBehaviour
     int _maxEnemies = 6;
     [SerializeField]
     float _difficultyMultiplier = 2f;
+
+
 
     [SerializeField]
     Skill _selectedSkill;
@@ -90,6 +94,7 @@ public class CombatManager : MonoBehaviour
             {
                 _levelDifficulty = (Mathf.RoundToInt(GameController.Instance.GetLevel() * _difficultyMultiplier));
             }
+            GameController.Instance.SetMenu(_menu);
         }
         _grid = GetComponent<GridManager>();
         _uiManager = GetComponent<UIManager>();
@@ -160,6 +165,7 @@ public class CombatManager : MonoBehaviour
         {
             _enemyCharacters = GameController.Instance.GetAvailableEnemies();
         }
+        List<GameObject> enemiesForLevel = GetEnemiesForLevel();
         if(GameController.Instance != null)
         {
             if(GameController.Instance.GetLevel() == 10)
@@ -173,22 +179,67 @@ public class CombatManager : MonoBehaviour
         }
         while (currentDifficulty != _levelDifficulty)
         {
-            GameObject newEnemy = _enemyCharacters[Random.Range(0, _enemyCharacters.Count)];
+            int randomIndex = Random.Range(0, enemiesForLevel.Count);
+            GameObject newEnemy = enemiesForLevel[randomIndex];
+            enemiesForLevel.Remove(newEnemy);
             if (currentDifficulty + newEnemy.GetComponent<EnemyCharacter>().GetDifficulty() <= _levelDifficulty)
             {
                 _selectedEnemies.Add(newEnemy);
                 currentDifficulty += newEnemy.GetComponent<EnemyCharacter>().GetDifficulty();
             }
-            loopExitTimer += Time.deltaTime;
-            if (loopExitTimer > 100)
+            loopExitTimer += 1;
+            if (loopExitTimer > 3000)
             {
                 Debug.Log("Could not build enemy list for difficulty " + _levelDifficulty);
+                int differenceRemaining = _levelDifficulty - currentDifficulty;
+                GameObject remainderEnemy = _enemyCharacters.Find(_enemyCharacters => _enemyCharacters.GetComponent<EnemyCharacter>().GetDifficulty() == differenceRemaining);
+                if(remainderEnemy != null)
+                {
+                    _selectedEnemies.Add(remainderEnemy);
+                    currentDifficulty += remainderEnemy.GetComponent<EnemyCharacter>().GetDifficulty();
+                }
+                else
+                {
+                    while(currentDifficulty < _levelDifficulty)
+                    {
+                        if(differenceRemaining % 2 == 0)
+                        {
+                            if(differenceRemaining % 4 == 0)
+                            {
+                                remainderEnemy = _enemyCharacters.Find(_enemyCharacters => _enemyCharacters.GetComponent<EnemyCharacter>().GetDifficulty() == 4);
+                            }
+                            else
+                            {
+                                remainderEnemy = _enemyCharacters.Find(_enemyCharacters => _enemyCharacters.GetComponent<EnemyCharacter>().GetDifficulty() == 2);
+                            }
+                        }
+                        else
+                        {
+                            if(differenceRemaining % 3 == 0)
+                            {
+                                remainderEnemy = _enemyCharacters.Find(_enemyCharacters => _enemyCharacters.GetComponent<EnemyCharacter>().GetDifficulty() == 3);
+                            }
+                            else
+                            {
+                                remainderEnemy = _enemyCharacters.Find(_enemyCharacters => _enemyCharacters.GetComponent<EnemyCharacter>().GetDifficulty() == 1);
+                            }
+                        }
+                        differenceRemaining -= remainderEnemy.GetComponent<EnemyCharacter>().GetDifficulty();
+                        currentDifficulty += remainderEnemy.GetComponent<EnemyCharacter>().GetDifficulty();
+                        _selectedEnemies.Add(remainderEnemy);
+                    }
+                }
                 break;
+            }
+            if(enemiesForLevel.Count == 0)
+            {
+                enemiesForLevel = GetEnemiesForLevel();
             }
             if(_selectedEnemies.Count > _maxEnemies || currentDifficulty >= _levelDifficulty && _selectedEnemies.Count == 1)
             {
                 _selectedEnemies = new List<GameObject>();
                 currentDifficulty = 0;
+                enemiesForLevel = GetEnemiesForLevel();
                 if (GameController.Instance != null)
                 {
                     if (GameController.Instance.GetLevel() == 10)
@@ -202,6 +253,36 @@ public class CombatManager : MonoBehaviour
         }
     }
 
+    List<GameObject> GetEnemiesForLevel()
+    {
+        List<GameObject> list = new List<GameObject>();
+        foreach (GameObject enemy in _enemyCharacters)
+        {
+            if (enemy.GetComponent<EnemyCharacter>().GetDifficulty() <= _levelDifficulty)
+            {
+                if (GameController.Instance != null)
+                {
+                    if (GameController.Instance.GetLevel() < enemy.GetComponent<EnemyCharacter>().GetMaxLevel() && GameController.Instance.GetLevel() >= enemy.GetComponent<EnemyCharacter>().GetMinLevel())
+                    {
+                        for(int i = 0; i < GameController.Instance.GetEnemyTypeMax(); i++)
+                        {
+                            list.Add(enemy);
+                        }
+
+                    }
+                }
+                else
+                {
+                    for (int i = 0; i < 3; i++)
+                    {
+                        list.Add(enemy);
+                    }
+                }
+
+            }
+        }
+        return list;
+    }
     void CreateCharacter()
     {
         List<Tile> playerStartTiles = _grid.GetPlayerStartTiles();
@@ -451,7 +532,7 @@ public class CombatManager : MonoBehaviour
             int attack = attacker.GetComponent<Character>().GetAttack();
             int defence = target.GetComponent<Character>().GetDefence();
 
-            baseDamage = Mathf.Clamp((attack - defence),1, 100);
+            baseDamage = Mathf.Clamp(1+ (attack - defence),1, 100);
         }
 
         int damage = (int)Mathf.Round(skillDamage * baseDamage);
@@ -709,7 +790,14 @@ public class CombatManager : MonoBehaviour
     {
         if (GameController.Instance != null)
         {
-            GameController.Instance.ReturnToMenu();
+            if (_activePlayers.Count <= 0 && GameController.Instance.GetLevel() > 5)
+            {
+                GameController.Instance.ReturnToMenu(true);
+            }
+            else
+            {
+                GameController.Instance.ReturnToMenu(false);
+            }
         }
         else
         {

@@ -812,7 +812,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b50edadcb22f7d54388207736e3dbf62, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _characterName: Enemy
+  _characterClass: Small Goblin
   _maxHealth: 6
   _currentHealth: 6
   _attack: 12
@@ -829,9 +829,12 @@ MonoBehaviour:
   _healthBar: {fileID: 8847339782455140946}
   _damageNumber: {fileID: 5154126224071687899, guid: 98ac40523c076604f8ffec8ec9fb016d, type: 3}
   _damageDone: 0
+  _healingDone: 0
+  _damageTaken: 0
+  _defeats: 0
   _difficulty: 1
   _minLevel: 0
-  _maxLevel: 0
+  _maxLevel: 3
 --- !u!114 &3373735823609961099
 MonoBehaviour:
   m_ObjectHideFlags: 0

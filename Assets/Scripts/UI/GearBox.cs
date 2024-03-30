@@ -38,7 +38,7 @@ public class GearBox : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, IE
         }
         if(_gearDescription == null)
         {
-            _gearDescription = FindObjectOfType<GearDescriptionBox>();
+            _gearDescription = FindObjectOfType<AssignmentScreenContoller>().GetGearDescription().GetComponent<GearDescriptionBox>();
         }
     }
     public void OnDrop(PointerEventData eventData)

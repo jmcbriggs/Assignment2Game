@@ -4,19 +4,69 @@ using UnityEngine;
 
 public class BodyColour : MonoBehaviour
 {
-    SpriteRenderer spriteRenderer;
+    [SerializeField]
+    SpriteRenderer bodyRenderer;
+    [SerializeField]
+    SpriteRenderer headRenderer;
+    [SerializeField]
+    SpriteRenderer leftArmRenderer;
+    [SerializeField]
+    SpriteRenderer rightArmRenderer;
+    [SerializeField]
+    SpriteRenderer hairRenderer;
     // Start is called before the first frame update
     void Start()
     {
-        spriteRenderer = GetComponent<SpriteRenderer>();
     }    
 
     public void SetColour(Color colour)
     {
-        if(spriteRenderer == null)
+        if(bodyRenderer != null)
         {
-            spriteRenderer = GetComponent<SpriteRenderer>();
+            bodyRenderer.color = colour;
         }
-        spriteRenderer.color = colour;
+        else
+        {
+            Debug.LogWarning("Body renderer not set");
+        }
+    }
+
+    public void SetSkinColor(Color color)
+    {
+        if(headRenderer != null)
+        {
+            headRenderer.color = color;
+        }
+        else
+        {
+            Debug.LogWarning("Head renderer not set");
+        }
+        if(leftArmRenderer != null)
+        {
+            leftArmRenderer.color = color;
+        }
+        else
+        {
+           Debug.LogWarning("Left arm renderer not set");
+        }
+        if(rightArmRenderer != null)
+        {
+            rightArmRenderer.color = color;
+        }
+        else
+        {
+            Debug.LogWarning("Right arm renderer not set");
+        }
+    }
+    public void SetHairColor(Color color)
+    {
+        if(hairRenderer != null)
+        {
+            hairRenderer.color = color;
+        }
+        else
+        {
+            Debug.LogWarning("Hair renderer not set");
+        }
     }
 }

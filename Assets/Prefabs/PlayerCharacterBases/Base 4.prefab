@@ -449,7 +449,7 @@ SpriteRenderer:
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 8, y: 8}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -825,14 +825,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 860ea0e6a49b3904db07a893c37fd539, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _characterName: Monk
-  _maxHealth: 10
-  _currentHealth: 10
-  _attack: 10
+  _characterClass: Monk
+  _maxHealth: 9
+  _currentHealth: 9
+  _attack: 11
   _defence: 10
   _movement: 5
   _movementRemaining: 5
-  _magic: 10
+  _magic: 11
   _usedAction: 0
   _selectedSkills:
   - {fileID: 7536893309470946647, guid: 1b67611d5b1f9e742b9f02768a59ebc8, type: 3}
@@ -843,6 +843,10 @@ MonoBehaviour:
   _healthBar: {fileID: 8847339782455140946}
   _damageNumber: {fileID: 5154126224071687899, guid: 98ac40523c076604f8ffec8ec9fb016d, type: 3}
   _damageDone: 0
+  _healingDone: 0
+  _damageTaken: 0
+  _defeats: 0
+  _characterName: 
   _helmet: {fileID: 0}
   _chest: {fileID: 0}
   _legs: {fileID: 0}
@@ -1070,6 +1074,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a82353e608dad14298ea5c4c619e589, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  bodyRenderer: {fileID: 0}
+  headRenderer: {fileID: 0}
+  leftArmRenderer: {fileID: 0}
+  rightArmRenderer: {fileID: 0}
+  hairRenderer: {fileID: 0}
 --- !u!1 &5043144171588003387
 GameObject:
   m_ObjectHideFlags: 0

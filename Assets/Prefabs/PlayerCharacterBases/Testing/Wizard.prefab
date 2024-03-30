@@ -825,7 +825,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 860ea0e6a49b3904db07a893c37fd539, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _characterName: Wizard
+  _characterClass: 
   _maxHealth: 10
   _currentHealth: 10
   _attack: 10
@@ -843,6 +843,7 @@ MonoBehaviour:
   _healthBar: {fileID: 8847339782455140946}
   _damageNumber: {fileID: 5154126224071687899, guid: 98ac40523c076604f8ffec8ec9fb016d, type: 3}
   _damageDone: 0
+  _characterName: Wizard
   _helmet: {fileID: 4058456132065245256, guid: 9966f351e5616124c97c303cd8eb1de2, type: 3}
   _chest: {fileID: 5013010966146391377, guid: 0c1a1cfe16762f34d9f930c20f91ec9b, type: 3}
   _legs: {fileID: 2033211744312382765, guid: 1dae9783b8ac5424986ae79fe6c6df8a, type: 3}
@@ -1070,6 +1071,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a82353e608dad14298ea5c4c619e589, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  bodyRenderer: {fileID: 0}
+  headRenderer: {fileID: 0}
+  leftArmRenderer: {fileID: 0}
+  rightArmRenderer: {fileID: 0}
+  hairRenderer: {fileID: 0}
 --- !u!1 &5043144171588003387
 GameObject:
   m_ObjectHideFlags: 0
