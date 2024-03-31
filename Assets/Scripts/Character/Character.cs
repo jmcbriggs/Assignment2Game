@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Security.Cryptography;
 using TMPro;
 using UnityEngine;
+using FMODUnity;
 
 public class Character : MonoBehaviour
 {
@@ -43,18 +44,24 @@ public class Character : MonoBehaviour
     [SerializeField]
     protected HealthBar _healthBar;
 
+    [Header("Extra Effects")]
+    [SerializeField] private EventReference _walkingSound;
+    [SerializeField] private EventReference _attackSound;
+    FMOD.Studio.EventInstance _walkingInstance;
+    FMOD.Studio.EventInstance _attackInstance;
+
     [SerializeField]
     GameObject _damageNumber;
 
 
     [SerializeField]
-    int _damageDone;
+    int _damageDone =0;
     [SerializeField]
-    int _healingDone;
+    int _healingDone =0;
     [SerializeField]
-    int _damageTaken;
+    int _damageTaken = 0;
     [SerializeField]
-    int _defeats; 
+    int _defeats = 0; 
 
 
     bool _attackFinished = false;
@@ -96,10 +103,8 @@ public class Character : MonoBehaviour
             GameObject newSkill = Instantiate(skill, skill.transform.position, skill.transform.rotation, transform);
             _skills.Add(newSkill);
         }
-        _damageDone = 0;
-        _healingDone = 0;
-        _damageTaken = 0;
-        _defeats = 0;
+        _walkingInstance = RuntimeManager.CreateInstance(_walkingSound);
+        _attackInstance = RuntimeManager.CreateInstance(_attackSound);
     }
 
     public virtual void OnMove(int distance)
@@ -107,9 +112,20 @@ public class Character : MonoBehaviour
         _movementRemaining -= distance;
     }
 
+    public void StartMoveSound()
+    {
+        _walkingInstance.start();
+    }
+
+    public void PlayAttackSound()
+    {
+        _attackInstance.start();
+    }
+
     public virtual void FinishMove()
     {
         _animator.SetBool("isMoving", false);
+        _walkingInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
     }
 
     public void OnSkill(CombatManager.SkillTargetParameters parameters, Skill skill)
@@ -172,6 +188,10 @@ public class Character : MonoBehaviour
         {
             skill.TriggerCastSound();
         }
+        else
+        {
+            PlayAttackSound();
+        }
         while (!_animator.IsInTransition(0) && !_animator.GetAnimatorTransitionInfo(0).IsName(transition.ToString() + " -> Idle"))
         {
             yield return null;
@@ -211,13 +231,20 @@ public class Character : MonoBehaviour
         for (int i = 0; i < parameters._targets.Count; i++)
         {
             parameters._targets[i].GetComponent<Character>().TakeDamage(parameters._damages[i]);
-            if(skill.GetSkillTarget() == Skill.SkillTarget.ENEMY)
+            if (skill != null)
             {
-                _damageDone += parameters._damages[i];
-            }
+                if (skill.GetSkillTarget() == Skill.SkillTarget.ENEMY)
+                {
+                    _damageDone += parameters._damages[i];
+                }
+                else
+                {
+                    _healingDone += parameters._damages[i];
+                }
+            } 
             else
             {
-                _healingDone += parameters._damages[i];
+                   _damageDone += parameters._damages[i];
             }
         }
     }
@@ -372,7 +399,13 @@ public class Character : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-       
+       if(GameController.Instance != null)
+        {
+
+            _walkingInstance.setParameterByName("Volume", GameController.Instance.GetEffectsVolume());
+            _attackInstance.setParameterByName("Volume", GameController.Instance.GetEffectsVolume());
+            
+        }
     }
 
     public virtual void ChangeMaxHealth(int amount)

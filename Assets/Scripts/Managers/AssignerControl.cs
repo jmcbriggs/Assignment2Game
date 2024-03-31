@@ -21,6 +21,9 @@ public class AssignerControl : MonoBehaviour
 
     [SerializeField]
     private Transform _prefabPosition;
+
+    [SerializeField]
+    TMPro.TextMeshProUGUI _characterName;
     // Start is called before the first frame update
     void Start()
     {
@@ -44,6 +47,7 @@ public class AssignerControl : MonoBehaviour
         CreateInitialPrefab();
         SkillAssign.Initialise(CurrentCharacter);
         GearAssign.Initialise(CurrentCharacter, _characterPrefab);
+        _characterName.text = CurrentCharacter.GetComponent<PlayerCharacter>().GetName();
     }
 
     // Update is called once per frame
@@ -72,10 +76,6 @@ public class AssignerControl : MonoBehaviour
             if (child.gameObject.name != "HealthBar")
             {
                 ChangeChildLayers(child, layer);
-            }
-            if(child.gameObject.name == "Hair")
-            {
-                child.gameObject.layer = 6;
             }
         }
     }

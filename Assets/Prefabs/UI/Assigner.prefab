@@ -434,6 +434,7 @@ MonoBehaviour:
   SelecterIndex: 0
   CharacterScale: 0.9
   _prefabPosition: {fileID: 6544135877538223589}
+  _characterName: {fileID: 1228948550897014988}
 --- !u!1 &3115273702298179382
 GameObject:
   m_ObjectHideFlags: 0

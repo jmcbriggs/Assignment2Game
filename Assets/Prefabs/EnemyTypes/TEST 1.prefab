@@ -812,7 +812,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b50edadcb22f7d54388207736e3dbf62, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _characterName: Enemy
+  _characterClass: 
   _maxHealth: 10
   _currentHealth: 10
   _attack: 14
@@ -828,8 +828,25 @@ MonoBehaviour:
   _combatManager: {fileID: 0}
   _characterMovement: {fileID: 0}
   _healthBar: {fileID: 8847339782455140946}
+  _walkingSound:
+    Guid:
+      Data1: 1262430109
+      Data2: 1124385211
+      Data3: 335001265
+      Data4: 700206729
+    Path: event:/Walk
+  _attackSound:
+    Guid:
+      Data1: 229073540
+      Data2: 1139675228
+      Data3: 1010727097
+      Data4: -651541420
+    Path: event:/Attack
   _damageNumber: {fileID: 5154126224071687899, guid: 98ac40523c076604f8ffec8ec9fb016d, type: 3}
   _damageDone: 0
+  _healingDone: 0
+  _damageTaken: 0
+  _defeats: 0
   _difficulty: 3
   _minLevel: 0
   _maxLevel: 0

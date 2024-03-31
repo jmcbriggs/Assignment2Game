@@ -756,6 +756,7 @@ GameObject:
   - component: {fileID: 8311609794606564867}
   - component: {fileID: 1090496029534340770}
   - component: {fileID: 1754591292983156820}
+  - component: {fileID: 8463700370496839786}
   m_Layer: 0
   m_Name: Base 5
   m_TagString: Untagged
@@ -843,6 +844,20 @@ MonoBehaviour:
   _combatManager: {fileID: 0}
   _characterMovement: {fileID: 0}
   _healthBar: {fileID: 8847339782455140946}
+  _walkingSound:
+    Guid:
+      Data1: 1262430109
+      Data2: 1124385211
+      Data3: 335001265
+      Data4: 700206729
+    Path: event:/Walk
+  _attackSound:
+    Guid:
+      Data1: 229073540
+      Data2: 1139675228
+      Data3: 1010727097
+      Data4: -651541420
+    Path: event:/Attack
   _damageNumber: {fileID: 5154126224071687899, guid: 98ac40523c076604f8ffec8ec9fb016d, type: 3}
   _damageDone: 0
   _healingDone: 0
@@ -910,6 +925,37 @@ MonoBehaviour:
   leftArmRenderer: {fileID: 8115222988169946607}
   rightArmRenderer: {fileID: 3738071773885126333}
   hairRenderer: {fileID: 7821005744262727665}
+--- !u!114 &8463700370496839786
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4231711683031803762}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CollisionTag: 
+  EventReference:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
+  Event: 
+  PlayEvent: 0
+  StopEvent: 0
+  AllowFadeout: 1
+  TriggerOnce: 0
+  Preload: 0
+  AllowNonRigidbodyDoppler: 0
+  Params: []
+  OverrideAttenuation: 0
+  OverrideMinDistance: -1
+  OverrideMaxDistance: -1
 --- !u!1 &4557928687607586448
 GameObject:
   m_ObjectHideFlags: 0

@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 
 public class GameController : MonoBehaviour
 {
+    [Header("PlayerCharacters")]
     [SerializeField]
     List<GameObject> AvailableCharacters = new List<GameObject>();
     [SerializeField]
@@ -13,34 +14,41 @@ public class GameController : MonoBehaviour
     [SerializeField]
     List<GameObject> LockedCharacters = new List<GameObject>();
     [SerializeField]
+    Color[] BodyColours;
+
+    [Header("Enemies")]
+    [SerializeField]
     List<GameObject> AvailableEnemies = new List<GameObject>();
     [SerializeField]
     GameObject Boss;
     [SerializeField]
-    int Level = 1;
-    [SerializeField]
     int EnemyTypeMax = 1;
+
+    [Header("SceneControl")]
+    [SerializeField]
+    int Level= 1;
     [SerializeField]
     int UtilitySceneCount = 1;
     [SerializeField]
     int ActiveLevels = 1;
+
+    [Header("Audio")]
     [SerializeField, Range(0,1)]
     float MusicVolume;
     [SerializeField, Range(0, 1)]
     float EffectsVolume;
-    GameObject Menu;
+
+    [Header("PersistentPools")]
+    [SerializeField]
     List<GameObject> GearPool;
+    [SerializeField]
     List<GameObject> SkillPool;
 
-    [Header("BalanceControl")]
+    [Header("GameStats")]
     [SerializeField]
-    float DropOffFactor = 0.5f;
-    [SerializeField]
-    float DefenceFactor = 0.5f;
-  
-    [SerializeField]
-    Color[] BodyColours;
+    int EnemiesSlain = 0;
 
+    GameObject Menu;
     private static int m_referenceCount = 0;
 
     private static GameController m_instance;
@@ -84,7 +92,6 @@ public class GameController : MonoBehaviour
             SelectedCharacters.Add(AvailableCharacters[0]);
         }
         ActiveLevels = SceneManager.sceneCountInBuildSettings;
-        Menu = GameObject.Find("Menu");
     }
 
     public GameObject GetAvailableCharacter(int index)
@@ -140,15 +147,6 @@ public class GameController : MonoBehaviour
         return EnemyTypeMax;
     }
 
-    public float GetDropOffFactor()
-    {
-        return DropOffFactor;
-    }
-
-    public float GetDefenceFactor()
-    {
-        return DefenceFactor;
-    }
     public void BeginGame()
     {
         for(int i = 0 ; i < SelectedCharacters.Count; i++)
@@ -207,6 +205,11 @@ public class GameController : MonoBehaviour
             GetComponent<MusicManager>().ChangeMute();
             SceneManager.LoadScene("AfterBattle");
         }
+    }
+
+    public void LoseBattle()
+    {
+        SceneManager.LoadScene("Lose");
     }
 
     public void ReturnToMenu(bool gameCompleted)
@@ -271,6 +274,16 @@ public class GameController : MonoBehaviour
         return SkillPool;
     }
 
+    public void AddEnemySlain()
+    {
+        EnemiesSlain++;
+    }
+
+    public int GetEnemiesSlain()
+    {
+        return EnemiesSlain;
+    } 
+
     private void Reset()
     {
         SkillPool = new List<GameObject>();
@@ -286,6 +299,7 @@ public class GameController : MonoBehaviour
             SelectedCharacters.Add(AvailableCharacters[0]);
         }
         Level = 0;
+        GetComponent<MusicManager>().ChangeMusic(MusicManager.MusicState.Main);
     }
     // Update is called once per frame
     void Update()

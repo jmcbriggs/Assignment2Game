@@ -304,6 +304,7 @@ public class CombatManager : MonoBehaviour
             newCharacter.GetComponent<CharacterMovement>().SetCombatManager(this);
             newCharacter.GetComponent<CharacterMovement>().InitialTile(tile);
             newCharacter.GetComponent<Character>().OnCreate();
+            newCharacter.GetComponent<Animator>().SetBool("Celebrate", false);
             _activePlayers.Add(newCharacter);
         }
         List<Tile> enemyStartTiles = _grid.GetEnemyStartTiles();
@@ -646,6 +647,10 @@ public class CombatManager : MonoBehaviour
         {
             _activeEnemies.Remove(character);
             _slainEnemies.Add(character);
+            if(GameController.Instance != null)
+            {
+                GameController.Instance.AddEnemySlain();
+            }
         }
     }
 
@@ -661,6 +666,10 @@ public class CombatManager : MonoBehaviour
         {
             Debug.Log("PLAYER WINS");
             OnCharacterDeselect();
+            foreach(GameObject player in _activePlayers)
+            {
+                player.GetComponent<Animator>().SetBool("Celebrate", true);  
+            }
             _uiManager.EndBattle();
             GameController.Instance.GetComponent<MusicManager>().PlaySting(MusicManager.Sting.Win);
         }
@@ -759,6 +768,11 @@ public class CombatManager : MonoBehaviour
 
     public void ExitBattle()
     {
+        bool win = false;
+        if (_activeEnemies.Count == 0)
+        {
+            win = true;
+        }
         OnCharacterDeselect();
         foreach (GameObject player in _slainPlayers)
         {
@@ -777,7 +791,14 @@ public class CombatManager : MonoBehaviour
 
         if (GameController.Instance != null)
         {
-            GameController.Instance.ExitBattle();
+            if(win)
+            {
+                GameController.Instance.ExitBattle();
+            }
+            else
+            {
+                GameController.Instance.LoseBattle();
+            }
         }
         else
         {

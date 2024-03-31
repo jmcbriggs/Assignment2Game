@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class WinScreenManager : MonoBehaviour
 {
@@ -30,13 +31,14 @@ public class WinScreenManager : MonoBehaviour
             int damageDoneValue = 0;
             int damageTakenValue = 0;
             int healingDoneValue = 0;
-            int enemiesSlainValue = 0;
+            int enemiesSlainValue = GameController.Instance.GetEnemiesSlain();
             int characterDefeatsValue = 0;
             string mvpValue = null;
             int mvpNumber = 0;  
            for(int i = 0; i < GameController.Instance.GetSelectedCharacters().Count; i++)
            {
                 GameObject character = GameController.Instance.GetSelectedCharacters()[i];
+                ChangeChildLayers(character.transform, 5);
                 character.transform.position = _characterPositions[i].position;
                 damageDoneValue += character.GetComponent<PlayerCharacter>().GetDamageDone();
                 damageTakenValue += character.GetComponent<PlayerCharacter>().GetDamageTaken();
@@ -47,8 +49,17 @@ public class WinScreenManager : MonoBehaviour
                     mvpNumber = healingDoneValue + damageDoneValue;
                     mvpValue = character.GetComponent<PlayerCharacter>().GetName();
                 }
-
-           }
+                if(SceneManager.GetActiveScene().name == "Win")
+                {
+                    character.GetComponent<Animator>().SetBool("Celebrate", true);
+                    GameController.Instance.GetComponent<MusicManager>().ChangeMusic(MusicManager.MusicState.Win);
+                }
+                else
+                {
+                    character.GetComponent<Animator>().SetBool("Celebrate", false);
+                }
+                
+            }
            _damageDone.text =  damageDoneValue.ToString();
             _damageTaken.text = damageTakenValue.ToString();
             _healingDone.text = healingDoneValue.ToString();
@@ -71,9 +82,15 @@ public class WinScreenManager : MonoBehaviour
         }
     }
 
-    // Update is called once per frame
-    void Update()
+    public void ChangeChildLayers(Transform parent, int layer)
     {
-        
+        parent.gameObject.layer = layer;
+        foreach (Transform child in parent)
+        {
+            if (child.gameObject.name != "HealthBar")
+            {
+                ChangeChildLayers(child, layer);
+            }
+        }
     }
 }

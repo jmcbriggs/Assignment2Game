@@ -17,28 +17,32 @@ public class GearDescriptionBox : MonoBehaviour
     // Start is called before the first frame update
     public void Set(Gear gear)
     {
-        _gearName.text = "Gear Name: " + gear.GetGearName();
+        _gearName.text = "" + gear.GetGearName();
         _gearDescription.text = "Description: " + gear.GetGearDescription();
         _gearType.text = "Type: " + gear.GetGearType().ToString();
         Dictionary<Gear.StatType, int> stats = gear.GetStats();
-        string statsString = "Stats: ";
+        string statsString = "";
+        string currentLine = "";
         foreach (KeyValuePair<Gear.StatType, int> stat in stats)
         {
-            if(statsString.Length > 10)
+            if(currentLine.Length > 19)
             {
-                statsString += "\n";
+                currentLine += "\n";
+                statsString += currentLine;
+                currentLine = "";
             }
-            statsString += stat.Key.ToString() + ": " + stat.Value + " ";
+            currentLine += stat.Key.ToString() + ": " + stat.Value + "      ";
         }
+        statsString += currentLine;
         _gearStats.text = statsString;
     }
 
     public void Clear()
     {
-        _gearName.text = "Gear Name: ";
+        _gearName.text = "";
         _gearDescription.text = "Description: ";
         _gearType.text = "Type: ";
-        _gearStats.text = "Stats: ";
+        _gearStats.text = "";
 ;
     }
 }

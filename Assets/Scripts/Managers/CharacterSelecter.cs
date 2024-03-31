@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 public class CharacterSelecter : MonoBehaviour
 {
@@ -148,6 +149,7 @@ public class CharacterSelecter : MonoBehaviour
             _currentPrefab.GetComponent<PlayerCharacter>().SetBodyColour(GameController.Instance.GetCharacterBodyColour(SelecterIndex));
         }
         ChangeChildLayers(_currentPrefab.transform, 5);
+        _currentPrefab.GetComponent<SortingGroup>().sortingOrder = 0;
     }
 
     public void ChangeChildLayers(Transform parent, int layer)

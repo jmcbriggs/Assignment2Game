@@ -103,7 +103,7 @@ public class AssignmentScreenContoller : MonoBehaviour
                 }
                 else
                 {
-                    Debug.LogError("No gear found for level " + level);
+                    Debug.LogError("No skills found for level " + level);
                 }
             }
         }

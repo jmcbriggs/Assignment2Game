@@ -10,6 +10,7 @@ public class MusicManager : MonoBehaviour
     [SerializeField] private EventReference _forestMusic;
     [SerializeField] private EventReference _caveMusic;
     [SerializeField] private EventReference _finalMusic;
+    [SerializeField] private EventReference _winScreenMusic;
     [SerializeField] private EventReference _startBattleSting;
     [SerializeField] private EventReference _winBattleSting;
     [SerializeField] private EventReference _loseBattleSting;
@@ -17,6 +18,7 @@ public class MusicManager : MonoBehaviour
     FMOD.Studio.EventInstance _forestInstance;
     FMOD.Studio.EventInstance _caveInstance;
     FMOD.Studio.EventInstance _finalInstance;
+    FMOD.Studio.EventInstance _winScreenInstance;
     FMOD.Studio.EventInstance _startBattleInstance;
     FMOD.Studio.EventInstance _winBattleInstance;
     FMOD.Studio.EventInstance _loseBattleInstance;
@@ -31,7 +33,8 @@ public class MusicManager : MonoBehaviour
         Main,
         Forest,
         Cave,
-        Final
+        Final,
+        Win
     }
 
     public enum Sting
@@ -47,6 +50,7 @@ public class MusicManager : MonoBehaviour
         _forestInstance = RuntimeManager.CreateInstance(_forestMusic);
         _caveInstance = RuntimeManager.CreateInstance(_caveMusic);
         _finalInstance = RuntimeManager.CreateInstance(_finalMusic);
+        _winScreenInstance = RuntimeManager.CreateInstance(_winScreenMusic);
         _startBattleInstance = RuntimeManager.CreateInstance(_startBattleSting);
         _winBattleInstance = RuntimeManager.CreateInstance(_winBattleSting);
         _loseBattleInstance = RuntimeManager.CreateInstance(_loseBattleSting);
@@ -63,9 +67,11 @@ public class MusicManager : MonoBehaviour
         {
             case MusicState.Main:
                 _mainInstance.start();
+                mute = 1;
                 _forestInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
                 _caveInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
                 _finalInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+                _winScreenInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
                 _currentInstance = _mainInstance;
                 break;
             case MusicState.Forest:
@@ -73,6 +79,7 @@ public class MusicManager : MonoBehaviour
                 _mainInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
                 _caveInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
                 _finalInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+                _winScreenInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
                 _currentInstance = _forestInstance;
                 break;
             case MusicState.Cave:
@@ -80,6 +87,7 @@ public class MusicManager : MonoBehaviour
                 _mainInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
                 _forestInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
                 _finalInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+                _winScreenInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
                 _currentInstance = _caveInstance;
                 break;
             case MusicState.Final:
@@ -87,7 +95,16 @@ public class MusicManager : MonoBehaviour
                 _mainInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
                 _forestInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
                 _caveInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+                _winScreenInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
                 _currentInstance = _finalInstance;
+                break;
+            case MusicState.Win:
+                _winScreenInstance.start();
+                _mainInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+                _forestInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+                _caveInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+                _finalInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+                _currentInstance = _winScreenInstance;
                 break;
         }
     }

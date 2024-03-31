@@ -46,11 +46,6 @@ public class PlayerCharacter : Character
 
     private void Awake()
     {
-        _bodyColour = GetComponent<BodyColour>();
-        if (_bodyColour == null)
-        {
-            Debug.LogWarning("Body Colour not set");
-        }
         if (_helmet != null && _headLocation == null)
         {
             OnEquip(_helmet, true);
@@ -69,10 +64,13 @@ public class PlayerCharacter : Character
         }
     }
 
-    // Update is called once per frame
-    void Update()
+    private void OnEnable()
     {
-        
+        _bodyColour = GetComponent<BodyColour>();
+        if (_bodyColour == null)
+        {
+            Debug.LogWarning("Body Colour not set");
+        }
     }
     public void OnMouseDown()
     {
@@ -142,6 +140,7 @@ public class PlayerCharacter : Character
 
     public void OnCombatEnd()
     {
+        GetComponent<Animator>().SetBool("Celebrate", false);
         foreach(GameObject skill in _skills)
         {
             Destroy(skill);

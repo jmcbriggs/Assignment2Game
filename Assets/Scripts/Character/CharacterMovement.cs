@@ -53,6 +53,7 @@ public class CharacterMovement : MonoBehaviour
             {
                 _character.GetComponent<Animator>().SetBool("isMoving", true);
             }
+            _character.StartMoveSound();
             StartCoroutine(Move(path));
         }
         else

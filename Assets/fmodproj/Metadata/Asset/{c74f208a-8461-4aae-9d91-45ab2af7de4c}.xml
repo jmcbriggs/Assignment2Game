@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.02.00">
+	<object class="EncodableAsset" id="{c74f208a-8461-4aae-9d91-45ab2af7de4c}">
+		<property name="assetPath">
+			<value>Wind/Wind_Aura_Loop/</value>
+		</property>
+		<relationship name="masterAssetFolder">
+			<destination>{b9b03b92-4960-4811-b565-ec56fbf81971}</destination>
+		</relationship>
+	</object>
+</objects>

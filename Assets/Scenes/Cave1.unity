@@ -1488,7 +1488,7 @@ GameObject:
   m_Component:
   - component: {fileID: 519420032}
   - component: {fileID: 519420031}
-  - component: {fileID: 519420029}
+  - component: {fileID: 519420033}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -1496,14 +1496,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!81 &519420029
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 519420028}
-  m_Enabled: 1
 --- !u!20 &519420031
 Camera:
   m_ObjectHideFlags: 0
@@ -1570,6 +1562,19 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 40, y: 0, z: 0}
+--- !u!114 &519420033
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 519420028}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86c6556701af9e04380698b89f691b6e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  attenuationObject: {fileID: 0}
 --- !u!1 &543639462
 GameObject:
   m_ObjectHideFlags: 0
@@ -3337,6 +3342,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _grid: {fileID: 0}
+  _menu: {fileID: 0}
   _playerCharacters:
   - {fileID: 4231711683031803762, guid: d098628cd8a56444a9d85f68f455a454, type: 3}
   - {fileID: 4231711683031803762, guid: 34bdee04cfb9fea458cf74baacffc670, type: 3}
@@ -4468,6 +4474,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Canvas
       objectReference: {fileID: 0}
+    - target: {fileID: 687959238999619766, guid: 808f4e0d8ef31d84bb8414c604b65549, type: 3}
+      propertyPath: m_text
+      value: Exit Battle
+      objectReference: {fileID: 0}
     - target: {fileID: 903561751992899550, guid: 808f4e0d8ef31d84bb8414c604b65549, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
@@ -4476,6 +4486,10 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 1517076117}
+    - target: {fileID: 1159221653192336005, guid: 808f4e0d8ef31d84bb8414c604b65549, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: ExitBattle
+      objectReference: {fileID: 0}
     - target: {fileID: 1472332289582819155, guid: 808f4e0d8ef31d84bb8414c604b65549, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
@@ -4592,6 +4606,10 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 1517076117}
+    - target: {fileID: 7142030882787595404, guid: 808f4e0d8ef31d84bb8414c604b65549, type: 3}
+      propertyPath: m_text
+      value: Loot The Battlefield
+      objectReference: {fileID: 0}
     - target: {fileID: 7310758178875960336, guid: 808f4e0d8ef31d84bb8414c604b65549, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 

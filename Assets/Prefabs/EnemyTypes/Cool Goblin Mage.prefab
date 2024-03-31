@@ -816,7 +816,7 @@ MonoBehaviour:
   _maxHealth: 25
   _currentHealth: 25
   _attack: 11
-  _defence: 15
+  _defence: 13
   _movement: 4
   _movementRemaining: 4
   _magic: 18
@@ -829,12 +829,26 @@ MonoBehaviour:
   _combatManager: {fileID: 0}
   _characterMovement: {fileID: 0}
   _healthBar: {fileID: 8847339782455140946}
+  _walkingSound:
+    Guid:
+      Data1: 1262430109
+      Data2: 1124385211
+      Data3: 335001265
+      Data4: 700206729
+    Path: event:/Walk
+  _attackSound:
+    Guid:
+      Data1: 229073540
+      Data2: 1139675228
+      Data3: 1010727097
+      Data4: -651541420
+    Path: event:/Attack
   _damageNumber: {fileID: 5154126224071687899, guid: 98ac40523c076604f8ffec8ec9fb016d, type: 3}
   _damageDone: 0
   _healingDone: 0
   _damageTaken: 0
   _defeats: 0
-  _difficulty: 6
+  _difficulty: 7
   _minLevel: 6
   _maxLevel: 11
 --- !u!114 &3373735823609961099
