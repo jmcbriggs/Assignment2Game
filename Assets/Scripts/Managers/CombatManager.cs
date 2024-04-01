@@ -101,8 +101,8 @@ public class CombatManager : MonoBehaviour
         BuildEnemyList();
         _grid.CreateTiles(_playerCharacters.Count, _selectedEnemies.Count);
         CreateCharacter();
+        EnableColliders(false);
         StartCombat(CombatState.PLAYER);
-        EnableColliders(true);
         if (GameController.Instance != null)
         {
             GameController.Instance.GetComponent<MusicManager>().PlaySting(MusicManager.Sting.Start);
@@ -155,6 +155,7 @@ public class CombatManager : MonoBehaviour
     {
         _state = startState;
         _uiManager.SetState(_state.ToString());
+        StartCoroutine(EndTurnDelay());
     }
 
     void BuildEnemyList()
@@ -445,7 +446,6 @@ public class CombatManager : MonoBehaviour
                     _selectedTiles = null;
                     _grid.ClearColour();
                 }
-                EnableColliders(true);
             }
 
         }
@@ -458,7 +458,6 @@ public class CombatManager : MonoBehaviour
                 _selectedTiles = null;
                 _grid.ClearColour();
                 _selectedCharacter.GetComponent<PlayerCharacter>().OnSkill(parameters, _selectedSkill);
-                EnableColliders(true);
             }
             _selectedTargetTiles = new List<GameObject>();
         }
@@ -597,6 +596,21 @@ public class CombatManager : MonoBehaviour
         else
         {
             EnableColliders(true);
+        }
+    }
+
+    public void OnCameraFocus()
+    {
+        EnableColliders(false);
+        _uiManager.OnCharacterDeselect();
+    }
+
+    public void OnCameraUnfocus()
+    {
+        EnableColliders(true);
+        if(_selectedCharacter != null)
+        {
+            _uiManager.OnCharacterSelect(_selectedCharacter.GetComponent<PlayerCharacter>());
         }
     }
 

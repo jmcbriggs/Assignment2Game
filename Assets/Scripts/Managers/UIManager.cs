@@ -48,10 +48,18 @@ public class UIManager : MonoBehaviour
     Animator _winAnimator;
     [SerializeField]
     Animator _loseAnimator;
+    [SerializeField]
+    TextMeshProUGUI _moveText;
+    [SerializeField]
+    Animator _moveAnimator;
     bool _animating = false;
 
     List<Button> skillButtons = new List<Button>();
 
+    private void OnEnable()
+    {
+        _endTurnButton.SetActive(false);
+    }
     // Start is called before the first frame update
     void Start()
     {
@@ -153,14 +161,15 @@ public class UIManager : MonoBehaviour
 
     IEnumerator TurnAnimation(string state)
     {
-        yield return new WaitForSeconds(4f);
         if (state == "PLAYER")
         {
+            yield return new WaitForSeconds(4f);
             _endTurnButton.SetActive(true);
         }
         else
         {
             _endTurnButton.SetActive(false);
+            yield return new WaitForSeconds(4f);
         }
         _animating = false;
     }
@@ -189,5 +198,34 @@ public class UIManager : MonoBehaviour
     public void ShowDeathScreen()
     {
         _loseAnimator.SetTrigger("NewTurn");
+    }
+
+    public void StartMove(string characterName)
+    {
+        if(_moveText == null || _moveAnimator == null)
+        {
+            return;
+        }
+        _moveText.text = characterName + " went for an attack!";
+        _moveAnimator.SetTrigger("AttackStarted");
+    }
+
+    public void StartMove(string characterName, string skillName)
+    {
+        if (_moveText == null || _moveAnimator == null)
+        {
+            return;
+        }
+        _moveText.text = characterName + " used " + skillName + "!";
+        _moveAnimator.SetTrigger("AttackStarted");
+    }
+
+    public void StopMove()
+    {
+        if (_moveText == null || _moveAnimator == null)
+        {
+            return;
+        }
+        _moveAnimator.SetTrigger("AttackFinished");
     }
 }

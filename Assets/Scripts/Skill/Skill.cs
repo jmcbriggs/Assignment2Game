@@ -24,6 +24,9 @@ public class Skill : MonoBehaviour
     int _level;
     [SerializeField]
     AnimationType _animationType;
+
+    [SerializeField]
+    string _saveIdentifier;
     
     public enum SkillType
     {
@@ -203,5 +206,10 @@ public class Skill : MonoBehaviour
         {
             Debug.LogError("This skill has no extra effect");
         }
+    }
+
+    public string GetSaveIdentifier()
+    {
+        return _saveIdentifier;
     }
 }

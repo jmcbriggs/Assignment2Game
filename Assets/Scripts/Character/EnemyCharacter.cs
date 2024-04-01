@@ -43,6 +43,20 @@ public class EnemyCharacter : Character
         }
     }
 
+    public override void FinishAttack(float delay)
+    {
+        base.FinishAttack(delay);
+        if (_brain != null)
+        {
+            _brain.FinishTurn();
+        }
+        else
+        {
+            Debug.LogError("No brain assigned to enemy character");
+        }
+    }
+
+
     public int GetDifficulty()
     {
         return _difficulty;

@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.Logging;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -8,11 +10,13 @@ public class GameController : MonoBehaviour
 {
     [Header("PlayerCharacters")]
     [SerializeField]
-    List<GameObject> AvailableCharacters = new List<GameObject>();
+    List<GameObject> UnlockedCharacters = new List<GameObject>();
     [SerializeField]
     List<GameObject> SelectedCharacters = new List<GameObject>();
     [SerializeField]
     List<GameObject> LockedCharacters = new List<GameObject>();
+    [SerializeField]
+    List<GameObject> AvailableCharacters = new List<GameObject>();
     [SerializeField]
     Color[] BodyColours;
 
@@ -38,6 +42,22 @@ public class GameController : MonoBehaviour
     [SerializeField, Range(0, 1)]
     float EffectsVolume;
 
+    [Header("Gear")]
+    [SerializeField]
+    List<GameObject> AvailableGear = new List<GameObject>();
+    [SerializeField]
+    List<GameObject> UnlockedGear = new List<GameObject>();
+    [SerializeField]
+    List<GameObject> LockedGear = new List<GameObject>();
+
+    [Header("Skills")]
+    [SerializeField]
+    List<GameObject> AvailableSkills = new List<GameObject>();
+    [SerializeField]
+    List<GameObject> UnlockedSkills = new List<GameObject>();
+    [SerializeField]
+    List<GameObject> LockedSkills = new List<GameObject>();
+
     [Header("PersistentPools")]
     [SerializeField]
     List<GameObject> GearPool;
@@ -49,9 +69,17 @@ public class GameController : MonoBehaviour
     int EnemiesSlain = 0;
 
     GameObject Menu;
+    SaveData SaveDataComponent;
     private static int m_referenceCount = 0;
 
     private static GameController m_instance;
+
+    enum SaveableType
+    {
+        Character,
+        Gear,
+        Skill
+    }
 
     public static GameController Instance
     {
@@ -68,8 +96,28 @@ public class GameController : MonoBehaviour
             DestroyImmediate(this.gameObject);
             return;
         }
-
         m_instance = this;
+        LoadPrefs();
+        SaveDataComponent = GetComponent<SaveData>();
+        SaveDataComponent.LoadFromJson();
+        List<string> characters = SaveDataComponent.GetUnlockedCharacters();
+        List<string> gear = SaveDataComponent.GetUnlockedGear();
+        List<string> skills = SaveDataComponent.GetUnlockedSkills();
+        if(characters != null && characters.Count != 0)
+        {
+            UnlockedCharacters = GetObjectsFromIdentifiers(characters, SaveableType.Character);
+        }
+        if(gear != null && gear.Count != 0)
+        {
+            UnlockedGear = GetObjectsFromIdentifiers(gear, SaveableType.Gear);
+        }
+        if(skills != null && skills.Count != 0)
+        {
+            UnlockedSkills = GetObjectsFromIdentifiers(skills, SaveableType.Skill);
+        }
+        LockedCharacters = AvailableCharacters.Except(UnlockedCharacters).ToList();
+        LockedGear = AvailableGear.Except(UnlockedGear).ToList();
+        LockedSkills = AvailableSkills.Except(UnlockedSkills).ToList();
         // Use this line if you need the object to persist across scenes
         DontDestroyOnLoad(this.gameObject);
     }
@@ -86,23 +134,31 @@ public class GameController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        SelectedCharacters.AddRange(AvailableCharacters);
+        int count = UnlockedCharacters.Count;
+        if(count >4)
+        {
+            count = 4;
+        }
+        for(int i = 0; i < count; i++)
+        {
+            SelectedCharacters.Add(UnlockedCharacters[i]);
+        }
         while (SelectedCharacters.Count < 4)
         {
-            SelectedCharacters.Add(AvailableCharacters[0]);
+            SelectedCharacters.Add(UnlockedCharacters[0]);
         }
         ActiveLevels = SceneManager.sceneCountInBuildSettings;
     }
 
     public GameObject GetAvailableCharacter(int index)
     {
-        if(index < AvailableCharacters.Count)
+        if(index < UnlockedCharacters.Count)
         {
-            return AvailableCharacters[index];
+            return UnlockedCharacters[index];
         }
         else
         {
-            return AvailableCharacters[0];
+            return UnlockedCharacters[0];
         }
 
     }
@@ -129,7 +185,7 @@ public class GameController : MonoBehaviour
 
     public int GetCharacterCount()
     {
-        return AvailableCharacters.Count;
+        return UnlockedCharacters.Count;
     }
 
     public Color GetCharacterBodyColour(int index)
@@ -217,7 +273,7 @@ public class GameController : MonoBehaviour
         if(LockedCharacters.Count > 0 && gameCompleted)
         {
             GameObject newCharcter = LockedCharacters[Random.Range(0, LockedCharacters.Count)];
-            AvailableCharacters.Add(newCharcter);
+            UnlockedCharacters.Add(newCharcter);
             LockedCharacters.Remove(newCharcter);
         }
         Reset();
@@ -293,10 +349,10 @@ public class GameController : MonoBehaviour
             Destroy(character);
         }
         SelectedCharacters = new List<GameObject>();
-        SelectedCharacters.AddRange(AvailableCharacters);
+        SelectedCharacters.AddRange(UnlockedCharacters);
         while (SelectedCharacters.Count <4)
         {
-            SelectedCharacters.Add(AvailableCharacters[0]);
+            SelectedCharacters.Add(UnlockedCharacters[0]);
         }
         Level = 0;
         GetComponent<MusicManager>().ChangeMusic(MusicManager.MusicState.Main);
@@ -317,5 +373,133 @@ public class GameController : MonoBehaviour
     public float GetEffectsVolume()
     {
         return EffectsVolume;
+    }
+
+    public void SavePrefs()
+    {
+        PlayerPrefs.SetFloat("MusicVolume", MusicVolume);
+        PlayerPrefs.SetFloat("EffectsVolume", EffectsVolume);
+        PlayerPrefs.Save();
+    }
+
+    public void LoadPrefs()
+    {
+        MusicVolume = PlayerPrefs.GetFloat("MusicVolume", 0.2f);
+        EffectsVolume = PlayerPrefs.GetFloat("EffectsVolume", 0.4f);
+    }
+
+    public void QuitGame()
+    {
+        Application.Quit();
+    }
+
+    public void OnApplicationQuit()
+    {
+        SaveGame();
+    }
+
+    void SaveGame()
+    {
+        List<string> characterIdentifiers = GetIdentifiers(UnlockedCharacters);
+        List<string> gearIdentifiers = GetIdentifiers(UnlockedGear);
+        List<string> skillIdentifiers = GetIdentifiers(UnlockedSkills);
+        SaveDataComponent.SetCharacterData(characterIdentifiers);
+        SaveDataComponent.SetGearData(gearIdentifiers);
+        SaveDataComponent.SetSkillData(skillIdentifiers);
+        SaveDataComponent.SaveToJson();
+        SavePrefs();
+    }
+
+    List<string> GetIdentifiers(List<GameObject> identifiableObjects)
+    {
+        List<string> identifiers = new List<string>();
+        foreach(GameObject identifiableObject in identifiableObjects)
+        {
+            if (identifiableObject.GetComponent<PlayerCharacter>())
+            {
+                string identifier = identifiableObject.GetComponent<PlayerCharacter>().GetSaveIdentifier();
+                if(identifier != null && identifier != "")
+                {
+                    identifiers.Add(identifier);
+                }
+                else
+                {
+                    string name = identifiableObject.name;
+                    Debug.LogError("Character " + name + " has no identifier");
+                }
+            }
+            if(identifiableObject.GetComponent<Gear>())
+            {
+                string identifier = identifiableObject.GetComponent<Gear>().GetSaveIdentifier();
+                if (identifier != null && identifier != "")
+                {
+                    identifiers.Add(identifier);
+                }
+                else
+                {
+                    string name = identifiableObject.name;
+                    Debug.LogError("Gear " + name + " has no identifier");
+                }
+            }
+            if(identifiableObject.GetComponent<Skill>())
+            {
+                string identifier = identifiableObject.GetComponent<Skill>().GetSaveIdentifier();
+                if (identifier != null && identifier != "")
+                {
+                    identifiers.Add(identifier);
+                }
+                else
+                {
+                    string name = identifiableObject.name;
+                    Debug.LogError("Skill " + name + " has no identifier");
+                }
+            }
+        }
+        return identifiers;
+    }
+
+    List<GameObject> GetObjectsFromIdentifiers(List<string> identifiers, SaveableType type)
+    {
+        List<GameObject> objects = new List<GameObject>();
+        switch(type)
+        {
+            case SaveableType.Character:
+                foreach(string identifier in identifiers)
+                {
+                    foreach(GameObject character in AvailableCharacters)
+                    {
+                        if(character.GetComponent<PlayerCharacter>().GetSaveIdentifier() == identifier)
+                        {
+                            objects.Add(character);
+                        }
+                    }
+                }
+                break;
+            case SaveableType.Gear:
+                foreach (string identifier in identifiers)
+                {
+                    foreach (GameObject gear in AvailableGear)
+                    {
+                        if (gear.GetComponent<Gear>().GetSaveIdentifier() == identifier)
+                        {
+                            objects.Add(gear);
+                        }
+                    }
+                }
+                break;
+            case SaveableType.Skill:
+                foreach (string identifier in identifiers)
+                {
+                    foreach (GameObject skill in AvailableSkills)
+                    {
+                        if (skill.GetComponent<Skill>().GetSaveIdentifier() == identifier)
+                        {
+                            objects.Add(skill);
+                        }
+                    }
+                }
+                break;
+        }
+        return objects;
     }
 }

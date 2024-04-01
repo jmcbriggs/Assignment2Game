@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 using static Gear;
 
@@ -42,6 +43,10 @@ public class PlayerCharacter : Character
 
     CharacterSelecter _characterSelecter;
     BodyColour _bodyColour;
+
+    [Header("System")]
+    [SerializeField]
+    string SaveIdentifier;
 
 
     private void Awake()
@@ -126,6 +131,11 @@ public class PlayerCharacter : Character
     public void SetName(string name)
     {
         _characterName = name;
+    }
+
+    public string GetSaveIdentifier()
+    {
+        return SaveIdentifier;
     }
 
     public CharacterSelecter GetCharacterSelecter()
@@ -391,16 +401,44 @@ public class PlayerCharacter : Character
         }
     }
 
+    public override void OnAttack(Character targetCharacter, int damage)
+    {
+        HideUI();
+        base.OnAttack(targetCharacter, damage);
+    }
+
+    public override void OnSkill(CombatManager.SkillTargetParameters parameters, Skill skill)
+    {
+        HideUI();
+        base.OnSkill(parameters, skill);
+    }
+
+    void HideUI()
+    {
+        if(_combatManager != null)
+        {
+            _combatManager.OnCameraFocus();
+        }
+    }
+
+    void ShowUI()
+    {
+        if (_combatManager != null)
+        {
+            _combatManager.OnCameraUnfocus();
+        }
+    }
+
     public override void FinishAttack()
     {
         base.FinishAttack();
-        if (_uiManager != null)
-        {
-            if (_combatManager.IsCharacterSelected(this))
-            {
-                _uiManager.UpdateCharacterStats(this);
-            }
-        }
+        Invoke("ShowUI", 2f);
+    }
+
+    public override void FinishAttack(float delay)
+    {
+        base.FinishAttack(delay);
+        Invoke("ShowUI", 2f + delay);
     }
 
     public override void FinishMove()

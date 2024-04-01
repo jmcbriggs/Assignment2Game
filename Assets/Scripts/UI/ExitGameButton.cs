@@ -10,7 +10,20 @@ public class ExitGameButton : MonoBehaviour
     {
         Button btn = GetComponent<Button>();
         btn.onClick.RemoveAllListeners();
-        btn.onClick.AddListener(Application.Quit);
+        btn.onClick.AddListener(QuitGame);
+    }
+
+
+    void QuitGame()
+    {
+        if(GameController.Instance != null)
+        {
+            GameController.Instance.QuitGame();
+        }
+        else
+        {
+            Application.Quit();
+        }
     }
 
 }

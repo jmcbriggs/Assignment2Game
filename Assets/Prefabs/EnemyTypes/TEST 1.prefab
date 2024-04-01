@@ -723,6 +723,7 @@ GameObject:
   - component: {fileID: 4166994231509790216}
   - component: {fileID: 3373735823609961099}
   - component: {fileID: -6040462652759077404}
+  - component: {fileID: 347285271253416178}
   m_Layer: 0
   m_Name: TEST 1
   m_TagString: Untagged
@@ -880,6 +881,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _targetingPriority: 2
   _priorityWeighting: 2
+--- !u!114 &347285271253416178
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4231711683031803762}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4204eabbb7bca6b489cd05287c923bb1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _virtualCameraPrefab: {fileID: 2707273844338349620, guid: 6d136d0926d291a46b937798d9becb2c, type: 3}
 --- !u!1 &4557928687607586448
 GameObject:
   m_ObjectHideFlags: 0

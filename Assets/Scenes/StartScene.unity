@@ -1702,6 +1702,7 @@ GameObject:
   - component: {fileID: 821049457}
   - component: {fileID: 821049459}
   - component: {fileID: 821049460}
+  - component: {fileID: 821049461}
   m_Layer: 0
   m_Name: GameController
   m_TagString: Untagged
@@ -1721,14 +1722,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 05867fce0162d7249b5e355b22bbebdc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  AvailableCharacters:
+  UnlockedCharacters:
   - {fileID: 4231711683031803762, guid: 80c28a50bc9e49847ac6ad9713566ce4, type: 3}
   SelectedCharacters: []
   LockedCharacters:
-  - {fileID: 4231711683031803762, guid: 225f8e46c7942bb4981e4dedbb0e5bc9, type: 3}
-  - {fileID: 4231711683031803762, guid: abfddef3c1f70964f86026fa09b04b27, type: 3}
-  - {fileID: 4231711683031803762, guid: e388214e6c030204e8445a8f917dd0fb, type: 3}
-  - {fileID: 4231711683031803762, guid: d084c95cca93f604ba5dfcdc7c240581, type: 3}
+  - {fileID: 4231711683031803762, guid: b0d987da572919c4bb8415bbcda645bc, type: 3}
+  - {fileID: 4231711683031803762, guid: ac2ad0647b67d824088b01677fee4841, type: 3}
+  - {fileID: 4231711683031803762, guid: bf314a4a2d00da04381b6802930168dc, type: 3}
+  - {fileID: 4231711683031803762, guid: 85ce337935ba03147b4ae86eced9aee2, type: 3}
+  AvailableCharacters:
+  - {fileID: 4231711683031803762, guid: 80c28a50bc9e49847ac6ad9713566ce4, type: 3}
+  - {fileID: 4231711683031803762, guid: b0d987da572919c4bb8415bbcda645bc, type: 3}
+  - {fileID: 4231711683031803762, guid: ac2ad0647b67d824088b01677fee4841, type: 3}
+  - {fileID: 4231711683031803762, guid: bf314a4a2d00da04381b6802930168dc, type: 3}
+  - {fileID: 4231711683031803762, guid: 85ce337935ba03147b4ae86eced9aee2, type: 3}
   BodyColours:
   - {r: 1, g: 0, b: 0.9456892, a: 1}
   - {r: 1, g: 0.9048885, b: 0, a: 1}
@@ -1750,6 +1757,12 @@ MonoBehaviour:
   ActiveLevels: 1
   MusicVolume: 0.2
   EffectsVolume: 0.4
+  AvailableGear: []
+  UnlockedGear: []
+  LockedGear: []
+  AvailableSkills: []
+  UnlockedSkills: []
+  LockedSkills: []
   GearPool: []
   SkillPool: []
   EnemiesSlain: 0
@@ -1867,6 +1880,24 @@ MonoBehaviour:
       Data3: 1909239683
       Data4: -629816893
     Path: event:/Music/LoseBattle
+--- !u!114 &821049461
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 821049456}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2bebb0447de98d24387591a8e8f81f69, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _characterData:
+    unlockedCharacters: []
+  _gearData:
+    unlockedGear: []
+  _skillData:
+    unlockedSkills: []
 --- !u!1001 &868178269
 PrefabInstance:
   m_ObjectHideFlags: 0

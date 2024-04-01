@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: -5938146918159284888}
   - component: {fileID: 869015740518975487}
   - component: {fileID: 245539894244391639}
+  - component: {fileID: 7424222575348221388}
   m_Layer: 0
   m_Name: Super Heal
   m_TagString: Untagged
@@ -55,6 +56,7 @@ MonoBehaviour:
   _skillDescription: Heals a single target for a Large amount
   _level: 6
   _animationType: 2
+  _saveIdentifier: 
   _skillType: 2
   _skillTarget: 1
   _skillHitType: 0
@@ -81,6 +83,7 @@ MonoBehaviour:
       Data3: -562235209
       Data4: 2128771566
     Path: event:/HealCast
+  _useCamera: 1
 --- !u!114 &245539894244391639
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -112,3 +115,16 @@ MonoBehaviour:
   OverrideAttenuation: 0
   OverrideMinDistance: 1
   OverrideMaxDistance: 20
+--- !u!114 &7424222575348221388
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7536893309470946647}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4204eabbb7bca6b489cd05287c923bb1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _virtualCameraPrefab: {fileID: 2707273844338349620, guid: 6d136d0926d291a46b937798d9becb2c, type: 3}

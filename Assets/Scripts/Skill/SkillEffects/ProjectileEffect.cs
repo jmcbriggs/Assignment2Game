@@ -16,6 +16,7 @@ public class ProjectileEffect : SkillEffect
     FMOD.Studio.EventInstance _castInstance;
     FMOD.Studio.EventInstance _hitInstance;
     StudioEventEmitter _fmodEmitter;
+    CharacterCamera _characterCamera;
     // Start is called before the first frame update
     void Start()
     {
@@ -37,6 +38,11 @@ public class ProjectileEffect : SkillEffect
         {
             Debug.LogError("No hit sound assigned to " + gameObject.name);
         }
+        _characterCamera = GetComponent<CharacterCamera>();
+        if(_characterCamera == null)
+        {
+            Debug.LogError("No CharacterCamera found in " + gameObject.name);
+        }
     }
 
     public override void TriggerEffect(Transform user, Transform singleTarget, List<Transform> targets)
@@ -50,6 +56,12 @@ public class ProjectileEffect : SkillEffect
         }
         proj.transform.localScale = new Vector3(_scale, _scale, _scale);
         proj.GetComponent<Rigidbody>().velocity = (target - user.position).normalized * _speed;
+        if(_characterCamera != null)
+        {
+            _characterCamera.CreateCamera(proj);
+            _characterCamera.SkillFocus();
+        }
+
 
         StartCoroutine(TriggerHitEffect(proj, target, user));
     }
@@ -89,8 +101,27 @@ public class ProjectileEffect : SkillEffect
             _hitInstance.start();
         }
         Destroy(hitParticle, 5f);
-        Destroy(proj);
+        proj.SetActive(false);
+        Destroy(proj, 5f);
+        Invoke("ClearCameraFocus", 1f);
         user.GetComponent<Character>().FinishAttack();
+    }
+
+    void ClearCameraFocus()
+    {
+        if (_characterCamera != null)
+        {
+            _characterCamera.CharacterUnfocus();
+            Invoke("DestroyCamera", 2f);
+        }
+    }
+
+    void DestroyCamera()
+    {
+        if (_characterCamera != null)
+        {
+            _characterCamera.CameraDestroy();
+        }
     }
 
     // Update is called once per frame

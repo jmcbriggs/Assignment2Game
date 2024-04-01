@@ -26,6 +26,9 @@ public class Gear : MonoBehaviour
     [Header("Visuals")]
     [SerializeField]
     GameObject _arms;
+
+    [SerializeField]
+    string _saveIdentifier;
     
     Dictionary<StatType, int> _stats = new Dictionary<StatType, int>();
 
@@ -112,5 +115,10 @@ public class Gear : MonoBehaviour
     public GameObject GetArms()
     {
         return _arms;
+    }
+
+    public string GetSaveIdentifier()
+    {
+        return _saveIdentifier;
     }
 }

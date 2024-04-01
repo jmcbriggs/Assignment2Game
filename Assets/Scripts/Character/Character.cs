@@ -30,6 +30,7 @@ public class Character : MonoBehaviour
     protected List<GameObject> _selectedSkills = new List<GameObject>();
     [SerializeField]
     protected List<GameObject> _skills = new List<GameObject>();
+    bool _cameraFocused = false;
 
 
     [Header("Related Scripts")]
@@ -68,6 +69,9 @@ public class Character : MonoBehaviour
     Vector3 _setPosition;
     float _yOffset = 0.5f;
 
+    Transform _combatCamera;
+    protected CharacterCamera _characterCamera;
+
 
     public virtual void OnCreate()
     {
@@ -76,6 +80,20 @@ public class Character : MonoBehaviour
         _spriteRenderer = GetComponent<SpriteRenderer>();
         _characterMovement = GetComponent<CharacterMovement>();
         _animator = GetComponent<Animator>(); 
+        _combatCamera = GameObject.Find("CombatCamera").transform;
+        _characterCamera = GetComponent<CharacterCamera>();
+        if(_characterCamera == null)
+        {
+            Debug.LogWarning("Character Camera is null");
+        }
+        else if (_combatCamera == null)
+        {
+            Debug.LogError("Camera Dolly is null");
+        }
+        else
+        {
+            _characterCamera.CreateCamera(_combatCamera);
+        }
         if (_combatManager == null)
         {
             Debug.LogError("Combat Manager is null");
@@ -92,6 +110,7 @@ public class Character : MonoBehaviour
         {
             Debug.LogError("Animator is null");
         }
+
         _movementRemaining = _movement;
         _animator.SetBool("HasAction", true);
 
@@ -128,7 +147,7 @@ public class Character : MonoBehaviour
         _walkingInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
     }
 
-    public void OnSkill(CombatManager.SkillTargetParameters parameters, Skill skill)
+    public virtual void OnSkill(CombatManager.SkillTargetParameters parameters, Skill skill)
     {
         _usedAction = true;
         skill.StartCooldown();
@@ -147,7 +166,7 @@ public class Character : MonoBehaviour
         }
     }
 
-    public void OnAttack(Character targetCharacter, int damage)
+    public virtual void OnAttack(Character targetCharacter, int damage)
     {
         _usedAction = true;
         List<GameObject> targets = new List<GameObject>();
@@ -164,26 +183,41 @@ public class Character : MonoBehaviour
     public void UseAttackAnimation(CombatManager.SkillTargetParameters parameters, Skill skill)
     {
         _attackFinished = false;
-        _animator.SetTrigger("Attack");
-        StartCoroutine(AttackAnimation(parameters, skill, Skill.AnimationType.Attack));
+        StartCoroutine(AttackAnimation(parameters, skill, Skill.AnimationType.Attack, "Attack"));
     }
 
     public void UseOffensiveSpellAnimation(CombatManager.SkillTargetParameters parameters, Skill skill)
     {
         _attackFinished = false;
-        _animator.SetTrigger("OffensiveSpell");
-        StartCoroutine(AttackAnimation(parameters, skill, Skill.AnimationType.OffensiveSpell));
+        StartCoroutine(AttackAnimation(parameters, skill, Skill.AnimationType.OffensiveSpell, "OffensiveSpell"));
     }
 
     public void UseDefensiveSpellAnimation(CombatManager.SkillTargetParameters parameters, Skill skill)
     {
         _attackFinished = false;
-        _animator.SetTrigger("DefensiveSpell");
-        StartCoroutine(AttackAnimation(parameters, skill, Skill.AnimationType.DefensiveSpell));
+        StartCoroutine(AttackAnimation(parameters, skill, Skill.AnimationType.DefensiveSpell, "DefensiveSpell"));
     }
     
-    IEnumerator AttackAnimation(CombatManager.SkillTargetParameters parameters, Skill skill, Skill.AnimationType transition)
+    IEnumerator AttackAnimation(CombatManager.SkillTargetParameters parameters, Skill skill, Skill.AnimationType transition, string animationTrigger)
     {
+        if (_combatCamera != null)
+        {
+            _characterCamera.CharacterFocus();
+        }
+        if(_uiManager != null)
+        {
+            string name = GetName();
+            if(skill != null)
+            {
+                _uiManager.StartMove(name, skill.GetSkillName());
+            }
+            else
+            {
+                _uiManager.StartMove(name);
+            }
+        }
+        yield return new WaitForSeconds(1f);
+        _animator.SetTrigger(animationTrigger);
         if (skill != null && skill.HasExtraEffect())
         {
             skill.TriggerCastSound();
@@ -222,7 +256,7 @@ public class Character : MonoBehaviour
         }
         else
         {
-            FinishAttack();
+            FinishAttack(1);
         }
         while(_attackFinished == false)
         {
@@ -254,6 +288,50 @@ public class Character : MonoBehaviour
     {
         _animator.SetBool("HasAction", false);
         _attackFinished = true;
+        FinishAttackUI();
+    }
+
+    public virtual void FinishAttack(float delay)
+    {
+        _animator.SetBool("HasAction", false);
+        _attackFinished = true;
+        Invoke("FinishAttackUI", delay);
+    }
+
+    void FinishAttackUI()
+    {
+        CameraUnfocus();
+        if (_uiManager != null)
+        {
+            _uiManager.StopMove();
+        }
+    }
+
+    public void CameraUnfocus()
+    {
+        if(_characterCamera != null)
+        {
+            _characterCamera.CharacterUnfocus();
+            _cameraFocused = false;
+        }
+    }
+
+    public void CameraUnfocus(float delay)
+    {
+        Invoke("CameraUnfocus", delay);
+    }
+
+    public void CameraFocus()
+    {
+        if (_characterCamera != null)
+        {
+            _characterCamera.CharacterFocus();
+        }
+        Invoke("IsFocused", 1f);    
+    }
+
+    void IsFocused() { 
+        _cameraFocused = true;
     }
 
     public void SetPosition(Vector3 position)

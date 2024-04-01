@@ -753,6 +753,7 @@ GameObject:
   - component: {fileID: 1807237741268894189}
   - component: {fileID: 8311609794606564867}
   - component: {fileID: 1090496029534340770}
+  - component: {fileID: -7100302006594556312}
   m_Layer: 0
   m_Name: Knight
   m_TagString: Untagged
@@ -844,18 +845,18 @@ MonoBehaviour:
   _healthBar: {fileID: 8847339782455140946}
   _walkingSound:
     Guid:
-      Data1: 0
-      Data2: 0
-      Data3: 0
-      Data4: 0
-    Path: 
+      Data1: 1262430109
+      Data2: 1124385211
+      Data3: 335001265
+      Data4: 700206729
+    Path: event:/Walk
   _attackSound:
     Guid:
-      Data1: 0
-      Data2: 0
-      Data3: 0
-      Data4: 0
-    Path: 
+      Data1: 229073540
+      Data2: 1139675228
+      Data3: 1010727097
+      Data4: -651541420
+    Path: event:/Attack
   _damageNumber: {fileID: 5154126224071687899, guid: 98ac40523c076604f8ffec8ec9fb016d, type: 3}
   _damageDone: 0
   _healingDone: 0
@@ -873,6 +874,7 @@ MonoBehaviour:
   _rightArmLocation: {fileID: 296543721241720058}
   _leftLegLocation: {fileID: 6760098973887273706}
   _rightLegLocation: {fileID: 6948811739022714993}
+  SaveIdentifier: 
 --- !u!210 &8311609794606564867
 SortingGroup:
   m_ObjectHideFlags: 0
@@ -906,6 +908,19 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &-7100302006594556312
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4231711683031803762}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4204eabbb7bca6b489cd05287c923bb1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _virtualCameraPrefab: {fileID: 2707273844338349620, guid: 6d136d0926d291a46b937798d9becb2c, type: 3}
 --- !u!1 &4557928687607586448
 GameObject:
   m_ObjectHideFlags: 0
@@ -1094,6 +1109,8 @@ MonoBehaviour:
   leftArmRenderer: {fileID: 0}
   rightArmRenderer: {fileID: 0}
   hairRenderer: {fileID: 0}
+  hairRendererBack: {fileID: 0}
+  beardRenderer: {fileID: 0}
 --- !u!1 &5043144171588003387
 GameObject:
   m_ObjectHideFlags: 0

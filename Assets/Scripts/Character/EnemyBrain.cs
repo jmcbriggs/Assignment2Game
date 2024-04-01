@@ -65,7 +65,8 @@ public class EnemyBrain : MonoBehaviour
 
     IEnumerator ExecuteTurn()
     {
-        yield return new WaitForSeconds(0.5f);
+        _enemyCharacter.CameraFocus();
+        yield return new WaitForSeconds(1f);
         GridManager gridManager = _combatManager.GetGrid();
         int movementRange = _enemyCharacter.GetMovementRemaining();
         List<PotentialTarget> potentialTiles = GetPotentialTargets(gridManager, movementRange);
@@ -125,7 +126,6 @@ public class EnemyBrain : MonoBehaviour
             target = attackTarget;
 
         }
-        bool attackSuccess = false;
         if (target.walkingTile != null)
         {
             moveSuccess = false;
@@ -458,6 +458,7 @@ public class EnemyBrain : MonoBehaviour
 
     public void FinishTurn()
     {
+        _enemyCharacter.CameraUnfocus(1f);
         _combatManager.EnemyAttackFinished();
     }
 }

@@ -63,7 +63,7 @@ public class ExplodeEffect : SkillEffect
             }
         }
         Destroy(proj, 5f);
-        user.GetComponent<Character>().FinishAttack();
+        user.GetComponent<Character>().FinishAttack(1);
     }
 
     public override void TriggerCastSound()
@@ -82,4 +82,5 @@ public class ExplodeEffect : SkillEffect
             _castInstance.setParameterByName("Volume", GameController.Instance.GetEffectsVolume());
         }
     }
+
 }

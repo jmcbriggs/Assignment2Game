@@ -9,7 +9,9 @@ public class OnTargetEffect : SkillEffect
     [SerializeField] private GameObject _hitEffect;
     [SerializeField] private float _scale;
     [SerializeField] private EventReference _fmodCast;
+    [SerializeField] private bool _useCamera;
     FMOD.Studio.EventInstance _castInstance;
+    CharacterCamera _characterCamera;
     // Start is called before the first frame update
     void Start()
     {
@@ -21,6 +23,11 @@ public class OnTargetEffect : SkillEffect
         else
         {
             Debug.LogError("No cast sound assigned to " + gameObject.name);
+        }
+        _characterCamera = GetComponent<CharacterCamera>();
+        if (_characterCamera == null)
+        {
+            Debug.LogError("No CharacterCamera found in " + gameObject.name);
         }
     }
 
@@ -37,6 +44,11 @@ public class OnTargetEffect : SkillEffect
             }
         }
         GameObject proj = Instantiate(_hitEffect, pos, Quaternion.identity);
+        if (_characterCamera != null && _useCamera)
+        {
+            _characterCamera.CreateCamera(singleTarget.gameObject);
+            _characterCamera.SkillFocus();
+        }
         List<Transform> hitParticleChildren = proj.GetComponentsInChildren<Transform>().ToList();
         if (hitParticleChildren.Count > 0)
         {
@@ -46,7 +58,9 @@ public class OnTargetEffect : SkillEffect
             }
         }
         Destroy(proj, 5f);
-        user.GetComponent<Character>().FinishAttack();
+        Invoke("ClearCameraFocus", 1f);
+        user.GetComponent<Character>().FinishAttack(1);
+ 
     }
 
     public override void TriggerCastSound()
@@ -63,6 +77,23 @@ public class OnTargetEffect : SkillEffect
         if (GameController.Instance != null)
         {
             _castInstance.setParameterByName("Volume", GameController.Instance.GetEffectsVolume());
+        }
+    }
+
+    void ClearCameraFocus()
+    {
+        if (_characterCamera != null && _useCamera)
+        {
+            _characterCamera.CharacterUnfocus();
+            Invoke("DestroyCamera", 2f);
+        }
+    }
+
+    void DestroyCamera()
+    {
+        if (_characterCamera != null)
+        {
+            _characterCamera.CameraDestroy();
         }
     }
 }

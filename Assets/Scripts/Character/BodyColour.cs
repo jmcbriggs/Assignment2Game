@@ -14,6 +14,10 @@ public class BodyColour : MonoBehaviour
     SpriteRenderer rightArmRenderer;
     [SerializeField]
     SpriteRenderer hairRenderer;
+    [SerializeField]
+    SpriteRenderer hairRendererBack;
+    [SerializeField]
+    SpriteRenderer beardRenderer;
     // Start is called before the first frame update
     void Start()
     {
@@ -67,6 +71,14 @@ public class BodyColour : MonoBehaviour
         else
         {
             Debug.LogWarning("Hair renderer not set");
+        }
+        if(hairRendererBack != null)
+        {
+            hairRendererBack.color = color;
+        }
+        if(beardRenderer != null)
+        {
+            beardRenderer.color = color;
         }
     }
 }

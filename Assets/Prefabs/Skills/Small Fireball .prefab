@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: -5938146918159284888}
   - component: {fileID: 4125058132330901909}
   - component: {fileID: 1804022522646405205}
+  - component: {fileID: -125047616813080104}
   m_Layer: 0
   m_Name: 'Small Fireball '
   m_TagString: Untagged
@@ -55,6 +56,7 @@ MonoBehaviour:
   _skillDescription: An exploding ball of fire that does small damage to an area
   _level: 3
   _animationType: 1
+  _saveIdentifier: 
   _skillType: 0
   _skillTarget: 0
   _skillHitType: 0
@@ -122,3 +124,16 @@ MonoBehaviour:
   OverrideAttenuation: 0
   OverrideMinDistance: -1
   OverrideMaxDistance: -1
+--- !u!114 &-125047616813080104
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7536893309470946647}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4204eabbb7bca6b489cd05287c923bb1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _virtualCameraPrefab: {fileID: 2707273844338349620, guid: 6d136d0926d291a46b937798d9becb2c, type: 3}
