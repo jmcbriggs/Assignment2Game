@@ -9705,7 +9705,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1575735877}
   - component: {fileID: 1575735876}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Stalag (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}

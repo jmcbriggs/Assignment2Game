@@ -425,6 +425,7 @@ public class PlayerCharacter : Character
     {
         if (_combatManager != null)
         {
+            _characterCamera.ResetLayerMask();
             _combatManager.OnCameraUnfocus();
         }
     }

@@ -19,6 +19,7 @@ public class GameController : MonoBehaviour
     List<GameObject> AvailableCharacters = new List<GameObject>();
     [SerializeField]
     Color[] BodyColours;
+    GameObject NewCharacter;
 
     [Header("Enemies")]
     [SerializeField]
@@ -30,14 +31,14 @@ public class GameController : MonoBehaviour
 
     [Header("SceneControl")]
     [SerializeField]
-    int Level= 1;
+    int Level = 1;
     [SerializeField]
     int UtilitySceneCount = 1;
     [SerializeField]
     int ActiveLevels = 1;
 
     [Header("Audio")]
-    [SerializeField, Range(0,1)]
+    [SerializeField, Range(0, 1)]
     float MusicVolume;
     [SerializeField, Range(0, 1)]
     float EffectsVolume;
@@ -103,15 +104,15 @@ public class GameController : MonoBehaviour
         List<string> characters = SaveDataComponent.GetUnlockedCharacters();
         List<string> gear = SaveDataComponent.GetUnlockedGear();
         List<string> skills = SaveDataComponent.GetUnlockedSkills();
-        if(characters != null && characters.Count != 0)
+        if (characters != null && characters.Count != 0)
         {
             UnlockedCharacters = GetObjectsFromIdentifiers(characters, SaveableType.Character);
         }
-        if(gear != null && gear.Count != 0)
+        if (gear != null && gear.Count != 0)
         {
             UnlockedGear = GetObjectsFromIdentifiers(gear, SaveableType.Gear);
         }
-        if(skills != null && skills.Count != 0)
+        if (skills != null && skills.Count != 0)
         {
             UnlockedSkills = GetObjectsFromIdentifiers(skills, SaveableType.Skill);
         }
@@ -134,12 +135,18 @@ public class GameController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+
+        ActiveLevels = SceneManager.sceneCountInBuildSettings;
+    }
+
+    public void CharacterSelectStart()
+    {
         int count = UnlockedCharacters.Count;
-        if(count >4)
+        if (count > 4)
         {
             count = 4;
         }
-        for(int i = 0; i < count; i++)
+        for (int i = 0; i < count; i++)
         {
             SelectedCharacters.Add(UnlockedCharacters[i]);
         }
@@ -147,12 +154,15 @@ public class GameController : MonoBehaviour
         {
             SelectedCharacters.Add(UnlockedCharacters[0]);
         }
-        ActiveLevels = SceneManager.sceneCountInBuildSettings;
+        if(SelectedCharacters.Count > 4)
+        {
+            SelectedCharacters.RemoveRange(4, SelectedCharacters.Count - 4);
+        }
     }
 
     public GameObject GetAvailableCharacter(int index)
     {
-        if(index < UnlockedCharacters.Count)
+        if (index < UnlockedCharacters.Count)
         {
             return UnlockedCharacters[index];
         }
@@ -205,13 +215,13 @@ public class GameController : MonoBehaviour
 
     public void BeginGame()
     {
-        for(int i = 0 ; i < SelectedCharacters.Count; i++)
+        for (int i = 0; i < SelectedCharacters.Count; i++)
         {
             List<CharacterSelecter> selecters = GetAllCharacterSelecters();
-            if(SelectedCharacters[i])
+            if (SelectedCharacters[i])
             {
                 string characterName = selecters[i].GetName();
-                SelectedCharacters[i] = Instantiate(SelectedCharacters[i], new Vector3(1000,1000,0), Quaternion.identity);
+                SelectedCharacters[i] = Instantiate(SelectedCharacters[i], new Vector3(1000, 1000, 0), Quaternion.identity);
                 SelectedCharacters[i].GetComponent<PlayerCharacter>().SetName(characterName);
                 ColorCharacter(SelectedCharacters[i], GetCharacterBodyColour(i), selecters[i].GetCharacterColor(), selecters[i].GetHairColor());
                 DontDestroyOnLoad(SelectedCharacters[i]);
@@ -270,14 +280,17 @@ public class GameController : MonoBehaviour
 
     public void ReturnToMenu(bool gameCompleted)
     {
-        if(LockedCharacters.Count > 0 && gameCompleted)
+        if (LockedCharacters.Count > 0 && gameCompleted)
         {
             GameObject newCharcter = LockedCharacters[Random.Range(0, LockedCharacters.Count)];
             UnlockedCharacters.Add(newCharcter);
             LockedCharacters.Remove(newCharcter);
+            NewCharacter = newCharcter;
+            SceneManager.LoadScene("CharacterUnlock");
+            return;
         }
         Reset();
-        SceneManager.LoadScene("StartScene");
+        SceneManager.LoadScene("MainMenu");
     }
 
     public void SetMenu(GameObject newMenu)
@@ -293,7 +306,7 @@ public class GameController : MonoBehaviour
     public void ChangeMusicVolume(float volume)
     {
         MusicVolume = volume;
-    }   
+    }
 
     public void ChangeEffectsVolume(float volume)
     {
@@ -338,21 +351,25 @@ public class GameController : MonoBehaviour
     public int GetEnemiesSlain()
     {
         return EnemiesSlain;
-    } 
+    }
 
     private void Reset()
     {
         SkillPool = new List<GameObject>();
         GearPool = new List<GameObject>();
-        foreach(GameObject character in SelectedCharacters)
+        foreach (GameObject character in SelectedCharacters)
         {
             Destroy(character);
         }
         SelectedCharacters = new List<GameObject>();
         SelectedCharacters.AddRange(UnlockedCharacters);
-        while (SelectedCharacters.Count <4)
+        while (SelectedCharacters.Count < 4)
         {
             SelectedCharacters.Add(UnlockedCharacters[0]);
+        }
+        if(SelectedCharacters.Count > 4)
+        {
+            SelectedCharacters.RemoveRange(4, SelectedCharacters.Count - 4);
         }
         Level = 0;
         GetComponent<MusicManager>().ChangeMusic(MusicManager.MusicState.Main);
@@ -360,7 +377,7 @@ public class GameController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.Escape))
+        if (Input.GetKeyDown(KeyCode.Escape))
         {
             Menu.SetActive(!Menu.activeSelf);
         }
@@ -413,12 +430,12 @@ public class GameController : MonoBehaviour
     List<string> GetIdentifiers(List<GameObject> identifiableObjects)
     {
         List<string> identifiers = new List<string>();
-        foreach(GameObject identifiableObject in identifiableObjects)
+        foreach (GameObject identifiableObject in identifiableObjects)
         {
             if (identifiableObject.GetComponent<PlayerCharacter>())
             {
                 string identifier = identifiableObject.GetComponent<PlayerCharacter>().GetSaveIdentifier();
-                if(identifier != null && identifier != "")
+                if (identifier != null && identifier != "")
                 {
                     identifiers.Add(identifier);
                 }
@@ -428,7 +445,7 @@ public class GameController : MonoBehaviour
                     Debug.LogError("Character " + name + " has no identifier");
                 }
             }
-            if(identifiableObject.GetComponent<Gear>())
+            if (identifiableObject.GetComponent<Gear>())
             {
                 string identifier = identifiableObject.GetComponent<Gear>().GetSaveIdentifier();
                 if (identifier != null && identifier != "")
@@ -441,7 +458,7 @@ public class GameController : MonoBehaviour
                     Debug.LogError("Gear " + name + " has no identifier");
                 }
             }
-            if(identifiableObject.GetComponent<Skill>())
+            if (identifiableObject.GetComponent<Skill>())
             {
                 string identifier = identifiableObject.GetComponent<Skill>().GetSaveIdentifier();
                 if (identifier != null && identifier != "")
@@ -461,14 +478,14 @@ public class GameController : MonoBehaviour
     List<GameObject> GetObjectsFromIdentifiers(List<string> identifiers, SaveableType type)
     {
         List<GameObject> objects = new List<GameObject>();
-        switch(type)
+        switch (type)
         {
             case SaveableType.Character:
-                foreach(string identifier in identifiers)
+                foreach (string identifier in identifiers)
                 {
-                    foreach(GameObject character in AvailableCharacters)
+                    foreach (GameObject character in AvailableCharacters)
                     {
-                        if(character.GetComponent<PlayerCharacter>().GetSaveIdentifier() == identifier)
+                        if (character.GetComponent<PlayerCharacter>().GetSaveIdentifier() == identifier)
                         {
                             objects.Add(character);
                         }
@@ -501,5 +518,38 @@ public class GameController : MonoBehaviour
                 break;
         }
         return objects;
+    }
+
+    public void LoadCharacterSelect()
+    {
+        SceneManager.LoadScene("CharacterSelect");
+    }
+
+    public void LoadCinematic()
+    {
+        SceneManager.LoadScene("Cinematic");
+    }
+
+    public Color GetRandomBodyColor()
+    {
+        return BodyColours[Random.Range(0, BodyColours.Length)];
+    }
+    public Color GetRandomSkinColor()
+    {
+        return new Color(Random.Range(0.1f, 0.9f), Random.Range(0.1f, 0.9f), Random.Range(0.1f, 0.9f));
+    }
+    public Color GetRandomHairColor()
+    {
+        return new Color(Random.Range(0.1f, 0.9f), Random.Range(0.1f, 0.9f), Random.Range(0.1f, 0.9f));
+    }
+
+    public GameObject GetNewCharacter()
+    {
+        return NewCharacter;
+    }
+
+    public bool FirstRun()
+    {
+        return UnlockedCharacters.Count <=1;
     }
 }

@@ -82,6 +82,10 @@ public class CharacterSelecter : MonoBehaviour
 
     void SetCharacterToSelector()
     {
+        if(GameController.Instance == null)
+        {
+            return;
+        }
         CurrentCharacter = GameController.Instance.GetAvailableCharacter(_selectedCharacterIndex);
         if(_chosenName == null || _chosenName == "")
         {

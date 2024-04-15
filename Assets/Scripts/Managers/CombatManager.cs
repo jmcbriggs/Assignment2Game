@@ -716,6 +716,9 @@ public class CombatManager : MonoBehaviour
             yield return new WaitForSeconds(0.5f);
         }
         yield return new WaitForSeconds(0.5f);
+        LayerMask mask = Camera.main.cullingMask;
+        mask |= (1 << LayerMask.NameToLayer("Blockers"));
+        Camera.main.cullingMask = mask;
         EndTurn();
     }
 

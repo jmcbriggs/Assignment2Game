@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class SkillBox : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, IEndDragHandler, IDragHandler, IDropHandler
+public class SkillBox : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, IEndDragHandler, IDragHandler, IDropHandler, IPointerUpHandler
 {
     [SerializeField] 
     private GameObject _skill;
@@ -56,6 +56,10 @@ public class SkillBox : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, I
                 {
                     _skillAssigner.SetCharacterSkills();
                 }
+                if (eventData.pointerDrag.GetComponent<SkillBox>().HasSkillAssigner())
+                {
+                    eventData.pointerDrag.GetComponent<SkillBox>().GetSkillAssigner().SetCharacterSkills();
+                }
             }
         }
     }
@@ -104,7 +108,18 @@ public class SkillBox : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, I
 
     public void OnPointerDown(PointerEventData eventData)
     {
+        _rectTransform.anchoredPosition += new Vector2(5,3);
+        _canvasGroup.blocksRaycasts = false;
+        _canvasGroup.alpha = 0.6f;
+        _canvas.sortingOrder = 2;
+    }
 
+    public void OnPointerUp(PointerEventData eventData)
+    {
+        _rectTransform.anchoredPosition = _initialPosition;
+        _canvasGroup.blocksRaycasts = true;
+        _canvasGroup.alpha = 1f;
+        _canvas.sortingOrder = 1;
     }
 
     public GameObject GetSkill()
@@ -151,5 +166,15 @@ public class SkillBox : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, I
         {
             image.color = colour;
         }
+    }
+
+    public bool HasSkillAssigner()
+    {
+        return _skillAssigner != null;
+    }
+
+    public SkillAssigner GetSkillAssigner()
+    {
+        return _skillAssigner;
     }
 }

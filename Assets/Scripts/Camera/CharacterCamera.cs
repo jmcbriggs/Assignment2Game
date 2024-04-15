@@ -46,11 +46,18 @@ public class CharacterCamera : MonoBehaviour
 
     public void CharacterFocus()
     {
-        if(_virtualCamera != null)
+        LayerMask mask = Camera.main.cullingMask;
+        mask &= ~(1 << LayerMask.NameToLayer("Blockers"));
+        Camera.main.cullingMask = mask;
+
+        if (_virtualCameraPrefab != null)
         {
             _virtualCamera.Priority = 2;
         }
-        
+        else
+        {
+            Debug.LogError("Virtual Camera Prefab is not set in CharacterCamera");
+        }
     }
 
     public void SkillFocus()
@@ -63,6 +70,7 @@ public class CharacterCamera : MonoBehaviour
 
     public void CharacterUnfocus()
     {
+
         if (_virtualCamera != null)
         {
             _virtualCamera.Priority = 0;
@@ -78,5 +86,12 @@ public class CharacterCamera : MonoBehaviour
         {
             Destroy(_virtualCamera.gameObject);
         } 
+    }
+
+    public void ResetLayerMask()
+    {
+        LayerMask mask = Camera.main.cullingMask;
+        mask |= (1 << LayerMask.NameToLayer("Blockers"));
+        Camera.main.cullingMask = mask;
     }
 }

@@ -35,6 +35,10 @@ public class VolumeSlider : MonoBehaviour
 
     private void OnEnable()
     {
+        if(GameController.Instance == null)
+        {
+            return;
+        }
         if(volumeType == VolumeType.SFX)
         {
             GetComponent<Slider>().value = GameController.Instance.GetEffectsVolume();

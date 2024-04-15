@@ -2606,7 +2606,7 @@ GameObject:
   m_Component:
   - component: {fileID: 550098424}
   - component: {fileID: 550098423}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: FirTree1 (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5669,6 +5669,10 @@ PrefabInstance:
       propertyPath: m_BackGroundColor.g
       value: 0.30980393
       objectReference: {fileID: 0}
+    - target: {fileID: 3362260240428679672, guid: 08374bba1944af44eac17dc83faeb851, type: 3}
+      propertyPath: m_CullingMask.m_Bits
+      value: 4294967295
+      objectReference: {fileID: 0}
     - target: {fileID: 5990904505003896298, guid: 08374bba1944af44eac17dc83faeb851, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -6476,7 +6480,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1200869026}
   - component: {fileID: 1200869025}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: FirTree2 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}

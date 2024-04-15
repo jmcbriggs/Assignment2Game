@@ -675,6 +675,10 @@ PrefabInstance:
       propertyPath: SelecterIndex
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 8356789757913726330, guid: 4c43e53765b35b44587f19529080573f, type: 3}
+      propertyPath: CurrentCharacter
+      value: 
+      objectReference: {fileID: 4231711683031803762, guid: ac2ad0647b67d824088b01677fee4841, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1451,6 +1455,50 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 679094666}
   m_CullTransparentMesh: 1
+--- !u!1 &707636286
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 707636287}
+  - component: {fileID: 707636288}
+  m_Layer: 0
+  m_Name: CharacterSelectManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &707636287
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 707636286}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 504.54996, y: 853.2641, z: 48.590694}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &707636288
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 707636286}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5a1d9db7a22f61841b4277f4ee440678, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &744036755
 GameObject:
   m_ObjectHideFlags: 0
@@ -1685,219 +1733,15 @@ PrefabInstance:
       propertyPath: SelecterIndex
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 8356789757913726330, guid: 4c43e53765b35b44587f19529080573f, type: 3}
+      propertyPath: CurrentCharacter
+      value: 
+      objectReference: {fileID: 4231711683031803762, guid: 85ce337935ba03147b4ae86eced9aee2, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4c43e53765b35b44587f19529080573f, type: 3}
---- !u!1 &821049456
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 821049458}
-  - component: {fileID: 821049457}
-  - component: {fileID: 821049459}
-  - component: {fileID: 821049460}
-  - component: {fileID: 821049461}
-  m_Layer: 0
-  m_Name: GameController
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &821049457
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 821049456}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 05867fce0162d7249b5e355b22bbebdc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  UnlockedCharacters:
-  - {fileID: 4231711683031803762, guid: 80c28a50bc9e49847ac6ad9713566ce4, type: 3}
-  SelectedCharacters: []
-  LockedCharacters:
-  - {fileID: 4231711683031803762, guid: b0d987da572919c4bb8415bbcda645bc, type: 3}
-  - {fileID: 4231711683031803762, guid: ac2ad0647b67d824088b01677fee4841, type: 3}
-  - {fileID: 4231711683031803762, guid: bf314a4a2d00da04381b6802930168dc, type: 3}
-  - {fileID: 4231711683031803762, guid: 85ce337935ba03147b4ae86eced9aee2, type: 3}
-  AvailableCharacters:
-  - {fileID: 4231711683031803762, guid: 80c28a50bc9e49847ac6ad9713566ce4, type: 3}
-  - {fileID: 4231711683031803762, guid: b0d987da572919c4bb8415bbcda645bc, type: 3}
-  - {fileID: 4231711683031803762, guid: ac2ad0647b67d824088b01677fee4841, type: 3}
-  - {fileID: 4231711683031803762, guid: bf314a4a2d00da04381b6802930168dc, type: 3}
-  - {fileID: 4231711683031803762, guid: 85ce337935ba03147b4ae86eced9aee2, type: 3}
-  BodyColours:
-  - {r: 1, g: 0, b: 0.9456892, a: 1}
-  - {r: 1, g: 0.9048885, b: 0, a: 1}
-  - {r: 0.0036325455, g: 0, b: 1, a: 1}
-  - {r: 0.19122791, g: 1, b: 0, a: 1}
-  AvailableEnemies:
-  - {fileID: 4231711683031803762, guid: 64e4b77712cde0040bfb4e28401a2f70, type: 3}
-  - {fileID: 4231711683031803762, guid: 8a247466a0c51744f81cb6476278ca9d, type: 3}
-  - {fileID: 4231711683031803762, guid: 31522ec88e28c084eb7cb15ff80eb2ce, type: 3}
-  - {fileID: 4231711683031803762, guid: 5f8248132e9d74649be3f341f31558e0, type: 3}
-  - {fileID: 4231711683031803762, guid: 273b31b2e21d86e42ae3d6e6988459c3, type: 3}
-  - {fileID: 4231711683031803762, guid: a31d8e64e6db9174aa2f7b265578488b, type: 3}
-  - {fileID: 4231711683031803762, guid: 0049d2aacbd678f47ac87b4bbbe1d53f, type: 3}
-  - {fileID: 4231711683031803762, guid: 95dfd7640d64eb747a0dc2fd36fdc57e, type: 3}
-  Boss: {fileID: 4231711683031803762, guid: 6ac3e6707e5f0a244ad3312bf9e7f2e3, type: 3}
-  EnemyTypeMax: 3
-  Level: 0
-  UtilitySceneCount: 4
-  ActiveLevels: 1
-  MusicVolume: 0.2
-  EffectsVolume: 0.4
-  AvailableGear: []
-  UnlockedGear: []
-  LockedGear: []
-  AvailableSkills: []
-  UnlockedSkills: []
-  LockedSkills: []
-  GearPool: []
-  SkillPool: []
-  EnemiesSlain: 0
---- !u!4 &821049458
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 821049456}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 503.82465, y: 854.4513, z: 56.11995}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 4
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &821049459
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 821049456}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  CollisionTag: 
-  EventReference:
-    Guid:
-      Data1: 0
-      Data2: 0
-      Data3: 0
-      Data4: 0
-    Path: 
-  Event: 
-  PlayEvent: 0
-  StopEvent: 0
-  AllowFadeout: 1
-  TriggerOnce: 0
-  Preload: 0
-  AllowNonRigidbodyDoppler: 0
-  Params: []
-  OverrideAttenuation: 0
-  OverrideMinDistance: -1
-  OverrideMaxDistance: -1
---- !u!114 &821049460
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 821049456}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dcd4849f07092ce4a92f373d2536a90d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _mainMusic:
-    Guid:
-      Data1: -1922092177
-      Data2: 1302587387
-      Data3: -1938922589
-      Data4: -1107952606
-    Path: event:/Music/MainMusic
-  _forestMusic:
-    Guid:
-      Data1: 1677147552
-      Data2: 1223691356
-      Data3: 655788936
-      Data4: 1339747799
-    Path: event:/Music/ForestMusic
-  _caveMusic:
-    Guid:
-      Data1: -1066363387
-      Data2: 1298363790
-      Data3: 1191803786
-      Data4: 1524182686
-    Path: event:/Music/CaveMusic
-  _finalMusic:
-    Guid:
-      Data1: -434039624
-      Data2: 1306217019
-      Data3: -614685818
-      Data4: 1669517366
-    Path: event:/Music/FinalFightMusic
-  _winScreenMusic:
-    Guid:
-      Data1: 1720402893
-      Data2: 1265095457
-      Data3: 112842134
-      Data4: 886200374
-    Path: event:/Music/WinLoseMusic
-  _startBattleSting:
-    Guid:
-      Data1: 1628386380
-      Data2: 1143541857
-      Data3: -1271904594
-      Data4: -1512314956
-    Path: event:/Music/StartBattle
-  _winBattleSting:
-    Guid:
-      Data1: -395280433
-      Data2: 1169107233
-      Data3: 1988977596
-      Data4: 828569010
-    Path: event:/Music/WinBattle
-  _loseBattleSting:
-    Guid:
-      Data1: 1261641513
-      Data2: 1338297361
-      Data3: 1909239683
-      Data4: -629816893
-    Path: event:/Music/LoseBattle
---- !u!114 &821049461
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 821049456}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2bebb0447de98d24387591a8e8f81f69, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _characterData:
-    unlockedCharacters: []
-  _gearData:
-    unlockedGear: []
-  _skillData:
-    unlockedSkills: []
 --- !u!1001 &868178269
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1998,6 +1842,10 @@ PrefabInstance:
       propertyPath: SelecterIndex
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 8356789757913726330, guid: 4c43e53765b35b44587f19529080573f, type: 3}
+      propertyPath: CurrentCharacter
+      value: 
+      objectReference: {fileID: 4231711683031803762, guid: b0d987da572919c4bb8415bbcda645bc, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -3792,6 +3640,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Selector 1
       objectReference: {fileID: 0}
+    - target: {fileID: 8356789757913726330, guid: 4c43e53765b35b44587f19529080573f, type: 3}
+      propertyPath: CurrentCharacter
+      value: 
+      objectReference: {fileID: 4231711683031803762, guid: 80c28a50bc9e49847ac6ad9713566ce4, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
