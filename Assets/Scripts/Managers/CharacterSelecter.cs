@@ -119,6 +119,16 @@ public class CharacterSelecter : MonoBehaviour
         UpdatePrefab();
     }
 
+    public void ToggleBeard()
+    {
+
+    }
+
+    public void CycleHairStyle()
+    {
+
+    }
+
     public Color GetCharacterColor()
     {
         return _characterColor;
