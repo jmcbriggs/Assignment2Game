@@ -56,8 +56,23 @@ public class CharacterSelecter : MonoBehaviour
         {
             _hairColor = _availableHairColors[0];
         }
+        CreatePrefab();
         UpdatePrefab();
 
+    }
+
+    void CreatePrefab()
+    {
+        if (_currentPrefab != null)
+        {
+            Destroy(_currentPrefab);
+        }
+        _currentPrefab = Instantiate(CurrentCharacter, _prefabPosition.position, _prefabPosition.rotation);
+        _currentPrefab.transform.SetParent(_prefabPosition);
+        _currentPrefab.transform.localScale = new Vector3(CharacterScale, CharacterScale, CharacterScale);
+        _currentPrefab.layer = 5;
+        _currentPrefab.GetComponent<PlayerCharacter>().SetCharacterSelecter(this);
+        _currentPrefab.GetComponent<Animator>().SetBool("HasAction", true);
     }
 
     public void NextCharacter()
@@ -92,6 +107,7 @@ public class CharacterSelecter : MonoBehaviour
             _chosenName = "The Unloved One";
         }
         GameController.Instance.SetCharacter(SelecterIndex, CurrentCharacter);
+        CreatePrefab();
         UpdatePrefab();
     }
 
@@ -119,15 +135,24 @@ public class CharacterSelecter : MonoBehaviour
         UpdatePrefab();
     }
 
-    public void ToggleBeard()
-    {
-
-    }
-
     public void CycleHairStyle()
     {
-
+        int index = _currentPrefab.GetComponent<HairController>().CycleHair();
+        Sprite front = _currentPrefab.GetComponent<HairController>().GetHairFront(index);
+        Sprite back = _currentPrefab.GetComponent<HairController>().GetHairBack(index);
+        _currentPrefab.GetComponent<BodyColour>().SetHair(front, back);
+        UpdatePrefab();
     }
+
+    public void ToggleBeard()
+    {
+        _currentPrefab.GetComponent<HairController>().ToggleBeard();
+        bool active = _currentPrefab.GetComponent<HairController>().GetBeardState();
+        _currentPrefab.GetComponent<BodyColour>().SetBeard(active);
+        UpdatePrefab();
+    }
+
+
 
     public Color GetCharacterColor()
     {
@@ -144,18 +169,25 @@ public class CharacterSelecter : MonoBehaviour
         return SelecterIndex;
     }
 
+    public bool GetBeardState()
+    {
+        return _currentPrefab.GetComponent<HairController>().GetBeardState();
+    }
+
+    public Sprite GetHairFront()
+    {
+        int index = _currentPrefab.GetComponent<HairController>().GetHairIndex();
+        return _currentPrefab.GetComponent<HairController>().GetHairFront(index);
+    }
+
+    public Sprite GetHairBack()
+    {
+        int index = _currentPrefab.GetComponent<HairController>().GetHairIndex();
+        return _currentPrefab.GetComponent<HairController>().GetHairBack(index);
+    }
+
     public void UpdatePrefab()
     {
-        if (_currentPrefab != null)
-        {
-            Destroy(_currentPrefab);
-        }
-        _currentPrefab = Instantiate(CurrentCharacter, _prefabPosition.position, _prefabPosition.rotation);
-        _currentPrefab.transform.SetParent(_prefabPosition);
-        _currentPrefab.transform.localScale = new Vector3(CharacterScale, CharacterScale, CharacterScale);
-        _currentPrefab.layer = 5;
-        _currentPrefab.GetComponent<PlayerCharacter>().SetCharacterSelecter(this);
-        _currentPrefab.GetComponent<Animator>().SetBool("HasAction", true);
         _currentPrefab.GetComponent<PlayerCharacter>().SetSkinColour(_characterColor);
         _currentPrefab.GetComponent<PlayerCharacter>().SetHairColour(_hairColor);
         if(GameController.Instance != null)

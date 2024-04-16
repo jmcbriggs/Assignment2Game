@@ -81,4 +81,39 @@ public class BodyColour : MonoBehaviour
             beardRenderer.color = color;
         }
     }
+
+    public void SetHair(Sprite front, Sprite back)
+    {
+        if(hairRenderer != null)
+        {
+            if(front != null)
+            {
+                hairRenderer.sprite = front;
+            }
+            else
+            {
+                hairRenderer.sprite = null;
+            }
+
+        }
+        if(hairRendererBack != null)
+        {
+            if(back != null)
+            {
+                hairRendererBack.sprite = back;
+            }
+            else
+            {
+                hairRendererBack.sprite = null;
+            }
+        }
+    }
+
+    public void SetBeard(bool active)
+    {
+        if(beardRenderer != null)
+        {
+            beardRenderer.gameObject.SetActive(active);
+        }
+    }
 }

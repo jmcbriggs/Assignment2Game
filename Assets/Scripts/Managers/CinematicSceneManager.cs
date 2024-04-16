@@ -37,6 +37,23 @@ public class CinematicSceneManager : MonoBehaviour
                     bodyColour.SetColour(GameController.Instance.GetRandomBodyColor());
                     bodyColour.SetSkinColor(GameController.Instance.GetRandomSkinColor());
                     bodyColour.SetHairColor(GameController.Instance.GetRandomHairColor());
+                    HairController hairController = commoner.GetComponent<HairController>();
+                    if(hairController != null)
+                    {
+                        int randomHairIndex = Random.Range(0, hairController.GetHairCount());
+                        Sprite front = hairController.GetHairFront(randomHairIndex);
+                        Sprite back = hairController.GetHairBack(randomHairIndex);
+                        bodyColour.SetHair(front, back);
+                        int coinToss = Random.Range(0, 2);
+                        if(coinToss == 0)
+                        {
+                            bodyColour.SetBeard(false);
+                        }
+                        else
+                        {
+                            bodyColour.SetBeard(true);
+                        }
+                    }
                 }
             }
         }

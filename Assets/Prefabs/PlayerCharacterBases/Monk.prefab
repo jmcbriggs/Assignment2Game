@@ -292,6 +292,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4855576971019712403}
+  - component: {fileID: 650947847042814317}
   m_Layer: 0
   m_Name: HairBack
   m_TagString: Untagged
@@ -314,6 +315,58 @@ Transform:
   m_Father: {fileID: 8939000049810601074}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!212 &650947847042814317
+SpriteRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 949073441409419474}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_Sprite: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_FlipX: 0
+  m_FlipY: 0
+  m_DrawMode: 0
+  m_Size: {x: 1, y: 1}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 0
+  m_MaskInteraction: 0
+  m_SpriteSortPoint: 0
 --- !u!1 &958022558065225940
 GameObject:
   m_ObjectHideFlags: 0
@@ -615,6 +668,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 151975398852406964}
+  - component: {fileID: 5942203054175569804}
   m_Layer: 0
   m_Name: Beard
   m_TagString: Untagged
@@ -637,6 +691,58 @@ Transform:
   m_Father: {fileID: 8939000049810601074}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!212 &5942203054175569804
+SpriteRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3172257624686890894}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_Sprite: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_FlipX: 0
+  m_FlipY: 0
+  m_DrawMode: 0
+  m_Size: {x: 1, y: 1}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 0
+  m_MaskInteraction: 0
+  m_SpriteSortPoint: 0
 --- !u!1 &3763876132664439226
 GameObject:
   m_ObjectHideFlags: 0
@@ -822,6 +928,7 @@ GameObject:
   - component: {fileID: 1754591292983156820}
   - component: {fileID: 8463700370496839786}
   - component: {fileID: 4901921572542579877}
+  - component: {fileID: 8967578224711210578}
   m_Layer: 0
   m_Name: Monk
   m_TagString: Untagged
@@ -992,8 +1099,8 @@ MonoBehaviour:
   leftArmRenderer: {fileID: 8115222988169946607}
   rightArmRenderer: {fileID: 3738071773885126333}
   hairRenderer: {fileID: 7821005744262727665}
-  hairRendererBack: {fileID: 0}
-  beardRenderer: {fileID: 0}
+  hairRendererBack: {fileID: 650947847042814317}
+  beardRenderer: {fileID: 5942203054175569804}
 --- !u!114 &8463700370496839786
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1038,6 +1145,26 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _virtualCameraPrefab: {fileID: 2707273844338349620, guid: 6d136d0926d291a46b937798d9becb2c, type: 3}
+--- !u!114 &8967578224711210578
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4231711683031803762}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 38093dbd3d4e0e04191a9694f8daeb9b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _beard: {fileID: 3172257624686890894}
+  _hairFront:
+  - {fileID: 21300000, guid: 80d5bcabf0da35d459f8cbec34904494, type: 3}
+  - {fileID: 21300000, guid: 2ff63e36339e5864f85e72adb47379da, type: 3}
+  _hairBack:
+  - {fileID: 0}
+  - {fileID: 0}
+  _hairIndex: 0
 --- !u!1 &4557928687607586448
 GameObject:
   m_ObjectHideFlags: 0

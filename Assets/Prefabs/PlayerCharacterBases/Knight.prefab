@@ -928,6 +928,7 @@ GameObject:
   - component: {fileID: 1754591292983156820}
   - component: {fileID: 8463700370496839786}
   - component: {fileID: -6246412005706882149}
+  - component: {fileID: 3870978252433650809}
   m_Layer: 0
   m_Name: Knight
   m_TagString: Untagged
@@ -1144,6 +1145,26 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _virtualCameraPrefab: {fileID: 2707273844338349620, guid: 6d136d0926d291a46b937798d9becb2c, type: 3}
+--- !u!114 &3870978252433650809
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4231711683031803762}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 38093dbd3d4e0e04191a9694f8daeb9b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _beard: {fileID: 3172257624686890894}
+  _hairFront:
+  - {fileID: 21300000, guid: b5d36468fb63bce4f993b61b7b166bad, type: 3}
+  - {fileID: 21300000, guid: b49a94763b7bf604aaec0c64960b038e, type: 3}
+  _hairBack:
+  - {fileID: 21300000, guid: 001558c6d0b53344099aaad1779d4a79, type: 3}
+  - {fileID: 21300000, guid: 001558c6d0b53344099aaad1779d4a79, type: 3}
+  _hairIndex: 0
 --- !u!1 &4557928687607586448
 GameObject:
   m_ObjectHideFlags: 0

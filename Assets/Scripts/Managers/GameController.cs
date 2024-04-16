@@ -223,6 +223,7 @@ public class GameController : MonoBehaviour
                 string characterName = selecters[i].GetName();
                 SelectedCharacters[i] = Instantiate(SelectedCharacters[i], new Vector3(1000, 1000, 0), Quaternion.identity);
                 SelectedCharacters[i].GetComponent<PlayerCharacter>().SetName(characterName);
+                StyleCharacter(SelectedCharacters[i], selecters[i].GetHairFront(), selecters[i].GetHairBack(), selecters[i].GetBeardState());
                 ColorCharacter(SelectedCharacters[i], GetCharacterBodyColour(i), selecters[i].GetCharacterColor(), selecters[i].GetHairColor());
                 DontDestroyOnLoad(SelectedCharacters[i]);
             }
@@ -230,6 +231,12 @@ public class GameController : MonoBehaviour
         EnterBattle();
     }
 
+    void StyleCharacter(GameObject Character, Sprite hairFront, Sprite hairBack, bool beard)
+    {
+        BodyColour bodyColour = Character.GetComponent<BodyColour>();
+        bodyColour.SetHair(hairFront, hairBack);
+        bodyColour.SetBeard(beard);
+    }
     void ColorCharacter(GameObject Character, Color bodyColor, Color skinColor, Color hairColor)
     {
         PlayerCharacter playerCharacter = Character.GetComponent<PlayerCharacter>();
